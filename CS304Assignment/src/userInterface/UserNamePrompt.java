@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +18,7 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
+	private Controller session;
 
 	/**
 	 * Launch the application.
@@ -38,6 +40,14 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public UserNamePrompt() {
+		
+		try{
+			session = new Controller();
+		}
+		catch(SQLException e){
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			System.exit(1);
+		}
 		initializeUI();
 	}
 	
@@ -146,9 +156,27 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 
 	}
 
+	private void showMenu(){
+		//TODO launch the next window here. 
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("HIIIII");
+		 try{
+			 session.connect(usernameField.getText(), String.valueOf(passwordField.getPassword())); 
+			  mainFrame.dispose();
+	          showMenu();  
+	          return;
+		 
+		 }
+		catch(SQLException error){
+			JOptionPane.showMessageDialog(this, error.getMessage());
+		}
+		  // if the username and password are valid, 
+		  // remove the login window and display a text menu 
+   
+		      passwordField.setText("");
+		  //}
+		}             
 		
 	}
-}
+
