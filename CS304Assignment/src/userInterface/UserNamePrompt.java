@@ -19,12 +19,13 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	private JPasswordField passwordField;
 	private JTextField usernameField;
 	private Controller session;
+	private MainWindow mainWindow;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					UserNamePrompt frame = new UserNamePrompt();
@@ -33,7 +34,8 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
+		new UserNamePrompt(); //was getting 2 windows with the event queue. weird. 
 	}
 
 	/**
@@ -156,21 +158,25 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 
 	}
 
-	private void showMenu(){
+	private void switchToMain(){
+		mainWindow = new MainWindow(session);
+		mainWindow.setVisible(true);
+		mainFrame.dispose();
 		//TODO launch the next window here. 
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		 try{
+		/* try{
 			 session.connect(usernameField.getText(), String.valueOf(passwordField.getPassword())); 
 			  mainFrame.dispose();
-	          showMenu();  
+	          showMain();  
 	          return;
 		 
 		 }
 		catch(SQLException error){
 			JOptionPane.showMessageDialog(this, error.getMessage());
-		}
+		}*/
+		switchToMain();
 		  // if the username and password are valid, 
 		  // remove the login window and display a text menu 
    

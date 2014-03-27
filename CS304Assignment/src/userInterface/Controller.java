@@ -23,6 +23,14 @@ public class Controller {
 	      }
 	
 	
+	/**
+	 * Calls System.exit(), but let's us close
+	 * anything that needs to be closed in the model 
+	 * @param reasonCode - same as System.exit's parameter.
+	 */
+	public void exit(int reasonCode){
+		System.exit(reasonCode);
+	}
 	
 	
 }
