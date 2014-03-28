@@ -90,7 +90,14 @@ public class Controller {
 
 	public void returnBook(String text, long currentTimeMillis) throws SQLException, FineAssessedException{
 		
-		throw new FineAssessedException("Book was late, fine assessed");
+		if(false){
+			throw new SQLException();
+		}
+		if(true){
+			this.updateStatusBar("Book was returned. Fine issued");
+			throw new FineAssessedException("Book was late, fine assessed");
+		}
+
 		//this.updateStatusBar("Book checked back in");
 		
 	}

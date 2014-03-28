@@ -30,6 +30,7 @@ public class ClerkView extends ContentPane {
 	private JPanel listContentPanel;
 	private JDialog addNewuserDialog;
 	private JDialog processReturnDialog;
+	private JDialog checkOutItems;
 	private ClerkView getThisSession(){
 		return this;
 	}
@@ -48,14 +49,34 @@ public class ClerkView extends ContentPane {
 		mainPanel.add(panel_2, BorderLayout.NORTH);
 		
 		btnNewButton = new JButton("Check Out Items");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					if(checkOutItems != null && checkOutItems.isVisible()){
+						return; //don't open a second window
+					}
+					if(checkOutItems != null){
+						checkOutItems.dispose();
+					}
+					checkOutItems = new CheckOutItemsDialog(getThisSession(), getMySession());
+					
+					
+					checkOutItems.setVisible(true);
+					}
+		});
 		panel_2.add(btnNewButton);
 		
-		btnNewButton_1 = new JButton("Add New Borrower");
+		btnNewButton_1 = new JButton("Add New User");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			if(addNewuserDialog == null){
-				addNewuserDialog = new AddNewUserDialog(getThisSession(), getMySession());
+			if(addNewuserDialog != null && addNewuserDialog.isVisible()){
+				return; //don't open a second window
 			}
+			if(addNewuserDialog != null){
+				addNewuserDialog.dispose();
+			}
+				addNewuserDialog = new AddNewUserDialog(getThisSession(), getMySession());
+			
+			
 				addNewuserDialog.setVisible(true);
 			}
 		});
@@ -64,11 +85,17 @@ public class ClerkView extends ContentPane {
 		btnNewButton_2 = new JButton("Process Return");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			if(processReturnDialog == null){
-				processReturnDialog = new processReturnDialog(getThisSession(), getMySession());
-			}
+				if(processReturnDialog != null && processReturnDialog.isVisible()){
+					return; //don't open a second window
+				}
+				if(processReturnDialog != null){
+					processReturnDialog.dispose();
+				}
+				processReturnDialog = new ProcessReturnDialog(getThisSession(), getMySession());
+				
+				
 				processReturnDialog.setVisible(true);
-			}
+				}
 		});
 		panel_2.add(btnNewButton_2);
 		

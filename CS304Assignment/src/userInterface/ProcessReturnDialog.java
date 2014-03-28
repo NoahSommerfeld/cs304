@@ -30,7 +30,7 @@ import javax.swing.JRadioButton;
 
 import model.UserType;
 
-public class processReturnDialog extends JDialog {
+public class ProcessReturnDialog extends JDialog {
 //TODO will need to make the rest of the application stop accepting inputs
 	// see http://docs.oracle.com/javase/tutorial/uiswing/misc/modality.html
 	private final JPanel contentPanel = new JPanel();
@@ -42,7 +42,7 @@ public class processReturnDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public processReturnDialog(ClerkView parent, Controller session) {
+	public ProcessReturnDialog(ClerkView parent, Controller session) {
 		setTitle("Return Book");
 		this.parent = parent;
 		this.mySession = session;
@@ -128,7 +128,7 @@ public class processReturnDialog extends JDialog {
 		}
 		
 	}
-	private processReturnDialog getInstance(){
+	private ProcessReturnDialog getInstance(){
 		return this;
 	}
 	
