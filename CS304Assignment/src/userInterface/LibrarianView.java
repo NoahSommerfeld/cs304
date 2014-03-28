@@ -8,11 +8,11 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
 
-public class ClerkView extends ContentPane {
-	public ClerkView(MainWindow parent) {
+public class LibrarianView extends ContentPane {
+	public LibrarianView(MainWindow parent) {
 		super(parent);
 		
-		JLabel lblClerkYo = new JLabel("Clerk, yo");
+		JLabel lblClerkYo = new JLabel("Librarian, yo");
 		add(lblClerkYo, "2, 2, left, top");
 		
 		JButton btnHaahaha = new JButton("HAAHAHA");
