@@ -6,10 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 
 
 public class MainWindow extends JFrame {
@@ -17,6 +22,35 @@ public class MainWindow extends JFrame {
 	private Controller session;
 	private JPanel loginPanel;
 	private ContentPane contentPane;
+	
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		/*EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UserNamePrompt frame = new UserNamePrompt();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});*/
+		Controller tempSession=null;
+
+		try{
+			tempSession = new Controller();
+		}
+		catch(SQLException e){
+			///JOptionPane.showMessageDialog(e.getMessage()); //TODO: figure how to implelemt
+			System.out.println("Driver failed to initialize");
+			System.exit(1);
+		}
+		MainWindow tempWindow = new MainWindow(tempSession);
+		new UserNamePrompt(tempSession, tempWindow); //was getting 2 windows with the event queue. weird. 
+	}
 
 
 
@@ -45,6 +79,7 @@ public class MainWindow extends JFrame {
 		super("NOAH's AWESOME LIBRARY PROGRAM");
 		session = theSession;
 		session.registerAsMainWindow(this);
+		this.setVisible(false);
 		initialize();
 	}
 

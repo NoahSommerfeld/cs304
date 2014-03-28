@@ -21,35 +21,14 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	private Controller session;
 	private MainWindow mainWindow;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		/*EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserNamePrompt frame = new UserNamePrompt();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});*/
-		new UserNamePrompt(); //was getting 2 windows with the event queue. weird. 
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public UserNamePrompt() {
-		
-		try{
-			session = new Controller();
-		}
-		catch(SQLException e){
-			JOptionPane.showMessageDialog(this, e.getMessage());
-			System.exit(1);
-		}
+	public UserNamePrompt(Controller mySession, MainWindow parent) {
+		session = mySession;
+		mainWindow = parent;
+
 		initializeUI();
 	}
 	
@@ -159,7 +138,6 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	}
 
 	private void switchToMain(){
-		mainWindow = new MainWindow(session);
 		mainWindow.setVisible(true);
 		mainFrame.dispose();
 		//TODO launch the next window here. 
