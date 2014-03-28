@@ -9,8 +9,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
 
 public class LibrarianView extends ContentPane {
-	public LibrarianView(MainWindow parent) {
-		super(parent);
+	public LibrarianView(MainWindow parent, Controller newSession) {
+		super(parent, newSession);
 		/*
 		JLabel lblClerkYo = new JLabel("Librarian, yo");
 		add(lblClerkYo, "2, 2, left, top");

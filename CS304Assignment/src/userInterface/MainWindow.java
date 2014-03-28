@@ -77,7 +77,7 @@ public class MainWindow extends JFrame {
 		
 
 		
-		loginPanel = new LoginPanel(this);
+		loginPanel = new LoginPanel(this, session);
 		getContentPane().add(loginPanel, BorderLayout.CENTER);
 	}
 
@@ -96,7 +96,7 @@ public class MainWindow extends JFrame {
 	public void displayClerkPanel(){
 			removeCurrentContent();
 			System.out.println("new clerkview");
-			contentPane = new ClerkView(this);
+			contentPane = new ClerkView(this, session);
 		
 
 		getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -107,7 +107,7 @@ public class MainWindow extends JFrame {
 	public void displayBorrowerPanel(){
 		removeCurrentContent();
 		System.out.println("new borrwerview");
-		contentPane = new BorrowerView(this);
+		contentPane = new BorrowerView(this, session);
 	
 
 	getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -118,7 +118,7 @@ public class MainWindow extends JFrame {
 	public void displayLibrarianPanel(){
 		removeCurrentContent();
 		System.out.println("new Librarian");
-		contentPane = new LibrarianView(this);
+		contentPane = new LibrarianView(this, session);
 	
 
 	getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -131,7 +131,7 @@ public class MainWindow extends JFrame {
 		contentPane.signOut();
 		this.removeCurrentContent();
 		
-		this.loginPanel = new LoginPanel(this);
+		this.loginPanel = new LoginPanel(this, session);
 		getContentPane().add(loginPanel, BorderLayout.CENTER);
 		this.revalidate();
 		this.repaint();

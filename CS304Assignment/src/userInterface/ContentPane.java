@@ -19,13 +19,20 @@ public abstract class ContentPane extends JPanel {
 	
 	protected MainWindow parent;
 	private JLabel lblStatusLabel;
-	public ContentPane(MainWindow parent) {
+	private JLabel lblStatsLabel1;
+	protected Controller mySession;
+	public ContentPane(MainWindow parent, Controller session) {
 		this.parent = parent;
+		mySession = session;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_1 = new JPanel();
 		add(panel_1, BorderLayout.NORTH);
+		
+		lblStatsLabel1 = new JLabel("Current users in DB: ");
+		
+		panel_1.add(lblStatsLabel1);
 		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.SOUTH);

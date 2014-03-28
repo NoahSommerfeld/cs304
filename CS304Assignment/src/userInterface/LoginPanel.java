@@ -31,8 +31,11 @@ public class LoginPanel extends JPanel {
 	private JButton btnClerk;
 	private JButton btnBorrower;
 	private JButton btnLibrarian;
-	public LoginPanel(MainWindow parent) {
+	private Controller mySession;
+	
+	public LoginPanel(MainWindow parent, Controller newSession) {
 		this.parent = parent;
+		this.mySession = newSession;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
