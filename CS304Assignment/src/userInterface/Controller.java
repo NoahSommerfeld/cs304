@@ -1,3 +1,7 @@
+/**
+ * This class is the central controller. All UI commands will call methods here.  
+ */
+
 package userInterface;
 
 import java.sql.*;
@@ -13,20 +17,41 @@ public class Controller {
 	private Connection con;
 	private MainWindow mainWindow;
 	
+	/**
+	 * constructor. Register the driver
+	 * @throws SQLException - if the driver fails to connect (probably bad internet)
+	 */
 	public Controller() throws SQLException{
 		
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 	}
 	
+	/**
+	 * This registers the main window, so that we can update the status bar. 
+	 * Will only be one main window per program
+	 * @param window - the MainWindow with the status bar. 
+	 */
 	public void registerAsMainWindow(MainWindow window){
 		this.mainWindow = window;
 	}
 	
+	/**
+	 * updates the status bar at the bottom of the main window.
+	 * Just a helper method for this class
+	 * Was thinking of displaying the last complete transaction, for troubleshooting/demo purposes. 
+	 * @param message - the message to be displayed on the status bar
+	 */
 	private void updateStatusBar(String message){
 		mainWindow.getMyContentPane().setStatusLbl(message);
 	}
 	
 	
+	/**
+	 * Log in to the Oracle driver/server database
+	 * @param username - user's username
+	 * @param password - user's password. Note: stored/sent in plain text...
+	 * @throws SQLException - if the user fails to log in. 
+	 */
 	public void connect(String username, String password) throws SQLException{
 		 String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug"; 
 
@@ -39,7 +64,7 @@ public class Controller {
 	
 	/**
 	 * Calls System.exit(), but let's us close
-	 * anything that needs to be closed in the model 
+	 * anything that needs to be closed in the model (in case we need to gracefully kill the driver)
 	 * @param reasonCode - same as System.exit's parameter.
 	 */
 	public void exit(int reasonCode){
@@ -48,6 +73,12 @@ public class Controller {
 	}
 
 
+	/**
+	 * This method is for the nice Stats bar at the top of the main window. 
+	 * May add more of these to make it look more impressive. 
+	 * @return the total number of users in the database
+	 * @throws SQLException - if for some reason, the query fails. Static command though...
+	 */
 	public int getNumberOfUsers() throws SQLException{
 		// TODO query and get total number of users
 		//this.updateStatusBar("Number of users counted");
@@ -56,14 +87,21 @@ public class Controller {
 	
 	//Search for over due books. Called by ClerkListPanel.
 	//Need to figure out exactly what the format of the return should be.
-	//Can I return a list of Users?? 
+	//Can I return a list of Users??
+	/**
+	 * Search for overdue books, and return them as a String. 
+	 * TODO: figure out what the return type should be. Probably want to display user, book, and due date. 
+	 * Currently returning it all as one big string to load into the list
+	 * @return List of users, books, and due dates as one String
+	 * @throws SQLException - if for some reason the db query fails. 
+	 */
 	public ArrayList<String> searchForOverDues() throws SQLException{
 		
 		//TODO actually query the DB
 		ArrayList<String> slackers = new ArrayList<String>();
-		slackers.add("Noah - textbook 32");
-		slackers.add("Daniel - Hamster's guide to the Galaxy");
-		slackers.add("Daniel - how to seduce mothers");
+		slackers.add("March 12 - Noah - textbook 32");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
 		
 		this.updateStatusBar("Overdues searched for");
 		
@@ -92,21 +130,35 @@ public class Controller {
 		
 	}
 
-	public void returnBook(String text, long currentTimeMillis) throws SQLException, FineAssessedException{
+	/**
+	 * this method changes a book's status to 'checked in' or something...
+	 * @param callNumber - the call number to check in
+	 * @param currentTimeMillis - the current time. 
+	 * @throws SQLException - if the db operation failed. 
+	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
+	 */
+	public void returnBook(String callNumber, long currentTimeMillis) throws SQLException, FineAssessedException{
 		
 		if(false){
 			throw new SQLException(); //for testing. 
 		}
-		if(false){
+		if(true){
 			this.updateStatusBar("Book was returned. Fine issued");
 			throw new FineAssessedException("Book was late, fine assessed");
 		}
 
-		this.updateStatusBar("Book checked back in");
+		//this.updateStatusBar("Book checked back in");
 		
 	}
 
-	public boolean confirmOkToCheckOut(String text) throws BadCallNumberException, NotCheckedInException {
+	/**
+	 * This method just confirms that call number is valid. 
+	 * @param callNumber
+	 * @return
+	 * @throws BadCallNumberException
+	 * @throws NotCheckedInException
+	 */
+	public boolean confirmOkToCheckOut(String callNumber) throws BadCallNumberException, NotCheckedInException {
 		if(false){
 			throw new BadCallNumberException("nope"); //for testing. 
 		}
@@ -115,7 +167,7 @@ public class Controller {
 		}
 		
 		//if it's a valid call number
-		this.updateStatusBar("Call Number: " + text + " Checked.");
+		this.updateStatusBar("Call Number: " + callNumber + " Checked.");
 		return true; 
 		
 	}
