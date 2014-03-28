@@ -52,7 +52,9 @@ public class ClerkView extends ContentPane {
 		btnNewButton_1 = new JButton("Add New Borrower");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			if(addNewuserDialog == null){
 				addNewuserDialog = new AddNewUserDialog(getThisSession(), getMySession());
+			}
 				addNewuserDialog.setVisible(true);
 			}
 		});

@@ -1,5 +1,5 @@
 package model;
 
-public enum BorrowerType {
+public enum UserType {
 BORROWER, CLERK, LIBRARIAN;
 }

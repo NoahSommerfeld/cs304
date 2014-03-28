@@ -5,8 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -21,6 +24,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+
+import model.UserType;
 
 public class AddNewUserDialog extends JDialog {
 //TODO will need to make the rest of the application stop accepting inputs
@@ -37,11 +42,15 @@ public class AddNewUserDialog extends JDialog {
 	private JTextField txtSinorstno;
 	private JTextField txtDate;
 	private ButtonGroup typeButtonGroup;
+	private JRadioButton rdbtnClerk;
+	private JRadioButton rdbtnBorrower;
+	private JRadioButton rdbtnLibrarian;
 	
 	/**
 	 * Create the dialog.
 	 */
 	public AddNewUserDialog(ClerkView parent, Controller session) {
+		setTitle("Add New User");
 		this.parent = parent;
 		this.mySession = session;
 		setBounds(100, 100, 350, 350);
@@ -138,7 +147,7 @@ public class AddNewUserDialog extends JDialog {
 		}
 		{
 			txtSinorstno = new JTextField();
-			//txtSinorstno.setText("SinOrStNo. ");
+			txtSinorstno.setText("20292124");
 			contentPanel.add(txtSinorstno, "2, 14, 5, 1, fill, default");
 			txtSinorstno.setColumns(10);
 		}
@@ -148,7 +157,7 @@ public class AddNewUserDialog extends JDialog {
 		}
 		{
 			txtDate = new JTextField();
-			//txtDate.setText("Date");
+			txtDate.setText("January 12, 2015");
 			contentPanel.add(txtDate, "2, 16, 5, 1, fill, default");
 			txtDate.setColumns(10);
 		}
@@ -160,17 +169,17 @@ public class AddNewUserDialog extends JDialog {
 			typeButtonGroup = new ButtonGroup();
 		}
 		{
-			JRadioButton rdbtnClerk = new JRadioButton("Clerk");
+			rdbtnClerk = new JRadioButton("Clerk");
 			contentPanel.add(rdbtnClerk, "2, 18");
 			typeButtonGroup.add(rdbtnClerk);
 		}
 		{
-			JRadioButton rdbtnBorrower = new JRadioButton("Borrower");
+			rdbtnBorrower = new JRadioButton("Borrower");
 			contentPanel.add(rdbtnBorrower, "4, 18");
 			typeButtonGroup.add(rdbtnBorrower);
 		}
 		{
-			JRadioButton rdbtnLibrarian = new JRadioButton("Librarian");
+			rdbtnLibrarian = new JRadioButton("Librarian");
 			contentPanel.add(rdbtnLibrarian, "6, 18");
 			typeButtonGroup.add(rdbtnLibrarian);
 		}
@@ -186,15 +195,15 @@ public class AddNewUserDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!isInputGood()){
-							JOptionPane.showMessageDialog(getInstance(), "bad input");
-							return;
-						}
-						
 						try{
-							mySession.createNewUser(turnIntoBorrower());
+							User newUser = turnIntoUser();
+
+							mySession.createNewUser(newUser);
 							closeDialogBox();
-						}catch(SQLException e1){
+						}catch(UserCreationException ue){
+							JOptionPane.showMessageDialog(getInstance(), ue.getMessage());
+						}
+						catch(SQLException e1){
 							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
 						}
 					}
@@ -217,13 +226,51 @@ public class AddNewUserDialog extends JDialog {
 	private AddNewUserDialog getInstance(){
 		return this;
 	}
+	
+	
 	private boolean isInputGood(){
 		//TODO check if input is actually correct
 		return true;
 	}
-	private Borrower turnIntoBorrower(){
-		//TODO turn the input into a borrower
-		return null;
+	private User turnIntoUser() throws UserCreationException{
+		/*	private JTextField txtTxtboxemailaddress;
+	private JTextField txtPhoneNumber;
+	private JTextField txtAddress;
+	private JTextField txtName;
+	private JTextField txtPassword;
+	private JTextField txtBidshouldWe;
+	private JTextField txtSinorstno;
+	private JTextField txtDate;*/
+		/*public User(String BID, String password, String name, int phone, 
+		String emailAddress, int sinOrStNo, Date expiryDate, BorrowerType type)*/
+		UserType tempType;
+		/*for(int i = 0; i<typeButtonGroup.getButtonCount(); i++){
+			if(typeButtonGroup.isSelected(rdbtnLibrarian));
+		}
+		*/
+		if(rdbtnClerk.isSelected()){
+			tempType = UserType.CLERK;
+		}
+		else if(rdbtnBorrower.isSelected()){
+			tempType = UserType.BORROWER;
+		}
+		else if(rdbtnLibrarian.isSelected()){
+			tempType = UserType.LIBRARIAN;
+		}
+		else{
+			throw new UserCreationException("No type selected");
+		}
+		
+		String phone = txtPhoneNumber.getText().replace("-", "");
+		phone = phone.replace("(", "");
+		phone = phone.replace(")", "");
+		phone = phone.replace(" ", "");
+		
+		User temp = new User(txtBidshouldWe.getText(), txtPassword.getText(), txtName.getText(), phone,
+				txtTxtboxemailaddress.getText(), txtSinorstno.getText(), txtDate.getText(), tempType);
+		
+
+		return temp;
 	}
 	private void closeDialogBox(){
 		this.dispose();

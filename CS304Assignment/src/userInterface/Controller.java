@@ -76,9 +76,9 @@ public class Controller {
 	}
 
 	//TODO: implement this. Called by AddNewUserDialog. need to send request to the server
-	public void createNewUser(Borrower toAdd) throws SQLException {
+	public void createNewUser(User toAdd) throws SQLException {
 		if(toAdd == null){
-			throw new SQLException("Null Borrower");
+			throw new SQLException("Null User");
 		}
 		System.out.println(toAdd.getName() + " was added to the database");
 		this.updateStatusBar("New user added to DB");
