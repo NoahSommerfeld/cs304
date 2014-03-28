@@ -13,34 +13,30 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import javax.swing.JButton;
+import java.awt.BorderLayout;
 
 public abstract class ContentPane extends JPanel {
 	
 	protected MainWindow parent;
+	private JLabel lblStatusLabel;
 	public ContentPane(MainWindow parent) {
 		this.parent = parent;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("200px"),
-				ColumnSpec.decode("49px"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("15px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		add(panel_1, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.SOUTH);
+		
+		lblStatusLabel = new JLabel("No recent transactions");
+		panel.add(lblStatusLabel);
 		
 	}
-	
+	public void setStatusLbl(String newMessage){
+		lblStatusLabel.setText(newMessage);
+	}
 	public abstract void signOut();
 
 }

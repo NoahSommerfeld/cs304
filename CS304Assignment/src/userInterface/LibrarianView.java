@@ -11,12 +11,12 @@ import javax.swing.JButton;
 public class LibrarianView extends ContentPane {
 	public LibrarianView(MainWindow parent) {
 		super(parent);
-		
+		/*
 		JLabel lblClerkYo = new JLabel("Librarian, yo");
 		add(lblClerkYo, "2, 2, left, top");
 		
 		JButton btnHaahaha = new JButton("HAAHAHA");
-		add(btnHaahaha, "2, 14");
+		add(btnHaahaha, "2, 14");*/
 	}
 
 	@Override
