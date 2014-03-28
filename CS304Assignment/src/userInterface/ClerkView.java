@@ -17,8 +17,12 @@ public class ClerkView extends ContentPane {
 		
 		JButton btnHaahaha = new JButton("HAAHAHA");
 		add(btnHaahaha, "2, 14");
+		
+		
 	}
 
+	
+	
 	@Override
 	public void signOut() {
 		//TODO put any saving methods here. Maybe DB.commit?
