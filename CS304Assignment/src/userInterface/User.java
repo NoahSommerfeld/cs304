@@ -78,7 +78,7 @@ private void validate(String BID, String password, String name, Long phone,
 		String emailAddress, Long sinOrStNo, Date expiryDate, UserType type) throws UserCreationException{
 	
 	
-	if(BID == null){ //do the checks here. 
+	if(BID == null){ //TODO do the checks here. 
 		throw new UserCreationException("Null BID");
 	}
 	
