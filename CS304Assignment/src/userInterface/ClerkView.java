@@ -20,7 +20,11 @@ public class ClerkView extends ContentPane {
 	private JButton btnNewButton_3;
 	private JPanel panel_1;
 	private JButton btnNewButton_4;
+	private JPanel panel_2;
 	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
+	private JPanel listContentPanel;
 	public ClerkView(MainWindow parent, Controller newSession) {
 		super(parent, newSession);
 		
@@ -30,17 +34,22 @@ public class ClerkView extends ContentPane {
 		mainPanel.setMaximumSize(new Dimension(100,100));
 		mainPanel.setSize(new Dimension(100,100));
 		add(mainPanel, BorderLayout.CENTER);
-		mainPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("41px"),
-				FormFactory.MIN_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				RowSpec.decode("22px"),
-				RowSpec.decode("25px"),}));
+		mainPanel.setLayout(new BorderLayout(0, 0));
+		
+		panel_2 = new JPanel();
+		mainPanel.add(panel_2, BorderLayout.NORTH);
 		
 		btnNewButton = new JButton("New button");
-		mainPanel.add(btnNewButton, "2, 2, left, top");
+		panel_2.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("New button");
+		panel_2.add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("New button");
+		panel_2.add(btnNewButton_2);
+		
+		listContentPanel = new ClerkListPanel(this, this.mySession);
+		mainPanel.add(listContentPanel, BorderLayout.CENTER);
 		
 		panel = new JPanel();
 		add(panel, BorderLayout.WEST);
