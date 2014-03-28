@@ -31,6 +31,13 @@ public class Controller {
 	public void exit(int reasonCode){
 		System.exit(reasonCode);
 	}
+
+
+	public int getNumberOfUsers() throws SQLException{
+		// TODO query and get total number of users
+		
+		return 25;
+	}
 	
 	
 }
