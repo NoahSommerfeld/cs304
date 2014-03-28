@@ -4,7 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.BadCallNumberException;
 import exceptions.FineAssessedException;
+import exceptions.NotCheckedInException;
 
 public class Controller {
 	private Connection con;
@@ -91,7 +93,7 @@ public class Controller {
 	public void returnBook(String text, long currentTimeMillis) throws SQLException, FineAssessedException{
 		
 		if(false){
-			throw new SQLException();
+			throw new SQLException(); //for testing. 
 		}
 		if(true){
 			this.updateStatusBar("Book was returned. Fine issued");
@@ -99,6 +101,20 @@ public class Controller {
 		}
 
 		//this.updateStatusBar("Book checked back in");
+		
+	}
+
+	public boolean confirmOkToCheckOut(String text) throws BadCallNumberException, NotCheckedInException {
+		if(false){
+			throw new BadCallNumberException("nope"); //for testing. 
+		}
+		if(false){
+			throw new NotCheckedInException("nope"); //for testing. 
+		}
+		
+		//if it's a valid call number
+		this.updateStatusBar("Call Number: " + text + " Checked.");
+		return true; 
 		
 	}
 	

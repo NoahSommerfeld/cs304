@@ -27,6 +27,8 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
+import exceptions.BadCallNumberException;
+import exceptions.NotCheckedInException;
 import exceptions.UserCreationException;
 
 import javax.swing.JLabel;
@@ -129,7 +131,22 @@ public class CheckOutItemsDialog extends JDialog {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					try{
+						if(!mySession.confirmOkToCheckOut(txtCallnumber.getText())){
+							JOptionPane.showMessageDialog(getInstance(), "Call number invalid for some reason");
+							return;
+						};
+					}catch(BadCallNumberException bcn){
+						JOptionPane.showMessageDialog(getInstance(), "Call number invalid");
+						return;
+					}catch(NotCheckedInException nci){
+						JOptionPane.showMessageDialog(getInstance(), "Not Checked IN"); //TODO: handle if it's on hold. 
+						return; //maybe. might just be on hold
+					}
+					
+					
 					listModel.addElement(txtCallnumber.getText());
+					
 					txtCallnumber.setText("");
 				}
 				
