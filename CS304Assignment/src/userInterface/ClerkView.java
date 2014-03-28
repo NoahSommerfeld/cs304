@@ -29,6 +29,7 @@ public class ClerkView extends ContentPane {
 	private JButton btnNewButton_2;
 	private JPanel listContentPanel;
 	private JDialog addNewuserDialog;
+	private JDialog processReturnDialog;
 	private ClerkView getThisSession(){
 		return this;
 	}
@@ -61,6 +62,14 @@ public class ClerkView extends ContentPane {
 		panel_2.add(btnNewButton_1);
 		
 		btnNewButton_2 = new JButton("Process Return");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			if(processReturnDialog == null){
+				processReturnDialog = new processReturnDialog(getThisSession(), getMySession());
+			}
+				processReturnDialog.setVisible(true);
+			}
+		});
 		panel_2.add(btnNewButton_2);
 		
 		listContentPanel = new ClerkListPanel(this, this.mySession);

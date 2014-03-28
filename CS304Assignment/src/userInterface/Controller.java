@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.FineAssessedException;
+
 public class Controller {
 	private Connection con;
 	private MainWindow mainWindow;
@@ -83,6 +85,13 @@ public class Controller {
 		System.out.println(toAdd.getName() + " was added to the database");
 		this.updateStatusBar("New user added to DB");
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void returnBook(String text, long currentTimeMillis) throws SQLException, FineAssessedException{
+		
+		throw new FineAssessedException("Book was late, fine assessed");
+		//this.updateStatusBar("Book checked back in");
 		
 	}
 	

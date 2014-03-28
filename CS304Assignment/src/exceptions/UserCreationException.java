@@ -1,9 +1,9 @@
-package userInterface;
+package exceptions;
 
 public class UserCreationException extends Exception {
 
 	
-	UserCreationException(String message){
+	public UserCreationException(String message){
 		super(message);
 	}
 }
