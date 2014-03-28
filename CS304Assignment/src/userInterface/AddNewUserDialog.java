@@ -201,6 +201,7 @@ public class AddNewUserDialog extends JDialog {
 							User newUser = turnIntoUser();
 
 							mySession.createNewUser(newUser);
+							JOptionPane.showMessageDialog(getInstance(), "New User Created");
 							closeDialogBox();
 						}catch(UserCreationException ue){
 							JOptionPane.showMessageDialog(getInstance(), ue.getMessage());

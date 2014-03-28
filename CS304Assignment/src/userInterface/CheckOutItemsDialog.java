@@ -28,6 +28,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import exceptions.BadCallNumberException;
+import exceptions.BadUserIDException;
 import exceptions.NotCheckedInException;
 import exceptions.UserCreationException;
 
@@ -178,18 +179,35 @@ public class CheckOutItemsDialog extends JDialog {
 			{
 				JButton okButton = new JButton("Check Out");
 				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {/*
-						try{
-							User newUser = turnIntoUser();
-
-							mySession.createNewUser(newUser);
-							closeDialogBox();
-						}catch(UserCreationException ue){
-							JOptionPane.showMessageDialog(getInstance(), ue.getMessage());
+					public void actionPerformed(ActionEvent e) {
+						int numberOfBooks = listModel.getSize();
+						
+						for(int i = 0; i<numberOfBooks; i++){
+							try {
+								mySession.checkOut((String)listModel.get(i), txtBidshouldWe.getText());
+							} catch (SQLException e1) {
+								JOptionPane.showMessageDialog(getInstance(), "SQLException");
+								//return; //TODO wanring! If we encounter errors half way through the list, we'd probably have to revert it.
+							}
+							 catch (NotCheckedInException e2) {
+								 //TODO check if it was on hold. 
+								 JOptionPane.showMessageDialog(getInstance(), "Not Checked In");
+								}
+							 catch (BadCallNumberException e3) {
+									// TODO Auto-generated catch block
+								 JOptionPane.showMessageDialog(getInstance(), "Bad Call number (how did it get throw the first check?)");
+								// return;
+								}
+							 catch (BadUserIDException e4) {
+									// TODO Auto-generated catch block
+								 JOptionPane.showMessageDialog(getInstance(), "User Not Found in the DB");
+								return;
+								}
 						}
-						catch(SQLException e1){
-							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
-						}*/
+						//TODO this is a terrible idea. If there's an error, should abandon everything.
+						 JOptionPane.showMessageDialog(getInstance(), "Items checked out (except for those with errors)");
+						 closeDialogBox();
+						
 					}
 				});
 				buttonPane.add(okButton);
@@ -211,32 +229,6 @@ public class CheckOutItemsDialog extends JDialog {
 		return this;
 	}
 	
-	
-	private boolean isInputGood(){
-		//TODO check if input is actually correct
-		return true;
-	}
-	private User turnIntoUser() throws UserCreationException{
-		/*	private JTextField txtTxtboxemailaddress;
-	private JTextField txtPhoneNumber;
-	private JTextField txtAddress;
-	private JTextField txtName;
-	private JTextField txtPassword;
-	private JTextField txtBidshouldWe;
-	private JTextField txtSinorstno;
-	private JTextField txtDate;*/
-		/*public User(String BID, String password, String name, int phone, 
-		String emailAddress, int sinOrStNo, Date expiryDate, BorrowerType type)*/
-		UserType tempType;
-		/*for(int i = 0; i<typeButtonGroup.getButtonCount(); i++){
-			if(typeButtonGroup.isSelected(rdbtnLibrarian));
-		}
-		*/
-		
-		
-
-		return null;
-	}
 	private void closeDialogBox(){
 		this.dispose();
 	}

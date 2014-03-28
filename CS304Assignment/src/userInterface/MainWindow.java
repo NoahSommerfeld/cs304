@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 
@@ -22,6 +24,7 @@ public class MainWindow extends JFrame {
 	private Controller session;
 	private JPanel loginPanel;
 	private ContentPane contentPane;
+	private static Controller staticSession;
 	
 	
 	/**
@@ -38,20 +41,30 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});*/
-		Controller tempSession=null;
+		
 
 		try{
-			tempSession = new Controller();
+			staticSession = new Controller();
 		}
 		catch(SQLException e){
 			///JOptionPane.showMessageDialog(e.getMessage()); //TODO: figure how to implelemt
 			System.out.println("Driver failed to initialize");
 			System.exit(1);
 		}
-		MainWindow tempWindow = new MainWindow(tempSession);
-		new UserNamePrompt(tempSession, tempWindow); //was getting 2 windows with the event queue. weird. 
+		MainWindow tempWindow = new MainWindow(staticSession);
+		tempWindow.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                System.out.println("Replace sysout with your method call");
+                getSession().exit(0); //this is so we can close the database server calls gracefully in the event of a close.
+                ((JFrame)(e.getComponent())).dispose();
+            }
+        });
+		new UserNamePrompt(staticSession, tempWindow); //was getting 2 windows with the event queue. weird. 
 	}
-
+	public static Controller getSession(){
+		return staticSession;
+	}
 
 
 	/**
@@ -89,7 +102,7 @@ public class MainWindow extends JFrame {
 	private void initialize() {
 
 		setBounds(400, 400, 550, 400);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //the MAIN method will exit
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

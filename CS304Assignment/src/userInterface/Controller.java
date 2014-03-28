@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.BadCallNumberException;
+import exceptions.BadUserIDException;
 import exceptions.FineAssessedException;
 import exceptions.NotCheckedInException;
 
@@ -42,6 +43,7 @@ public class Controller {
 	 * @param reasonCode - same as System.exit's parameter.
 	 */
 	public void exit(int reasonCode){
+		System.out.println("Controller Exit called");
 		System.exit(reasonCode);
 	}
 
@@ -95,12 +97,12 @@ public class Controller {
 		if(false){
 			throw new SQLException(); //for testing. 
 		}
-		if(true){
+		if(false){
 			this.updateStatusBar("Book was returned. Fine issued");
 			throw new FineAssessedException("Book was late, fine assessed");
 		}
 
-		//this.updateStatusBar("Book checked back in");
+		this.updateStatusBar("Book checked back in");
 		
 	}
 
@@ -115,6 +117,18 @@ public class Controller {
 		//if it's a valid call number
 		this.updateStatusBar("Call Number: " + text + " Checked.");
 		return true; 
+		
+	}
+
+	//Checks out a book, when given a call number
+	public void checkOut(String callNumber, String userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
+		// TODO Auto-generated method stub
+		
+		//SQLException from the db
+		//notcheckedinexception if it's not 'borrowable' //TODO differentiate between 'out' and 'on hold'
+		//badCallNumberException if it isn't in the db. (vs. db connection errors)
+		//BadUserIDException if the user is not in the DB
+		this.updateStatusBar("Item(s) checked out");
 		
 	}
 	

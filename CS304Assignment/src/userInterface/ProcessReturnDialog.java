@@ -103,6 +103,7 @@ public class ProcessReturnDialog extends JDialog {
 							mySession.returnBook(txtCallNo.getText(), System.currentTimeMillis());
 
 						//	mySession.createNewUser(newUser);
+							JOptionPane.showMessageDialog(getInstance(), "book Returned");
 							closeDialogBox();
 						}catch(FineAssessedException ue){
 							JOptionPane.showMessageDialog(getInstance(), ue.getMessage());
