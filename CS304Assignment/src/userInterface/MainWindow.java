@@ -35,13 +35,16 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-*/
+*/	public ContentPane getMyContentPane(){
+	return contentPane;
+}
 	/**
 	 * Create the application.
 	 */
 	public MainWindow(Controller theSession) {
 		super("NOAH's AWESOME LIBRARY PROGRAM");
 		session = theSession;
+		session.registerAsMainWindow(this);
 		initialize();
 	}
 
@@ -50,7 +53,7 @@ public class MainWindow extends JFrame {
 	 */
 	private void initialize() {
 
-		setBounds(100, 100, 450, 300);
+		setBounds(400, 400, 550, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();

@@ -14,13 +14,13 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ClerkListPanel extends JPanel implements ListSelectionListener  {
+public class BorrowerSearchPanel extends JPanel implements ListSelectionListener  {
 //Some code reverse engineered from http://docs.oracle.com/javase/tutorial/uiswing/examples/components/ListDemoProject/src/components/ListDemo.java
 	
 
 	  private JList list;
 	    private DefaultListModel listModel;
-	    private ClerkView parent;
+	    private BorrowerView parent;
 	    private Controller mySession;
 	    private static final String sendMessageString = "Send Message";
 	    private static final String searchString = "Search";
@@ -28,9 +28,9 @@ public class ClerkListPanel extends JPanel implements ListSelectionListener  {
 	    private JButton sendMessageButton;
 	    private JTextField employeeName;
 
-	    public ClerkListPanel(ClerkView clerkView, Controller mySession) {
+	    public BorrowerSearchPanel(BorrowerView borrowerView, Controller mySession) {
 	        super(new BorderLayout());
-	        parent = clerkView;
+	        parent = borrowerView;
 	        this.mySession = mySession;
 
 	        listModel = new DefaultListModel();
@@ -77,8 +77,8 @@ public class ClerkListPanel extends JPanel implements ListSelectionListener  {
 	        JPanel panel = new JPanel();
 	        listScrollPane.setColumnHeaderView(panel);
 	        
-	        JLabel lblOverdues = new JLabel("Overdues");
-	        panel.add(lblOverdues);
+	        JLabel lblSearchForBooks = new JLabel("Search For Books");
+	        panel.add(lblSearchForBooks);
 	        add(buttonPane, BorderLayout.PAGE_END);
 	    }
 
@@ -142,14 +142,12 @@ public class ClerkListPanel extends JPanel implements ListSelectionListener  {
 	        		if(listModel.getSize() == 0){
 	        			sendMessageButton.setEnabled(false);
 	        		}
-	        		JOptionPane.showMessageDialog(parent, "Nothing Selected!");
 	        		return;
 	        	}
 	        	
 	        	for(int i : index){
 	        		try{
 	        		mySession.sendLateMessage((String) listModel.get(i));
-	        		
 	        		}
 	        		catch(SQLException e2){
 	        			JOptionPane.showMessageDialog(parent, e2.getMessage());
@@ -158,7 +156,6 @@ public class ClerkListPanel extends JPanel implements ListSelectionListener  {
 	        			JOptionPane.showMessageDialog(parent, e3.getMessage());
 	        		}
 	        	}
-	        	JOptionPane.showMessageDialog(parent, "Messages succesfully sent");
 	        	list.clearSelection();
 	        	/*
 	            String name = employeeName.getText();

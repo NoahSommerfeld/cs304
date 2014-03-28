@@ -6,10 +6,19 @@ import java.util.List;
 
 public class Controller {
 	private Connection con;
+	private MainWindow mainWindow;
 	
 	public Controller() throws SQLException{
 		
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+	}
+	
+	public void registerAsMainWindow(MainWindow window){
+		this.mainWindow = window;
+	}
+	
+	private void updateStatusBar(String message){
+		mainWindow.getMyContentPane().setStatusLbl(message);
 	}
 	
 	
@@ -35,7 +44,7 @@ public class Controller {
 
 	public int getNumberOfUsers() throws SQLException{
 		// TODO query and get total number of users
-		
+		//this.updateStatusBar("Number of users counted");
 		return 25;
 	}
 	
@@ -50,6 +59,8 @@ public class Controller {
 		slackers.add("Daniel - Hamster's guide to the Galaxy");
 		slackers.add("Daniel - how to seduce mothers");
 		
+		this.updateStatusBar("Overdues searched for");
+		
 		//throw new SQLException(); //for testing
 		return slackers;
 		
@@ -60,6 +71,18 @@ public class Controller {
 	public void sendLateMessage(String userKey) throws SQLException{
 		// TODO Auto-generated method stub
 		System.out.println("Sent message to: " + userKey);
+		this.updateStatusBar("Late Message Sent");
+		
+	}
+
+	//TODO: implement this. Called by AddNewUserDialog. need to send request to the server
+	public void createNewUser(Borrower toAdd) throws SQLException {
+		if(toAdd == null){
+			throw new SQLException("Null Borrower");
+		}
+		System.out.println(toAdd.getName() + " was added to the database");
+		this.updateStatusBar("New user added to DB");
+		// TODO Auto-generated method stub
 		
 	}
 	

@@ -1,5 +1,6 @@
 package userInterface;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -13,6 +14,8 @@ import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClerkView extends ContentPane {
 	private JPanel mainPanel;
@@ -25,6 +28,10 @@ public class ClerkView extends ContentPane {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JPanel listContentPanel;
+	private JDialog addNewuserDialog;
+	private ClerkView getThisSession(){
+		return this;
+	}
 	public ClerkView(MainWindow parent, Controller newSession) {
 		super(parent, newSession);
 		
@@ -39,13 +46,19 @@ public class ClerkView extends ContentPane {
 		panel_2 = new JPanel();
 		mainPanel.add(panel_2, BorderLayout.NORTH);
 		
-		btnNewButton = new JButton("New button");
+		btnNewButton = new JButton("Check Out Items");
 		panel_2.add(btnNewButton);
 		
-		btnNewButton_1 = new JButton("New button");
+		btnNewButton_1 = new JButton("Add New Borrower");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addNewuserDialog = new AddNewUserDialog(getThisSession(), getMySession());
+				addNewuserDialog.setVisible(true);
+			}
+		});
 		panel_2.add(btnNewButton_1);
 		
-		btnNewButton_2 = new JButton("New button");
+		btnNewButton_2 = new JButton("Process Return");
 		panel_2.add(btnNewButton_2);
 		
 		listContentPanel = new ClerkListPanel(this, this.mySession);
@@ -98,5 +111,7 @@ public class ClerkView extends ContentPane {
 		//TODO put any saving methods here. Maybe DB.commit?
 		
 	}
+	
+
 
 }

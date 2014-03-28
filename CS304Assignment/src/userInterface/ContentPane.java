@@ -60,6 +60,9 @@ public abstract class ContentPane extends JPanel {
 		
 	}
 	
+	protected Controller getMySession(){
+		return mySession;
+	}
 	protected void refreshStatsLbls(){
 		try{
 			setStatsLbls(mySession.getNumberOfUsers());
