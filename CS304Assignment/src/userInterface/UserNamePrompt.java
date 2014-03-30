@@ -144,9 +144,8 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-		try{
-=======
+
+		
 		/* try{
 >>>>>>> branch 'master' of https://github.com/NoahSommerfeld/cs304.git
 			 session.connect(usernameField.getText(), String.valueOf(passwordField.getPassword())); 
@@ -164,7 +163,7 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, error.getMessage());
 		}*/
 		switchToMain();
->>>>>>> branch 'master' of https://github.com/NoahSommerfeld/cs304.git
+//>>>>>>> branch 'master' of https://github.com/NoahSommerfeld/cs304.git
 		  // if the username and password are valid, 
 		 // remove the login window and display a text menu 
    
