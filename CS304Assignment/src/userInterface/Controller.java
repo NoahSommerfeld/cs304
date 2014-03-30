@@ -40,10 +40,9 @@ public class Controller {
 	      
 		con = DriverManager.getConnection(connectURL,username,password);
 		Statement stmt = con.createStatement();
-///		stmt.executeQuery("insert into branch values ( 2340, 'Cats', '23 No.3 Road', 'Vancouver', 5552331 )");
-		ResultSet test = stmt.executeQuery("SELECT * FROM branch");
+		ResultSet test = stmt.executeQuery("SELECT * FROM borrower");
 		while(test.next()){
-			System.out.println(test.getString("branch_name"));
+			System.out.println(test.getString("bid"));
 		}
 		System.out.println(test.getFetchSize());
 		//System.out.println(test.next());
