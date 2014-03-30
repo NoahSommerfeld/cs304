@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -64,32 +65,32 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        table = new JTable();
 	        table.setModel(new DefaultTableModel(
 	        	new Object[][] {
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
-	        		{null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
+	        		{null, null, null, null, null},
 	        	},
 	        	new String[] {
-	        		"Call Number", "Title", "Checked Out", "Due Date"
+	        		"Call Number", "Title", "Checked Out", "Due Date", "Overdue?"
 	        	}
 	        ) {
 	        	Class[] columnTypes = new Class[] {
-	        		String.class, String.class, Object.class, Object.class
+	        		String.class, String.class, Object.class, Object.class, String.class
 	        	};
 	        	public Class getColumnClass(int columnIndex) {
 	        		return columnTypes[columnIndex];
 	        	}
 	        	boolean[] columnEditables = new boolean[] {
-	        		false, false, false, false
+	        		false, false, false, false, false
 	        	};
 	        	public boolean isCellEditable(int row, int column) {
 	        		return columnEditables[column];
@@ -137,14 +138,16 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        		model.removeRow(0);
 	        	}
 	        	
+	        	
 	        	for(String[] eee : toAdd){
+	        		if(Date.parse(eee[3])<System.currentTimeMillis()){
+	        			eee[4] = "OVERDUE";
+	        		}
 	        		model.addRow(eee);
 	        	}
-		        table.setFocusable(true);
-		        table.setRowSelectionAllowed(true);
+		        
 	        	table.setRowSelectionInterval(1, 2);
-		        table.setFocusable(false);
-		        table.setRowSelectionAllowed(false);
+		        
 	        }
 	    }
 
