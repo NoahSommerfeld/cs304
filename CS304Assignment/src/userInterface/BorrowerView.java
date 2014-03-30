@@ -32,8 +32,9 @@ public class BorrowerView extends ContentPane {
 	private JPanel panel_3;
 	private User loggedInUser;
 	
-	public BorrowerView(MainWindow parent, Controller newSession) {
-		super(parent, newSession);
+	public BorrowerView(MainWindow parent, Controller session, String username, String password) {
+		
+		super(parent, session, username, password);
 		try{
 			/*public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
@@ -116,6 +117,11 @@ public class BorrowerView extends ContentPane {
 	public void signOut() {
 		//TODO put any saving methods here. Maybe DB.commit?
 		
+	}
+
+	@Override
+	protected UserType getNeededUserType() {
+		return UserType.borrower;
 	}
 
 }

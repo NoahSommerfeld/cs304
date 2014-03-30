@@ -14,12 +14,12 @@ import javax.swing.border.EmptyBorder;
 public class UserNamePrompt extends JFrame implements ActionListener {
 	
 
-	private JFrame mainFrame;
+	protected JFrame mainFrame;
 	private JPanel contentPane;
-	private JPasswordField passwordField;
-	private JTextField usernameField;
-	private Controller session;
-	private MainWindow mainWindow;
+	protected JPasswordField passwordField;
+	protected JTextField usernameField;
+	protected Controller session;
+	protected MainWindow parent;
 
 
 	/**
@@ -27,7 +27,7 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	 */
 	public UserNamePrompt(Controller mySession, MainWindow parent) {
 		session = mySession;
-		mainWindow = parent;
+		this.parent = parent;
 
 		initializeUI();
 	}
@@ -141,7 +141,7 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	}
 
 	private void switchToMain(){
-		mainWindow.setVisible(true);
+		parent.setVisible(true);
 		mainFrame.dispose();
 		//TODO launch the next window here. 
 	}

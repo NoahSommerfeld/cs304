@@ -16,6 +16,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 public class BorrowerAccountPanel extends JPanel implements ListSelectionListener  {
@@ -65,7 +67,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        table = new JTable();
 	        table.setModel(new DefaultTableModel(
 	        	new Object[][] {
-	        		{null, null, null, null, null},
+	        		{"hello", "bob", "I", null, null},
 	        		{null, null, null, null, null},
 	        		{null, null, null, null, null},
 	        		{null, null, null, null, null},
@@ -119,13 +121,9 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        	String[][] toAdd = null;
 	        	if(subjectFilter.equals("Hold Requests")){
 	        		toAdd = mySession.getHoldRequests(parent.getLoggedInUser());
-	        	}
-	        	else if(subjectFilter.equals("Loaned books")){
-	        		toAdd = mySession.getLoanedBooks(parent.getLoggedInUser());
-	        	}
-	        	else if(subjectFilter.equals("Outstanding Fines")){
 	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
-	    	        table = new JTable();
+	        		removeAllColoumnsFromTable();
+	        		
 	    	        table.setModel(new DefaultTableModel(
 	    	        	new Object[][] {
 	    	        		{null, null, null, null, null},
@@ -143,7 +141,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		{null, null, null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        		"AHH", "TEST", "DFGDFGDFG Out", "Due DFSG DF", "OverdDFue?"
+	    	        		"Yo", "Momma's", "Hold", "Requests", "OverdDFue?"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
@@ -160,6 +158,86 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        	}
 	    	        });
 	        	}
+	        	else if(subjectFilter.equals("Loaned books")){
+	        		toAdd = mySession.getLoanedBooks(parent.getLoggedInUser());
+	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+	        		removeAllColoumnsFromTable();
+	        		
+	    	        table.setModel(new DefaultTableModel(
+	    	        	new Object[][] {
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        	},
+	    	        	new String[] {
+	    	        		"Daniel's", "stupid", "loanedbooks", "table", "OverdDFue?"
+	    	        	}
+	    	        ) {
+	    	        	Class[] columnTypes = new Class[] {
+	    	        		String.class, String.class, Object.class, Object.class, String.class
+	    	        	};
+	    	        	public Class getColumnClass(int columnIndex) {
+	    	        		return columnTypes[columnIndex];
+	    	        	}
+	    	        	boolean[] columnEditables = new boolean[] {
+	    	        		false, false, false, false, false
+	    	        	};
+	    	        	public boolean isCellEditable(int row, int column) {
+	    	        		return false;
+	    	        	}
+	    	        });
+	        	}
+	        	else if(subjectFilter.equals("Outstanding Fines")){
+	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+	        		removeAllColoumnsFromTable();
+	        		
+	    	        table.setModel(new DefaultTableModel(
+	    	        	new Object[][] {
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        	},
+	    	        	new String[] {
+	    	        		"Noah's", "awesome", "Outstanding", "fines", "OverdDFue?"
+	    	        	}
+	    	        ) {
+	    	        	Class[] columnTypes = new Class[] {
+	    	        		String.class, String.class, Object.class, Object.class, String.class
+	    	        	};
+	    	        	public Class getColumnClass(int columnIndex) {
+	    	        		return columnTypes[columnIndex];
+	    	        	}
+	    	        	boolean[] columnEditables = new boolean[] {
+	    	        		false, false, false, false, false
+	    	        	};
+	    	        	public boolean isCellEditable(int row, int column) {
+	    	        		return false;
+	    	        	}
+	    	        });
+	        	}
+	        	
+	        	
+	        	
 	        	if(toAdd == null || toAdd.length ==0){
 	        		return;
 	        	}
@@ -180,7 +258,13 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 		        
 	        }
 	    }
-
+		public void removeAllColoumnsFromTable(){
+			TableColumnModel allColoumns = table.getColumnModel();
+    		while(allColoumns.getColumns().hasMoreElements()){
+    			allColoumns.removeColumn(allColoumns.getColumns().nextElement());
+    		}
+			
+		}
 	    //This method is required by ListSelectionListener.
 	    public void valueChanged(ListSelectionEvent e) {
 	        /*if (e.getValueIsAdjusting() == false) {

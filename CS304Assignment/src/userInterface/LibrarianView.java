@@ -10,6 +10,8 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import javax.swing.JButton;
 
+import model.UserType;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.SystemColor;
@@ -31,8 +33,9 @@ public class LibrarianView extends ContentPane {
 	private AddNewBookDialog checkOutItems;
 	
 	
-	public LibrarianView(MainWindow parent, Controller newSession) {
-		super(parent, newSession);
+	public LibrarianView(MainWindow parent, Controller session, String username, String password) {
+		
+		super(parent, session, username, password);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.window);
@@ -119,6 +122,12 @@ public class LibrarianView extends ContentPane {
 	public void signOut() {
 		//TODO put any saving methods here. Maybe DB.commit?
 		
+	}
+
+	@Override
+	protected UserType getNeededUserType() {
+		return UserType.librarian;
+
 	}
 
 }

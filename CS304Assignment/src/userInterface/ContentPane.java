@@ -15,6 +15,8 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import javax.swing.JButton;
 
+import model.UserType;
+
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 
@@ -24,8 +26,12 @@ public abstract class ContentPane extends JPanel {
 	private JLabel lblStatusLabel;
 	private JLabel lblStatsLabel1;
 	protected Controller mySession;
+	protected String userName;
+	protected String password;
 	
-	public ContentPane(MainWindow parent, Controller session) {
+	public ContentPane(MainWindow parent, Controller session, String username, String password) {
+		this.userName = username;
+		this.password = password;
 		this.parent = parent;
 		mySession = session;
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -59,7 +65,14 @@ public abstract class ContentPane extends JPanel {
 
 		
 	}
+
+
+
 	
+	protected abstract UserType getNeededUserType();
+	
+	
+
 	protected Controller getMySession(){
 		return mySession;
 	}

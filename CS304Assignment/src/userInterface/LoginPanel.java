@@ -66,6 +66,7 @@ public class LoginPanel extends JPanel {
 		btnBorrower = new JButton("Borrower");
 		btnBorrower.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				getMyParent().displayBorrowerPanel();
 			}
 		});

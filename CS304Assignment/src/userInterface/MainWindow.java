@@ -16,6 +16,8 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 
+import model.UserType;
+
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 
@@ -26,7 +28,8 @@ public class MainWindow extends JFrame {
 	private JPanel loginPanel;
 	private ContentPane contentPane;
 	private static Controller staticSession;
-	
+	private String loggedInUserName;
+	private String loggedInUserPassword;
 	
 	/**
 	 * Launch the application.
@@ -147,20 +150,14 @@ public class MainWindow extends JFrame {
 		}
 	}
 	public void displayClerkPanel(){
-			removeCurrentContent();
-			System.out.println("new clerkview");
-			contentPane = new ClerkView(this, session);
-		
+		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.borrower);
 
-		getContentPane().add(contentPane, BorderLayout.CENTER);
-		this.revalidate();
-		this.repaint();
 		}
 	
-	public void displayBorrowerPanel(){
+	public void clerkGo(){
 		removeCurrentContent();
-		System.out.println("new borrwerview");
-		contentPane = new BorrowerView(this, session);
+		System.out.println("new clerkview");
+		contentPane = new ClerkView(this, session,this.loggedInUserName, this.loggedInUserPassword);
 	
 
 	getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -168,10 +165,31 @@ public class MainWindow extends JFrame {
 	this.repaint();
 	}
 	
+	public void displayBorrowerPanel(){
+		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.borrower);
+	
+	}
+	public void borrowerGo(){
+		removeCurrentContent();
+	System.out.println("new borrwerview");
+	contentPane = new BorrowerView(this, session, this.loggedInUserName, this.loggedInUserPassword);
+
+
+getContentPane().add(contentPane, BorderLayout.CENTER);
+this.revalidate();
+this.repaint();
+	}
+	
 	public void displayLibrarianPanel(){
+		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.librarian);
+	
+		
+	}
+	
+	public void librarianGo(){
 		removeCurrentContent();
 		System.out.println("new Librarian");
-		contentPane = new LibrarianView(this, session);
+		contentPane = new LibrarianView(this, session, this.loggedInUserName, this.loggedInUserPassword);
 	
 
 	getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -182,12 +200,31 @@ public class MainWindow extends JFrame {
 	
 	public void signOut(){
 		contentPane.signOut();
+		this.loggedInUserName = "";
+		this.loggedInUserPassword = "";
 		this.removeCurrentContent();
 		
 		this.loginPanel = new LoginPanel(this, session);
 		getContentPane().add(loginPanel, BorderLayout.CENTER);
 		this.revalidate();
 		this.repaint();
+	}
+	public void setUNPW(String un, String pw) {
+		this.loggedInUserName = un;
+		this.loggedInUserPassword = pw;
+		
+	}
+	public void loginGo(UserType neededType) {
+		if(neededType == UserType.librarian){
+			librarianGo();
+		}
+		else if(neededType == UserType.borrower){
+			borrowerGo();
+		}
+		else if(neededType == UserType.clerk){
+			clerkGo();
+		}
+		
 	}
 	}
 
