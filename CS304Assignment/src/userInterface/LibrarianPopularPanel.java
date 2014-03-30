@@ -24,6 +24,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	    private Controller mySession;
 	    private static final String sendMessageString = "Send Message";
 	    private static final String searchString = "Search";
+	    private static final String popularBookSearch = "Get Popular Books";
 	    private JButton searchButton;
 	    private JButton sendMessageButton;
 	    private JTextField employeeName;
@@ -50,8 +51,8 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        sendMessageButton.addActionListener(sendMessageListener);
 	        sendMessageButton.setEnabled(false);
 
-	        searchButton = new JButton(searchString);
-	        searchButton.setActionCommand(searchString);
+	        searchButton = new JButton("Get Popular Books");
+	        searchButton.setActionCommand(popularBookSearch);
 	        searchButton.addActionListener(new SearchListener());
 /*
 	        employeeName = new JTextField(10);
@@ -87,7 +88,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        	listModel.clear();
 	        	ArrayList<String> slackers = null;
 				try {
-					slackers = mySession.searchForOverDues();
+					slackers = (ArrayList<String>) mySession.getPopularBooks();
 				} catch (SQLException e1) {
 					//e1.printStackTrace();
 					JOptionPane.showMessageDialog(parent, e1.getMessage());

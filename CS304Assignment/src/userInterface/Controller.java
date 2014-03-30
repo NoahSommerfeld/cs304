@@ -258,7 +258,7 @@ public class Controller {
 	 * checked out. May need to modify this later from just titles. 
 	 * @return a list of books and the times they've been checked out, all as one concatenated String. 
 	 */
-	public List<String> getPopularBooks(){
+	public List<String> getPopularBooks() throws SQLException{
 		ArrayList<String> theResults = new ArrayList<String>();
 		theResults.add("(5) - Hitchhiker's guide to your mom");
 		theResults.add("(2) - war of your mom");
