@@ -1,5 +1,6 @@
 package userInterface;
 
+import javax.jws.WebParam.Mode;
 import javax.swing.*;
 
 import java.awt.*;
@@ -25,6 +26,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	    private JButton searchButton;
 	    private JTable table;
 	    private JComboBox<String> comboBox;
+	    private String[] coloumnNames ={"Call Number", "Title", "Checked Out", "Due Date"};
 
 	    public LibrarianCheckedOutPanel(LibrarianView librarianView, Controller mySession) {
 	        super(new BorderLayout());
@@ -110,13 +112,21 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        public void actionPerformed(ActionEvent e) {
 	        	TableModel temp = table.getModel();
 	        	String subjectFilter = (String) comboBox.getSelectedItem();
+	        	String[][] toAdd;
 	        	if(subjectFilter.equals("No Subject Filter")){
-	        		String[][] toAdd = mySession.getCheckOuts(null);
+	        		toAdd = mySession.getCheckOuts(null);
 	        	}
 	        	else{
-	        		String[][] toAdd = mySession.getCheckOuts(subjectFilter);
+	        		toAdd = mySession.getCheckOuts(subjectFilter);
+	        	}
+	        	DefaultTableModel model = (DefaultTableModel) table.getModel();
+	        	while(model.getRowCount()>0){
+	        		model.removeRow(0);
 	        	}
 	        	
+	        	for(String[] eee : toAdd){
+	        		model.addRow(eee);
+	        	}
 	        	
 	        }
 	    }
