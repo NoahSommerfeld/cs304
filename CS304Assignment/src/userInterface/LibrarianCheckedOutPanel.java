@@ -98,6 +98,8 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        table.getColumnModel().getColumn(0).setPreferredWidth(80);
 	        table.getColumnModel().getColumn(1).setPreferredWidth(150);
 	        table.getColumnModel().getColumn(2).setPreferredWidth(85);
+	        table.setFocusable(false);
+	        table.setRowSelectionAllowed(false);
 	        listScrollPane.setViewportView(table);
 	        add(buttonPane, BorderLayout.PAGE_END);
 	    }
@@ -138,7 +140,11 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        	for(String[] eee : toAdd){
 	        		model.addRow(eee);
 	        	}
-	        	
+		        table.setFocusable(true);
+		        table.setRowSelectionAllowed(true);
+	        	table.setRowSelectionInterval(1, 2);
+		        table.setFocusable(false);
+		        table.setRowSelectionAllowed(false);
 	        }
 	    }
 
