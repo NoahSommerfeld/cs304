@@ -42,14 +42,15 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	*/
 	//FOLLOWING CODE TAKEN AND MODIFIED FROM BRANCH.JAVA
 	mainFrame = new JFrame("User Login");
-
+	ImageIcon img = new ImageIcon("res/library-icon.png");
+	mainFrame.setIconImage(img.getImage());
     JLabel usernameLabel = new JLabel("Enter username: ");
     JLabel passwordLabel = new JLabel("Enter password: ");
 
     usernameField = new JTextField(10);
     passwordField = new JPasswordField(10);
     passwordField.setEchoChar('*');
-
+    
     JButton loginButton = new JButton("Log In");
 
     JPanel contentPane = new JPanel();

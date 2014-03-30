@@ -4,6 +4,7 @@
 
 package userInterface;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import exceptions.NotCheckedInException;
 
 public class Controller {
 	private Connection con;
+	private Statement stmt = con.createStatement();
+	
 	private MainWindow mainWindow;
 	
 	/**
@@ -40,13 +43,7 @@ public class Controller {
 	       
 	      
 		con = DriverManager.getConnection(connectURL,username,password);
-		Statement stmt = con.createStatement();
-		ResultSet test = stmt.executeQuery("SELECT * FROM borrower");
-		while(test.next()){
-			System.out.println(test.getString("bid"));
-		}
-		System.out.println(test.getFetchSize());
-		//System.out.println(test.next());
+		this.test();
 	      }
 	
 	
@@ -160,7 +157,39 @@ public class Controller {
 //	
 //	
 //	
-	public void createNewUser(User toAdd) throws SQLException {
+	public void createNewUser(User newUser) throws SQLException {
+		
+		PreparedStatement ps;
+		
+		try{
+			stmt.executeUpdate("INSERT INTO borrower VALUES (bid_counter.nextVal,"+ newUser.getPassword() + ", "
+					+ newUser.getName() + ", " + newUser.getAddress + ", "
+					+ newUser.getPhone() + ", " + newUser.getEmailAddress() + ", "
+					+ newUser.getSinOrStNo() + ", " + newUser.getType());
+			updateMessage("Adding User", true);
+			
+			
+			
+		}
+		catch (IOException e)
+		{
+		    System.out.println("IOException!");
+		}
+		catch (SQLException ex)
+		{
+		    System.out.println("Message: " + ex.getMessage());
+		    try 
+		    {
+			// undo the insert
+			con.rollback();	
+		    }
+		    catch (SQLException ex2)
+		    {
+			System.out.println("Message: " + ex2.getMessage());
+			System.exit(-1);
+		    }
+		    
+		    
 		if(toAdd == null){
 			throw new SQLException("Null User");
 		}
@@ -168,8 +197,21 @@ public class Controller {
 		this.updateStatusBar("New user added to DB");
 		// TODO Auto-generated method stub
 		
+		}
+	
 	}
-//
+
+
+
+public void updateMessage(String comment, boolean was) throws SQLException{
+	
+	if(was){
+		this.updateStatusBar(comment + "was successfull");
+	}else{
+		this.updateStatusBar(comment + "was not successfull! Please check all criteria and try again.");
+		throw new SQLException(comment + "was not successfull! Please check all criteria and try again.");
+	}
+}
 //	
 //	
 //	
@@ -267,4 +309,28 @@ public class Controller {
 		
 	}
 	
+	
+	public void test() throws SQLException{
+		Statement stmt = con.createStatement();
+		ResultSet test = stmt.executeQuery("SELECT * FROM Borrower");
+		ResultSetMetaData rsmd = test.getMetaData();
+		int numCols = rsmd.getColumnCount();
+		System.out.println(numCols);
+		 // display column names;
+		  for (int i = 0; i < numCols; i++)
+		  {
+		      // get column name and print it
+
+		      System.out.printf("%-15s", rsmd.getColumnName(i+1));    
+		  }
+		 //boolean bleh = test.next();
+		  System.out.println(test.next());
+		  System.out.println("CATS ARE SHITTING HERE LOTS OF SHIT");
+		while(test.next()){
+			String bid = test.getString("bid");
+		      System.out.printf("%-10.10s", bid);
+		}
+	
+	}
 }
+
