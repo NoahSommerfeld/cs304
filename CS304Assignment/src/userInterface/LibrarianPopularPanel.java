@@ -26,7 +26,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	    private static final String searchString = "Search";
 	    private static final String popularBookSearch = "Get Popular Books";
 	    private JButton searchButton;
-	    private JButton sendMessageButton;
+	  //  private JButton sendMessageButton;
 	    private JTextField employeeName;
 
 	    public LibrarianPopularPanel(LibrarianView borrowerView, Controller mySession) {
@@ -45,11 +45,11 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        list.setVisibleRowCount(5);
 	        JScrollPane listScrollPane = new JScrollPane(list);
 
-	        sendMessageButton = new JButton(sendMessageString);
+	       /* sendMessageButton = new JButton(sendMessageString);
 	        SendMessageListener sendMessageListener = new SendMessageListener(sendMessageButton);
 	        sendMessageButton.setActionCommand(sendMessageString);
 	        sendMessageButton.addActionListener(sendMessageListener);
-	        sendMessageButton.setEnabled(false);
+	        sendMessageButton.setEnabled(false);*/
 
 	        searchButton = new JButton("Get Popular Books");
 	        searchButton.setActionCommand(popularBookSearch);
@@ -70,7 +70,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
 	        buttonPane.add(Box.createHorizontalStrut(5));
 	      // buttonPane.add(employeeName);
-	        buttonPane.add(sendMessageButton);
+	       // buttonPane.add(sendMessageButton);
 	        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
 	        add(listScrollPane, BorderLayout.CENTER);
@@ -98,7 +98,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        	for(String s : slackers){
 	        		listModel.addElement(s);
 	        	}
-	        	sendMessageButton.setEnabled(true);
+	        	//sendMessageButton.setEnabled(true);
 				}
 		        /*listModel.addElement("Jane Doe");
 		        listModel.addElement("John Smith");
@@ -141,7 +141,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        	int[] index = list.getSelectedIndices();
 	        	if(index == null || index.length == 0){
 	        		if(listModel.getSize() == 0){
-	        			sendMessageButton.setEnabled(false);
+	        	//		sendMessageButton.setEnabled(false);
 	        		}
 	        		return;
 	        	}
