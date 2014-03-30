@@ -163,7 +163,7 @@ public class Controller {
 		
 		try{
 			stmt.executeUpdate("INSERT INTO borrower VALUES (bid_counter.nextVal,"+ newUser.getPassword() + ", "
-					+ newUser.getName() + ", " + newUser.getAddress + ", "
+					+ newUser.getName() + ", " + newUser.getAddress() + ", "
 					+ newUser.getPhone() + ", " + newUser.getEmailAddress() + ", "
 					+ newUser.getSinOrStNo() + ", " + newUser.getType());
 			updateMessage("Adding User", true);
@@ -171,10 +171,10 @@ public class Controller {
 			
 			
 		}
-		catch (IOException e)
+		/*catch (IOException e)
 		{
 		    System.out.println("IOException!");
-		}
+		}*/
 		catch (SQLException ex)
 		{
 		    System.out.println("Message: " + ex.getMessage());
@@ -190,10 +190,10 @@ public class Controller {
 		    }
 		    
 		    
-		if(toAdd == null){
+		if(newUser == null){
 			throw new SQLException("Null User");
 		}
-		System.out.println(toAdd.getName() + " was added to the database");
+		System.out.println(newUser.getName() + " was added to the database");
 		this.updateStatusBar("New user added to DB");
 		// TODO Auto-generated method stub
 		
