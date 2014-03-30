@@ -10,6 +10,7 @@ import java.util.List;
 
 import model.Book;
 import exceptions.BadCallNumberException;
+import exceptions.BadCopyNumberException;
 import exceptions.BadUserIDException;
 import exceptions.FineAssessedException;
 import exceptions.NotCheckedInException;
@@ -191,7 +192,7 @@ public class Controller {
 		}
 		if(true){
 			this.updateStatusBar("Book was returned. Fine issued");
-			throw new FineAssessedException("Book was late, fine assessed");
+			throw new FineAssessedException("Book was late, fine assessed", 1.02);
 		}
 
 		//this.updateStatusBar("Book checked back in");
@@ -231,10 +232,26 @@ public class Controller {
 		
 	}
 	
-	public void createNewBook(Book newBook) throws SQLException{
+	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 		if(Math.random()<0.5){ //for testing purposes. Keep me on my toes
 			throw new SQLException("could not create book");
 		}
+		
+		//throw new BadCopyNumberException("That one taken, use this", 5);
+		
+	}
+	
+	/**
+	 * Returns the most popular books, and the number of times they've been
+	 * checked out. May need to modify this later from just titles. 
+	 * @return a list of books and the times they've been checked out, all as one concatenated String. 
+	 */
+	public List<String> getPopularBooks(){
+		ArrayList<String> theResults = new ArrayList<String>();
+		theResults.add("(5) - Hitchhiker's guide to your mom");
+		theResults.add("(2) - war of your mom");
+		theResults.add("(2) - around Daniel's mom in 80 days");
+		return theResults;
 		
 	}
 	

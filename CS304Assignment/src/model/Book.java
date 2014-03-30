@@ -21,13 +21,14 @@ public class Book {
 			int copyNo, BorrowStatus status) throws BookCreationException{
 	validate(callNumber, ISBN, title, mainAuthor, 
 			publisher, year, copyNo, status);
-	this.callNumber = callNumber;
-	this.ISBN = ISBN;
-	this.title = title;
-	this.publisher = publisher;
-	this.year = year;
-	this.copyNo = copyNo;
-	this.status = status;
+	this.setCallNumber(callNumber);
+	this.setISBN(ISBN);
+	this.setTitle(title);
+	this.setPublisher(publisher);
+	this.setYear(year);
+	this.setCopyNo(copyNo);
+	this.setStatus(status);
+	this.setMainAuthor(mainAuthor);
 
 	
 	
@@ -58,13 +59,14 @@ public class Book {
 		
 	validate(callNumber, ISBN, title, mainAuthor, 
 				publisher, newYear, newCopyNo, status);
-	this.callNumber = callNumber;
-	this.ISBN = ISBN;
-	this.title = title;
-	this.publisher = publisher;
-	this.year = newYear;
-	this.copyNo = newCopyNo;
-	this.status = status;
+	this.setCallNumber(callNumber);
+	this.setISBN(ISBN);
+	this.setTitle(title);
+	this.setPublisher(publisher);
+	this.setYear(newYear);
+	this.setCopyNo(newCopyNo);
+	this.setStatus(status);
+	this.setMainAuthor(mainAuthor);
 	
 	
 }
@@ -79,6 +81,70 @@ private void validate(String callNumber, String ISBN, String title,
 	}
 	
 	
+}
+
+public String getCallNumber() {
+	return callNumber;
+}
+
+private void setCallNumber(String callNumber) {
+	this.callNumber = callNumber;
+}
+
+public String getISBN() {
+	return ISBN;
+}
+
+private void setISBN(String iSBN) {
+	ISBN = iSBN;
+}
+
+public String getTitle() {
+	return title;
+}
+
+private void setTitle(String title) {
+	this.title = title;
+}
+
+public String getMainAuthor() {
+	return mainAuthor;
+}
+
+private void setMainAuthor(String mainAuthor) {
+	this.mainAuthor = mainAuthor;
+}
+
+public String getPublisher() {
+	return publisher;
+}
+
+private void setPublisher(String publisher) {
+	this.publisher = publisher;
+}
+
+public int getYear() {
+	return year;
+}
+
+private void setYear(int year) {
+	this.year = year;
+}
+
+public int getCopyNo() {
+	return copyNo;
+}
+
+public void setCopyNo(int copyNo) {
+	this.copyNo = copyNo;
+}
+
+public BorrowStatus getStatus() {
+	return status;
+}
+
+public void setStatus(BorrowStatus status) {
+	this.status = status;
 }
 
 
