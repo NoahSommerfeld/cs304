@@ -85,17 +85,6 @@ public class Controller {
 	}
 
 
-	/**
-	 * This method is for the nice Stats bar at the top of the main window. 
-	 * May add more of these to make it look more impressive. 
-	 * @return the total number of users in the database
-	 * @throws SQLException - if for some reason, the query fails. Static command though...
-	 */
-	public int getNumberOfUsers() throws SQLException{
-		// TODO query and get total number of users
-		//this.updateStatusBar("Number of users counted");
-		return 25;
-	}
 	
 	//Search for over due books. Called by ClerkListPanel.
 	//Need to figure out exactly what the format of the return should be.
@@ -157,13 +146,56 @@ public class Controller {
 		
 	}
 
-	//TODO: implement this. Called by AddNewUserDialog. need to send request to the server
-//	
-//	
-//	
-//	
-//	
-//	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	/**
+	 * This method is for the nice Stats bar at the top of the main window. 
+	 * May add more of these to make it look more impressive. 
+	 * @return the total number of users in the database
+	 * @throws SQLException - if for some reason, the query fails. Static command though...
+	 */
+	public int getNumberOfUsers() throws SQLException{
+		// TODO query and get total number of users
+		//this.updateStatusBar("Number of users counted");
+		
+
+		stmt = con.createStatement();
+		
+		String query = "SELECT * FROM Borrower";
+		
+		try{
+			ResultSet rs = stmt.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int numUsers = rsmd.getColumnCount();
+			
+			return numUsers;
+			
+		}catch (SQLException ex)
+		{
+		    System.out.println("Message: " + ex.getMessage());
+		    try 
+		    {
+			// undo the insert
+			con.rollback();	
+		    }
+		    catch (SQLException ex2)
+		    {
+			System.out.println("Message: " + ex2.getMessage());
+			throw ex2;
+		    }
+		    throw ex;
+		}
+		
+	}
+	
+
 	public void createNewUser(User newUser) throws SQLException {
 		
 		stmt = con.createStatement();
@@ -179,11 +211,6 @@ public class Controller {
 			System.out.println(query);
 			
 			stmt.executeUpdate(query);
-
-			stmt.executeUpdate("INSERT INTO borrower VALUES (bid_counter.nextVal,"+ newUser.getPassword() + ", "
-					+ newUser.getName() + ", " + newUser.getAddress() + ", "
-					+ newUser.getPhone() + ", " + newUser.getEmailAddress() + ", "
-					+ newUser.getSinOrStNo() + ", " + newUser.getType());
 
 			updateMessage("Adding User", true);
 			
@@ -309,12 +336,45 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	 */
 	
 	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
-		if(Math.random()<0.5){ //for testing purposes. Keep me on my toes
-			throw new SQLException("could not create book");
+stmt = con.createStatement();
+		
+		try{
+
+			String query = "INSERT INTO borrower VALUES (bid_counter.nextVal, '"
+					+ newUser.getPassword() + "', '"
+					+ newUser.getName() + "', '" + newUser.getAddress() + "', "
+					+ newUser.getPhone() + ", '" + newUser.getEmailAddress() + "', "
+					+ newUser.getSinOrStNo() + ", '" + newUser.getType() +"')";
+			
+			System.out.println(query);
+			
+			stmt.executeUpdate(query);
+
+			updateMessage("Adding User", true);
+			
+			
+			
 		}
-		
-		//throw new BadCopyNumberException("That one taken, use this", 5);
-		
+		/*catch (IOException e)
+		{
+		    System.out.println("IOException!");
+		}*/
+
+		catch (SQLException ex)
+		{
+		    System.out.println("Message: " + ex.getMessage());
+		    try 
+		    {
+			// undo the insert
+			con.rollback();	
+		    }
+		    catch (SQLException ex2)
+		    {
+			System.out.println("Message: " + ex2.getMessage());
+			throw ex2;
+		    }
+		    throw ex;
+		}
 	}
 	
 	/**
@@ -358,7 +418,7 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	/**
 	 * this is a fun one. Every row in the table is represented by an array.
 	 * I need a String[] formatted like this:
-	 * String[CallNumber, Title, CheckOutDate, DueDate, ""]
+	 * String[CallNumber, Title, CheckOutDate, DueDate]
 	 * and then an array of those. I'll give you a demo
 	 * 
 	 * I may need it filtered by subject (null is no filter) :D
@@ -368,13 +428,13 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	public String[][] getCheckOuts(String filterSubject) {
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
-			     "January 15, 2014", "April 30, 2014", ""},
-			    {"34534q5w", "Noah>Daniel, inc",
-			     "March 25, 2014", "April 25, 2014", ""},
+			     "January 15, 2014", "April 30, 2014"},
+			    {"34534q5w", "Noah>Daniel, inc", 
+			     "March 25, 2014", "April 25, 2014"},
 			    {"A6 FGD 234", "That time I saw a ghost",
-			     "March 10, 2014", "March 17, 2014", ""},
+			     "March 10, 2014", "March 17, 2014"},
 			    {"43A dfgdfg", "Smokin the While Elephant",
-			     "March 12, 2014", "March 16, 2014", ""}
+			     "March 12, 2014", "March 16, 2014"}
 			};
 
 		
