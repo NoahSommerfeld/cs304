@@ -93,7 +93,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        		false, false, false, false, false
 	        	};
 	        	public boolean isCellEditable(int row, int column) {
-	        		return columnEditables[column];
+	        		return false;
 	        	}
 	        });
 	        table.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -125,6 +125,40 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        	}
 	        	else if(subjectFilter.equals("Outstanding Fines")){
 	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+	    	        table = new JTable();
+	    	        table.setModel(new DefaultTableModel(
+	    	        	new Object[][] {
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        		{null, null, null, null, null},
+	    	        	},
+	    	        	new String[] {
+	    	        		"AHH", "TEST", "DFGDFGDFG Out", "Due DFSG DF", "OverdDFue?"
+	    	        	}
+	    	        ) {
+	    	        	Class[] columnTypes = new Class[] {
+	    	        		String.class, String.class, Object.class, Object.class, String.class
+	    	        	};
+	    	        	public Class getColumnClass(int columnIndex) {
+	    	        		return columnTypes[columnIndex];
+	    	        	}
+	    	        	boolean[] columnEditables = new boolean[] {
+	    	        		false, false, false, false, false
+	    	        	};
+	    	        	public boolean isCellEditable(int row, int column) {
+	    	        		return false;
+	    	        	}
+	    	        });
 	        	}
 	        	if(toAdd == null || toAdd.length ==0){
 	        		return;
