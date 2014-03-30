@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Book;
 import exceptions.BadCallNumberException;
 import exceptions.BadUserIDException;
 import exceptions.FineAssessedException;
@@ -109,6 +110,32 @@ public class Controller {
 		slackers.add("March 12 - Noah - textbook 32");
 		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
 		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
 		
 		this.updateStatusBar("Overdues searched for");
 		
@@ -202,6 +229,13 @@ public class Controller {
 		//badCallNumberException if it isn't in the db. (vs. db connection errors)
 		//BadUserIDException if the user is not in the DB
 		this.updateStatusBar("Item(s) checked out");
+		
+	}
+	
+	public void createNewBook(Book newBook) throws SQLException{
+		if(Math.random()<0.5){ //for testing purposes. Keep me on my toes
+			throw new SQLException("could not create book");
+		}
 		
 	}
 	
