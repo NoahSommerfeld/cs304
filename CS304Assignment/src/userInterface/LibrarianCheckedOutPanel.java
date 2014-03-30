@@ -66,6 +66,17 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        	new Object[][] {
 	        		{null, null, null, null},
 	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        		{null, null, null, null},
 	        	},
 	        	new String[] {
 	        		"Call Number", "Title", "Checked Out", "Due Date"
