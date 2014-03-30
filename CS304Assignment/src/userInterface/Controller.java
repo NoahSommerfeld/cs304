@@ -55,6 +55,14 @@ public class Controller {
 		this.mainWindow = window;
 	}
 	
+	public ArrayList<String> getSubjects() throws SQLException{
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add("Science");
+		temp.add("Fantasy");
+		temp.add("non-fiction");
+		return temp;
+	}
+	
 	/**
 	 * updates the status bar at the bottom of the main window.
 	 * Just a helper method for this class
