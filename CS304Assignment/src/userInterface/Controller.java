@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Book;
+import model.UserType;
 import exceptions.BadCallNumberException;
 import exceptions.BadCopyNumberException;
 import exceptions.BadUserIDException;
@@ -337,14 +338,22 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	
 	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 stmt = con.createStatement();
-		/*
+		
 		try{
 
-			String query = "INSERT INTO borrower VALUES (bid_counter.nextVal, '"
-					+ newUser.getPassword() + "', '"
-					+ newUser.getName() + "', '" + newUser.getAddress() + "', "
-					+ newUser.getPhone() + ", '" + newUser.getEmailAddress() + "', "
-					+ newUser.getSinOrStNo() + ", '" + newUser.getType() +"')";
+			String query = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
+					+ newBook.getISBN() + "', '"
+					+ newBook.getTitle() + "', '" + newBook.getMainAuthor() + "', "
+					+ newBook.getPublisher() + ", '" + newBook.getYear() + "')";
+			
+			System.out.println(query);
+			
+			stmt.executeUpdate(query);
+			
+			query = "INSERT INTO HasAuthor VALUES (CN_counter., '"
+					+ newBook.getISBN() + "', '"
+					+ newBook.getTitle() + "', '" + newBook.getMainAuthor() + "', "
+					+ newBook.getPublisher() + ", '" + newBook.getYear() + "')";
 			
 			System.out.println(query);
 			
@@ -359,7 +368,7 @@ stmt = con.createStatement();
 		{
 		    System.out.println("IOException!");
 		}*/
-/*
+
 		catch (SQLException ex)
 		{
 		    System.out.println("Message: " + ex.getMessage());
@@ -374,7 +383,7 @@ stmt = con.createStatement();
 			throw ex2;
 		    }
 		    throw ex;
-		}*/
+		}
 	}
 	
 	/**
@@ -456,5 +465,10 @@ stmt = con.createStatement();
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public boolean login (String username, String Password, UserType userType){
+		return true;
+	}
+	
 }
 
