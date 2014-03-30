@@ -198,18 +198,18 @@ public class Controller {
 		    catch (SQLException ex2)
 		    {
 			System.out.println("Message: " + ex2.getMessage());
-			System.exit(-1);
+			throw ex2;
 		    }
-		    
+		    throw ex;
 
 		    
-		if(newUser == null){
-			throw new SQLException("Null User");
-		}
-		System.out.println(newUser.getName() + " was added to the database");
-		this.updateStatusBar("New user added to DB");
-		// TODO Auto-generated method stub
-		
+//		if(newUser == null){
+//			throw new SQLException("Null User");
+//		}
+//		System.out.println(newUser.getName() + " was added to the database");
+//		this.updateStatusBar("New user added to DB");
+//		// TODO Auto-generated method stub
+//		
 
 		}
 	
