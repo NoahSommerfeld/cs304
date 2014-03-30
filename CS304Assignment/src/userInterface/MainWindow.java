@@ -102,7 +102,7 @@ public class MainWindow extends JFrame {
 	 */
 	private void initialize() {
 
-		setBounds(400, 400, 550, 400);
+		setBounds(400, 400, 800, 600);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //the MAIN method will exit
 		
 		JMenuBar menuBar = new JMenuBar();

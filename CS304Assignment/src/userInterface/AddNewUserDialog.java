@@ -41,7 +41,6 @@ public class AddNewUserDialog extends JDialog {
 	private JTextField txtAddress;
 	private JTextField txtName;
 	private JTextField txtPassword;
-	private JTextField txtBidshouldWe;
 	private JTextField txtSinorstno;
 	private JTextField txtDate;
 	private ButtonGroup typeButtonGroup;
@@ -58,7 +57,7 @@ public class AddNewUserDialog extends JDialog {
 		this.mySession = session;
 		ImageIcon img = new ImageIcon("res/library-icon.png");
 		this.setIconImage(img.getImage());
-		setBounds(100, 100, 350, 350);
+		setBounds(100, 100, 350, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -87,110 +86,98 @@ public class AddNewUserDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
-		{
-			txtBidshouldWe = new JTextField();
-			//txtBidshouldWe.setText("BID (should we autoGenerate?)");
-			contentPanel.add(txtBidshouldWe, "2, 2, 5, 1, fill, default");
-			txtBidshouldWe.setColumns(10);
-		}
-		{
-			JLabel lblBid = new JLabel("BID");
-			contentPanel.add(lblBid, "8, 2");
-		}
 		{
 			txtName = new JTextField();
 			//txtName.setText("Name");
-			contentPanel.add(txtName, "2, 4, 5, 1, fill, default");
+			contentPanel.add(txtName, "2, 2, 5, 1, fill, default");
 			txtName.setColumns(10);
 		}
 		{
 			JLabel lblName = new JLabel("Name");
-			contentPanel.add(lblName, "8, 4");
+			contentPanel.add(lblName, "8, 2");
 		}
 		{
 			txtPassword = new JTextField();
 			//txtPassword.setText("Password");
-			contentPanel.add(txtPassword, "2, 6, 5, 1, fill, default");
+			contentPanel.add(txtPassword, "2, 4, 5, 1, fill, default");
 			txtPassword.setColumns(10);
 		}
 		{
 			JLabel lblPassword = new JLabel("Password");
-			contentPanel.add(lblPassword, "8, 6");
+			contentPanel.add(lblPassword, "8, 4");
 		}
 		{
 			txtAddress = new JTextField();
 			//txtAddress.setText("Address");
-			contentPanel.add(txtAddress, "2, 8, 5, 1, fill, default");
+			contentPanel.add(txtAddress, "2, 6, 5, 1, fill, default");
 			txtAddress.setColumns(10);
 		}
 		{
 			JLabel lblAddress = new JLabel("Address");
-			contentPanel.add(lblAddress, "8, 8");
+			contentPanel.add(lblAddress, "8, 6");
 		}
 		{
 			txtPhoneNumber = new JTextField();
 			//txtPhoneNumber.setText("Phone Number");
-			contentPanel.add(txtPhoneNumber, "2, 10, 5, 1, fill, default");
+			contentPanel.add(txtPhoneNumber, "2, 8, 5, 1, fill, default");
 			txtPhoneNumber.setColumns(10);
 		}
 		{
 			JLabel lblPhoneNumber = new JLabel("Phone Number");
-			contentPanel.add(lblPhoneNumber, "8, 10");
+			contentPanel.add(lblPhoneNumber, "8, 8");
 		}
 		{
 			txtTxtboxemailaddress = new JTextField();
 			//txtTxtboxemailaddress.setText("txtBoxEmailAddress");
-			contentPanel.add(txtTxtboxemailaddress, "2, 12, 5, 1, fill, default");
+			contentPanel.add(txtTxtboxemailaddress, "2, 10, 5, 1, fill, default");
 			txtTxtboxemailaddress.setColumns(10);
 		}
 		{
 			JLabel lblEmailAddress = new JLabel("Email Address");
-			contentPanel.add(lblEmailAddress, "8, 12");
+			contentPanel.add(lblEmailAddress, "8, 10");
 		}
 		{
 			txtSinorstno = new JTextField();
 			txtSinorstno.setText("20292124");
-			contentPanel.add(txtSinorstno, "2, 14, 5, 1, fill, default");
+			contentPanel.add(txtSinorstno, "2, 12, 5, 1, fill, default");
 			txtSinorstno.setColumns(10);
 		}
 		{
 			JLabel lblSinorstnum = new JLabel("SinOrSt.Num");
-			contentPanel.add(lblSinorstnum, "8, 14");
+			contentPanel.add(lblSinorstnum, "8, 12");
 		}
 		{
 			txtDate = new JTextField();
 			txtDate.setText("January 12, 2015");
-			contentPanel.add(txtDate, "2, 16, 5, 1, fill, default");
+			contentPanel.add(txtDate, "2, 14, 5, 1, fill, default");
 			txtDate.setColumns(10);
 		}
 		{
 			JLabel lblExpirydate = new JLabel("ExpiryDate");
-			contentPanel.add(lblExpirydate, "8, 16");
+			contentPanel.add(lblExpirydate, "8, 14");
 		}
 		{
 			typeButtonGroup = new ButtonGroup();
 		}
 		{
 			rdbtnClerk = new JRadioButton("Clerk");
-			contentPanel.add(rdbtnClerk, "2, 18");
+			contentPanel.add(rdbtnClerk, "2, 16");
 			typeButtonGroup.add(rdbtnClerk);
 		}
 		{
 			rdbtnBorrower = new JRadioButton("Borrower");
-			contentPanel.add(rdbtnBorrower, "4, 18");
+			contentPanel.add(rdbtnBorrower, "4, 16");
 			typeButtonGroup.add(rdbtnBorrower);
 		}
 		{
 			rdbtnLibrarian = new JRadioButton("Librarian");
-			contentPanel.add(rdbtnLibrarian, "6, 18");
+			contentPanel.add(rdbtnLibrarian, "6, 16");
 			typeButtonGroup.add(rdbtnLibrarian);
 		}
 		{
 			JLabel lblType = new JLabel("Type");
-			contentPanel.add(lblType, "8, 18");
+			contentPanel.add(lblType, "8, 16");
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -272,7 +259,7 @@ public class AddNewUserDialog extends JDialog {
 		phone = phone.replace(")", "");
 		phone = phone.replace(" ", "");
 		
-		User temp = new User(txtBidshouldWe.getText(), txtPassword.getText(), txtName.getText(), phone,
+		User temp = new User(txtAddress.getText(), txtPassword.getText(), txtName.getText(), phone,
 				txtTxtboxemailaddress.getText(), txtSinorstno.getText(), txtDate.getText(), tempType);
 		
 
