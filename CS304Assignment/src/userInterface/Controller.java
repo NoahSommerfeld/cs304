@@ -25,6 +25,29 @@ public class Controller {
 		
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 	}
+		
+	/**
+	 * Log in to the Oracle driver/server database
+	 * @param username - user's username
+	 * @param password - user's password. Note: stored/sent in plain text...
+	 * @throws SQLException - if the user fails to log in. 
+	 */
+	public void connect(String username, String password) throws SQLException{
+		 String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug"; 
+
+	       
+	      
+		con = DriverManager.getConnection(connectURL,username,password);
+		Statement stmt = con.createStatement();
+///		stmt.executeQuery("insert into branch values ( 2340, 'Cats', '23 No.3 Road', 'Vancouver', 5552331 )");
+		ResultSet test = stmt.executeQuery("SELECT * FROM branch");
+		while(test.next()){
+			System.out.println(test.getString("branch_name"));
+		}
+		System.out.println(test.getFetchSize());
+		//System.out.println(test.next());
+	      }
+	
 	
 	/**
 	 * This registers the main window, so that we can update the status bar. 
@@ -45,23 +68,7 @@ public class Controller {
 		mainWindow.getMyContentPane().setStatusLbl(message);
 	}
 	
-	
-	/**
-	 * Log in to the Oracle driver/server database
-	 * @param username - user's username
-	 * @param password - user's password. Note: stored/sent in plain text...
-	 * @throws SQLException - if the user fails to log in. 
-	 */
-	public void connect(String username, String password) throws SQLException{
-		 String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug"; 
 
-	       
-	      
-		con = DriverManager.getConnection(connectURL,username,password);
-
-	      }
-	
-	
 	/**
 	 * Calls System.exit(), but let's us close
 	 * anything that needs to be closed in the model (in case we need to gracefully kill the driver)
@@ -120,6 +127,12 @@ public class Controller {
 	}
 
 	//TODO: implement this. Called by AddNewUserDialog. need to send request to the server
+//	
+//	
+//	
+//	
+//	
+//	
 	public void createNewUser(User toAdd) throws SQLException {
 		if(toAdd == null){
 			throw new SQLException("Null User");
@@ -129,7 +142,15 @@ public class Controller {
 		// TODO Auto-generated method stub
 		
 	}
-
+//
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+	
 	/**
 	 * this method changes a book's status to 'checked in' or something...
 	 * @param callNumber - the call number to check in

@@ -144,22 +144,22 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		 try{
+		try{
 			 session.connect(usernameField.getText(), String.valueOf(passwordField.getPassword())); 
 			  mainFrame.dispose();
 			  switchToMain();  
-	          return;
+			  return;
 		 
-		 }
+	 }
 		catch(SQLException error){
-			JOptionPane.showMessageDialog(this, error.getMessage());
+		JOptionPane.showMessageDialog(this, error.getMessage());
 		}
 		//switchToMain();
 		  // if the username and password are valid, 
-		  // remove the login window and display a text menu 
+		 // remove the login window and display a text menu 
    
 		      passwordField.setText("");
-		  //}
+		//  }
 		}             
 		
 	}
