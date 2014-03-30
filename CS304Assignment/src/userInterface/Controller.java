@@ -18,7 +18,7 @@ import exceptions.NotCheckedInException;
 
 public class Controller {
 	private Connection con;
-	private Statement stmt = con.createStatement();
+	private Statement stmt;
 	
 	private MainWindow mainWindow;
 	
@@ -43,7 +43,6 @@ public class Controller {
 	       
 	      
 		con = DriverManager.getConnection(connectURL,username,password);
-		this.test();
 	      }
 	
 	
@@ -159,13 +158,25 @@ public class Controller {
 //	
 	public void createNewUser(User newUser) throws SQLException {
 		
-		PreparedStatement ps;
+		stmt = con.createStatement();
 		
 		try{
+
+			String query = "INSERT INTO borrower VALUES (bid_counter.nextVal, '"
+					+ newUser.getPassword() + "', '"
+					+ newUser.getName() + "', '" + newUser.getAddress() + "', "
+					+ newUser.getPhone() + ", '" + newUser.getEmailAddress() + "', "
+					+ newUser.getSinOrStNo() + ", '" + newUser.getType() +"')";
+			
+			System.out.println(query);
+			
+			stmt.executeUpdate(query);
+
 			stmt.executeUpdate("INSERT INTO borrower VALUES (bid_counter.nextVal,"+ newUser.getPassword() + ", "
 					+ newUser.getName() + ", " + newUser.getAddress() + ", "
 					+ newUser.getPhone() + ", " + newUser.getEmailAddress() + ", "
 					+ newUser.getSinOrStNo() + ", " + newUser.getType());
+
 			updateMessage("Adding User", true);
 			
 			
@@ -175,6 +186,7 @@ public class Controller {
 		{
 		    System.out.println("IOException!");
 		}*/
+
 		catch (SQLException ex)
 		{
 		    System.out.println("Message: " + ex.getMessage());
@@ -189,6 +201,7 @@ public class Controller {
 			System.exit(-1);
 		    }
 		    
+
 		    
 		if(newUser == null){
 			throw new SQLException("Null User");
@@ -197,6 +210,7 @@ public class Controller {
 		this.updateStatusBar("New user added to DB");
 		// TODO Auto-generated method stub
 		
+
 		}
 	
 	}
