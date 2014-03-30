@@ -8,7 +8,11 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
+import exceptions.UserCreationException;
+
 import javax.swing.JButton;
+
+import model.UserType;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -26,9 +30,19 @@ public class BorrowerView extends ContentPane {
 	private JButton btnNewButton_2;
 	private JPanel listContentPanel;
 	private JPanel panel_3;
+	private User loggedInUser;
+	
 	public BorrowerView(MainWindow parent, Controller newSession) {
 		super(parent, newSession);
-		
+		try{
+			/*public User(String address, String password, String name, String phone, 
+			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
+			loggedInUser = new User("2201 Lower Mall", "1234", "Bob Smith", "202921", "test@gmail.com",
+					"123344556", "Januray 17, 2015", UserType.borrower);
+		}
+		catch(UserCreationException e){
+			
+		}
 		mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.window);
 		mainPanel.setMinimumSize(new Dimension(100,100));
@@ -95,7 +109,9 @@ public class BorrowerView extends ContentPane {
 	}*/
 
 	
-	
+	public User getLoggedInUser(){
+		return this.loggedInUser;
+	}
 	@Override
 	public void signOut() {
 		//TODO put any saving methods here. Maybe DB.commit?

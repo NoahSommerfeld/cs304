@@ -337,7 +337,7 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	
 	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 stmt = con.createStatement();
-		
+		/*
 		try{
 
 			String query = "INSERT INTO borrower VALUES (bid_counter.nextVal, '"
@@ -359,7 +359,7 @@ stmt = con.createStatement();
 		{
 		    System.out.println("IOException!");
 		}*/
-
+/*
 		catch (SQLException ex)
 		{
 		    System.out.println("Message: " + ex.getMessage());
@@ -374,7 +374,7 @@ stmt = con.createStatement();
 			throw ex2;
 		    }
 		    throw ex;
-		}
+		}*/
 	}
 	
 	/**
@@ -440,6 +440,21 @@ stmt = con.createStatement();
 		
 		
 		return data;
+	}
+
+	public String[][] getHoldRequests(User loggedInUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[][] getLoanedBooks(User loggedInUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[][] getOutstandingFines(User loggedInUser) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
