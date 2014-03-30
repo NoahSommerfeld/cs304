@@ -354,5 +354,32 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 		}
 	
 	}
+
+	/**
+	 * this is a fun one. Every row in the table is represented by an array.
+	 * I need a String[] formatted like this:
+	 * String[CallNumber, Title, CheckOutDate, DueDate]
+	 * and then an array of those. I'll give you a demo
+	 * 
+	 * I may need it filtered by subject (null is no filter) :D
+	 * @param selectedItem
+	 * @return
+	 */
+	public String[][] getCheckOuts(String filterSubject) {
+		String[][] data = {
+			    {"A2NRBS2", "Long Island Ice Tea",
+			     "January 15, 2014", "April 30, 2014"},
+			    {"34534q5w", "Noah>Daniel, inc",
+			     "March 25, 2014", "April 25, 2014"},
+			    {"A6 FGD 234", "That time I saw a ghost",
+			     "March 10, 2014", "March 17, 2014"},
+			    {"43A dfgdfg", "Smokin the While Elephant",
+			     "March 12, 2014", "March 16, 2014"}
+			};
+
+		
+		
+		return data;
+	}
 }
 

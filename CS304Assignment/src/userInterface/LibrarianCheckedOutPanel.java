@@ -24,7 +24,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	    private static final String searchString = "Search";
 	    private JButton searchButton;
 	    private JTable table;
-	    private JComboBox comboBox;
+	    private JComboBox<String> comboBox;
 
 	    public LibrarianCheckedOutPanel(LibrarianView librarianView, Controller mySession) {
 	        super(new BorderLayout());
@@ -48,7 +48,8 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	                                           BoxLayout.LINE_AXIS));
 	        buttonPane.add(searchButton);
 	        
-	        comboBox = new JComboBox();
+	        comboBox = new JComboBox<String>();
+	        populateComboBox();
 	        buttonPane.add(comboBox);
 	        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
 	        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
@@ -88,10 +89,33 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        add(buttonPane, BorderLayout.PAGE_END);
 	    }
 
-	    class SearchListener implements ActionListener {
+	    private void populateComboBox() {
+			ArrayList<String> subjects = null;
+			try {
+				subjects = mySession.getSubjects();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this,"Couldn't get subjects" + e1.getMessage());
+				return;
+			}
+			
+			comboBox.addItem("No Subject Filter");
+			for(String e: subjects){
+				comboBox.addItem(e);
+			}
+			
+		}
+
+		class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	        	TableModel temp = table.getModel();
-	        	//String[]
+	        	String subjectFilter = (String) comboBox.getSelectedItem();
+	        	if(subjectFilter.equals("No Subject Filter")){
+	        		String[][] toAdd = mySession.getCheckOuts(null);
+	        	}
+	        	else{
+	        		String[][] toAdd = mySession.getCheckOuts(subjectFilter);
+	        	}
 	        	
 	        	
 	        }
