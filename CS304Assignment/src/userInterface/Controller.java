@@ -232,6 +232,18 @@ public class Controller {
 		
 	}
 	
+	/**
+	 * DANIEL: THIS IS IMPORTANT
+	 * the books will be passed with the default copy no (0)
+	 * If it already exists, please throw a new BadCopyNumberException 
+	 * with the first free copyno included. 
+	 * Might want to search for # of copies first, rather than trying to sort
+	 * through the SQLExceptions coming back to see if that was the reason 
+	 * @param newBook - the book to be added to the DB
+	 * @throws SQLException - if Oracle complains
+	 * @throws BadCopyNumberException - if the copy number is already taken. 
+	 */
+	
 	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 		if(Math.random()<0.5){ //for testing purposes. Keep me on my toes
 			throw new SQLException("could not create book");
