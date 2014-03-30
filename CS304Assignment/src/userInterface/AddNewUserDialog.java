@@ -255,13 +255,13 @@ public class AddNewUserDialog extends JDialog {
 		}
 		*/
 		if(rdbtnClerk.isSelected()){
-			tempType = UserType.CLERK;
+			tempType = UserType.clerk;
 		}
 		else if(rdbtnBorrower.isSelected()){
-			tempType = UserType.BORROWER;
+			tempType = UserType.borrower;
 		}
 		else if(rdbtnLibrarian.isSelected()){
-			tempType = UserType.LIBRARIAN;
+			tempType = UserType.librarian;
 		}
 		else{
 			throw new UserCreationException("No type selected");

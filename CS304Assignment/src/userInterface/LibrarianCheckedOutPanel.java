@@ -13,12 +13,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionListener  {
-//Some code reverse engineered from http://docs.oracle.com/javase/tutorial/uiswing/examples/components/ListDemoProject/src/components/ListDemo.java
-	
-
-	  private JList list;
 	    private DefaultListModel listModel;
 	    private LibrarianView parent;
 	    private Controller mySession;
@@ -27,6 +24,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	    private JButton searchButton;
 	    private JButton sendMessageButton;
 	    private JTextField employeeName;
+	    private JTable table;
 
 	    public LibrarianCheckedOutPanel(LibrarianView librarianView, Controller mySession) {
 	        super(new BorderLayout());
@@ -34,15 +32,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        this.mySession = mySession;
 
 	        listModel = new DefaultListModel();
-
-
-	        //Create the list and put it in a scroll pane.
-	        list = new JList(listModel);
-	        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-	        list.setSelectedIndex(0);
-	        list.addListSelectionListener(this);
-	        list.setVisibleRowCount(5);
-	        JScrollPane listScrollPane = new JScrollPane(list);
+	        JScrollPane listScrollPane = new JScrollPane();
 
 	        sendMessageButton = new JButton(sendMessageString);
 	        SendMessageListener sendMessageListener = new SendMessageListener(sendMessageButton);
@@ -71,14 +61,39 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	      // buttonPane.add(employeeName);
 	        buttonPane.add(sendMessageButton);
 	        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+	        
+	        JLabel lblSearchForBooks = new JLabel("Search For Books");
+	        add(lblSearchForBooks, BorderLayout.NORTH);
 
 	        add(listScrollPane, BorderLayout.CENTER);
 	        
-	        JPanel panel = new JPanel();
-	        listScrollPane.setColumnHeaderView(panel);
-	        
-	        JLabel lblSearchForBooks = new JLabel("Search For Books");
-	        panel.add(lblSearchForBooks);
+	        table = new JTable();
+	        table.setModel(new DefaultTableModel(
+	        	new Object[][] {
+	        		{null, null, null, null},
+	        		{null, null, null, null},
+	        	},
+	        	new String[] {
+	        		"Call Number", "Title", "Checked Out", "Due Date"
+	        	}
+	        ) {
+	        	Class[] columnTypes = new Class[] {
+	        		String.class, String.class, Object.class, Object.class
+	        	};
+	        	public Class getColumnClass(int columnIndex) {
+	        		return columnTypes[columnIndex];
+	        	}
+	        	boolean[] columnEditables = new boolean[] {
+	        		false, false, false, false
+	        	};
+	        	public boolean isCellEditable(int row, int column) {
+	        		return columnEditables[column];
+	        	}
+	        });
+	        table.getColumnModel().getColumn(0).setPreferredWidth(80);
+	        table.getColumnModel().getColumn(1).setPreferredWidth(239);
+	        table.getColumnModel().getColumn(2).setPreferredWidth(85);
+	        listScrollPane.setViewportView(table);
 	        add(buttonPane, BorderLayout.PAGE_END);
 	    }
 
@@ -137,7 +152,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 
 	        //Required by ActionListener.
 	        public void actionPerformed(ActionEvent e) {
-	        	int[] index = list.getSelectedIndices();
+	        	/*int[] index = list.getSelectedIndices();
 	        	if(index == null || index.length == 0){
 	        		if(listModel.getSize() == 0){
 	        			sendMessageButton.setEnabled(false);
@@ -230,7 +245,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 
 	    //This method is required by ListSelectionListener.
 	    public void valueChanged(ListSelectionEvent e) {
-	        if (e.getValueIsAdjusting() == false) {
+	        /*if (e.getValueIsAdjusting() == false) {
 
 	            if (list.getSelectedIndex() == -1) {
 	            //No selection, disable search button.
@@ -240,7 +255,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	            //Selection, enable the search button.
 	                searchButton.setEnabled(true);
 	            }
-	        }
+	        }*/
 	    }
 
 	    /**

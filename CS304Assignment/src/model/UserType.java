@@ -1,5 +1,5 @@
 package model;
 
 public enum UserType {
-BORROWER, CLERK, LIBRARIAN;
+borrower, clerk, librarian;
 }
