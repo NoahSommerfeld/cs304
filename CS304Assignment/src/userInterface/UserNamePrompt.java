@@ -42,14 +42,16 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	*/
 	//FOLLOWING CODE TAKEN AND MODIFIED FROM BRANCH.JAVA
 	mainFrame = new JFrame("User Login");
-	ImageIcon img = new ImageIcon("res/library-icon.png");
-	mainFrame.setIconImage(img.getImage());
+
     JLabel usernameLabel = new JLabel("Enter username: ");
     JLabel passwordLabel = new JLabel("Enter password: ");
 
     usernameField = new JTextField(10);
     passwordField = new JPasswordField(10);
     passwordField.setEchoChar('*');
+
+    usernameField.setText("ora_q4k8");
+    passwordField.setText("a19338128");
     
     JButton loginButton = new JButton("Log In");
 
@@ -147,8 +149,7 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		
-		/* try{
->>>>>>> branch 'master' of https://github.com/NoahSommerfeld/cs304.git
+		 try{
 			 session.connect(usernameField.getText(), String.valueOf(passwordField.getPassword())); 
 			  mainFrame.dispose();
 			  switchToMain();  
@@ -156,15 +157,12 @@ public class UserNamePrompt extends JFrame implements ActionListener {
 		 
 	 }
 		catch(SQLException error){
-<<<<<<< HEAD
 		JOptionPane.showMessageDialog(this, error.getMessage());
 		}
 		//switchToMain();
-=======
-			JOptionPane.showMessageDialog(this, error.getMessage());
-		}*/
-		switchToMain();
-//>>>>>>> branch 'master' of https://github.com/NoahSommerfeld/cs304.git
+	//		JOptionPane.showMessageDialog(this, error.getMessage());
+	//	}
+//		switchToMain();
 		  // if the username and password are valid, 
 		 // remove the login window and display a text menu 
    
