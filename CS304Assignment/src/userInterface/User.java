@@ -7,7 +7,6 @@ import model.UserType;
 
 public class User {
 	
-	private String BID;
 	private String password;
 	private String name;
 	private Long phone;
@@ -15,12 +14,13 @@ public class User {
 	private Long sinOrStNo;
 	private Date expiryDate;
 	private UserType type;
+	private String address;
 	
-	public User(String BID, String password, String name, Long phone, 
+	public User(String address, String password, String name, Long phone, 
 			String emailAddress, Long sinOrStNo, Date expiryDate, UserType type) throws UserCreationException{
-	validate(BID, password, name, phone, 
+	validate(address, password, name, phone, 
 		emailAddress, sinOrStNo, expiryDate, type);
-	this.BID = BID;
+	this.address = address;
 	this.password = password;
 	this.name = name;
 	this.phone = phone;
@@ -32,7 +32,7 @@ public class User {
 	
 }
 	
-	public User(String BID, String password, String name, String phone, 
+	public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type) throws UserCreationException{
 	
 		
@@ -60,9 +60,9 @@ public class User {
 			throw new UserCreationException("Sin or Student number formatted wrong");
 		}
 		
-	validate(BID, password, name, phoneNumber, 
+	validate(address, password, name, phoneNumber, 
 		emailAddress, sin, tempDate, type);
-	this.BID = BID;
+	this.address = address;
 	this.password = password;
 	this.name = name;
 	this.phone = phoneNumber;
@@ -86,8 +86,8 @@ private void validate(String BID, String password, String name, Long phone,
 }
 
 
-public String getBID() {
-	return BID;
+public String getAddress() {
+	return address;
 }
 
 

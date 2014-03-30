@@ -2,6 +2,7 @@ package userInterface;
 
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -127,7 +128,8 @@ public class MainWindow extends JFrame {
 		mnFile.add(mntmExit);
 		
 
-		
+		ImageIcon img = new ImageIcon("res/library-icon.png");
+		this.setIconImage(img.getImage());
 		loginPanel = new LoginPanel(this, session);
 		getContentPane().add(loginPanel, BorderLayout.CENTER);
 	}

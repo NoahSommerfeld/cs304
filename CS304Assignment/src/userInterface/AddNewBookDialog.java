@@ -10,6 +10,7 @@ import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -54,6 +55,8 @@ public class AddNewBookDialog extends JDialog {
 		setTitle("Add New ");
 		this.parent = parent;
 		this.mySession = session;
+		ImageIcon img = new ImageIcon("res/library-icon.png");
+		this.setIconImage(img.getImage());
 		setBounds(100, 100, 300, 250);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
