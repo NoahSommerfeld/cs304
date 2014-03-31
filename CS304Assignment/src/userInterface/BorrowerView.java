@@ -35,14 +35,11 @@ public class BorrowerView extends ContentPane {
 	public BorrowerView(MainWindow parent, Controller session, String username, String password) {
 		
 		super(parent, session, username, password);
-		try{
+		
 			/*public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
-			loggedInUser = mySession.getUser(this.userName, this.password);
-		}
-		catch(UserCreationException e){
-			
-		}
+		loggedInUser = mySession.getUser(this.userName, this.password);
+		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.window);
 		mainPanel.setMinimumSize(new Dimension(100,100));
