@@ -121,7 +121,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        	String[][] toAdd = null;
 	        	if(subjectFilter.equals("Hold Requests")){
 	        		toAdd = mySession.getHoldRequests(parent.getLoggedInUser());
-	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+	        	
 	        		removeAllColoumnsFromTable();
 	        		
 	    	        table.setModel(new DefaultTableModel(
@@ -141,7 +141,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		{null, null, null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        		"Yo", "Momma's", "Hold", "Requests", "OverdDFue?"
+	    	        			"Call Number", "Title", "Hold Requested", "Status", "Book Due"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
@@ -160,7 +160,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        	}
 	        	else if(subjectFilter.equals("Loaned books")){
 	        		toAdd = mySession.getLoanedBooks(parent.getLoggedInUser());
-	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+	        	
 	        		removeAllColoumnsFromTable();
 	        		
 	    	        table.setModel(new DefaultTableModel(
@@ -180,7 +180,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		{null, null, null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        		"Daniel's", "stupid", "loanedbooks", "table", "OverdDFue?"
+	    	        		"Call Number", "Title", "Checked Out", "Due", "OverDue?"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
@@ -218,7 +218,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		{null, null, null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        		"Noah's", "awesome", "Outstanding", "fines", "OverdDFue?"
+	    	        			"Call Number", "Title", "Book Due", "Returned", "Fine Amount"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
@@ -239,6 +239,8 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        	
 	        	
 	        	if(toAdd == null || toAdd.length ==0){
+	        		System.out.println("returning, no elements to put in chart");
+
 	        		return;
 	        	}
 	        	DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -246,15 +248,15 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        		model.removeRow(0);
 	        	}
 	        	
-	        	
+	        	System.out.println(toAdd[0].length);
 	        	for(String[] eee : toAdd){
-	        		if(Date.parse(eee[3])<System.currentTimeMillis()){
+	        		/*if(Date.parse(eee[3])<System.currentTimeMillis()){
 	        			eee[4] = "OVERDUE";
-	        		}
+	        		}*/
 	        		model.addRow(eee);
 	        	}
 		        
-	        	table.setRowSelectionInterval(1, 2);
+	        	
 		        
 	        }
 	    }
