@@ -279,7 +279,8 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 			ResultSet rs;
 			//book
 			
-			statement = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
+			statement = "INSERT INTO Book VALUES ('" 
+					+ newBook.getCallNumber() + "', '"
 					+ newBook.getISBN() + "', '"
 					+ newBook.getTitle() + "', '" 
 					+ newBook.getMainAuthor() + "', '"
@@ -306,7 +307,8 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					
 					//CopyNo
 					
-					statement = "INSERT INTO BookCopy VALUES (CN_counter.curVal, '" 
+					statement = "INSERT INTO BookCopy VALUES ('" 
+							+ newBook.getCallNumber() + "', '" 
 							+ newBook.getCopyNo() + "')";
 				
 					sql(statement, SQLType.insert);
@@ -314,14 +316,15 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					//Author
 
 					//Add Main Author
-					statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
+					statement = "INSERT INTO HasAuthor VALUES ('" 
+							+ newBook.getCallNumber() + "', '"
 							+ newBook.getMainAuthor() + "')";
 					
 					sql(statement, SQLType.insert);
 						
 					//Add Secondary Authors
 					for(String s : newBook.getAuthors()){
-						statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '" + s +"')";
+						statement = "INSERT INTO HasAuthor VALUES ('" + newBook.getCallNumber() + "', '" + s +"')";
 						System.out.println(statement);
 						sql(statement, SQLType.insert);
 					}
@@ -329,7 +332,7 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					//Subject
 					
 					for(String s : newBook.getSubjects()){
-						statement = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '" + s +"')";
+						statement = "INSERT INTO HasSubject VALUES ('" + newBook.getCallNumber() + "', '" + s +"')";
 						System.out.println(statement);
 						sql(statement, SQLType.insert);
 					}
@@ -349,7 +352,8 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 				}
 				
 				else{
-					statement = "INSERT INTO BookCopy VALUES (CN_counter.curVal, '" 
+					statement = "INSERT INTO BookCopy VALUES ('" 
+								+ newBook.getCallNumber() + "', '" 
 								+ newBook.getCopyNo() + "')";
 					
 					sql(statement, SQLType.insert);
@@ -478,7 +482,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	}
 
 
-public void processPayment(int bid, double paymentAmount, int creditCardNo){
+public void processPayment(int bid, double paymentAmount, int creditCardNo) throws SQLException{
 	
 	
 	
