@@ -272,7 +272,7 @@ public class Controller {
 	 * @throws BadCopyNumberException - if the copy number is already taken. 
 	 */
 	
-public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
+public int createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 		try{
 			String statement;
 			ResultSet rs;
@@ -300,7 +300,46 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 				rs.next();
 				
 				int copyCount = rs.getInt(1);
-				if( copyCount >= 1){
+				
+				if (copyCount == 0){
+					
+					//CopyNo
+					
+					statement = "INSERT INTO BookCopy VALUES (CN_counter.curVal, '" 
+							+ newBook.getCopyNo() + "')";
+				
+					sql(statement, SQLType.insert);
+
+					//Author
+
+					statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
+							+ newBook.getMainAuthor() + "')";
+					
+					sql(statement, SQLType.insert);
+					
+					ArrayList secAuthors = newBook.getAuthors();
+						
+				/*	for(String s : newBook.getAuthors()){
+						statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
+					}
+					while(){
+
+						System.out.println(statement);
+						
+					}
+					
+					//Subject
+					
+					while(){
+		//				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
+				//				+ newBook.) + "')";
+
+						System.out.println(statement);
+					}*/
+					
+				}else 
+					
+					if( copyCount >= 1){
 					statement = "select max(copyNo) from bookCopy where callNumber='" + newBook.getCallNumber() + "')";
 					rs = sql(statement, SQLType.query);
 					rs.next();
@@ -309,7 +348,9 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 					
 					String message = "The copy number" + newBook.getCopyNo() + "does not exist. The next available copy number is: ";
 					throw new BadCopyNumberException(message,copyCount++);
-				}else{
+				}
+				
+				else{
 					statement = "INSERT INTO BookCopy VALUES (CN_counter.curVal, '" 
 								+ newBook.getCopyNo() + "')";
 					
@@ -347,7 +388,7 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 				
 				updateMessage("Adding User", true);
 				
-				
+				return newBook.getCopyNo();
 				
 				
 			}catch(BadCopyNumberException BDCPY){
