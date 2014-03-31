@@ -12,12 +12,14 @@ import java.util.List;
 import model.Book;
 import model.SearchAbleKeywords;
 import model.UserType;
+import model.QueryType;
 import exceptions.BadCallNumberException;
 import exceptions.BadCopyNumberException;
 import exceptions.BadUserIDException;
 import exceptions.FineAssessedException;
 import exceptions.NotCheckedInException;
 import exceptions.UserCreationException;
+import exceptions.UserLoginException;
 
 public class Controller {
 	private Connection con;
@@ -565,24 +567,58 @@ stmt = con.createStatement();
 		return date;
 	}
 	
-	public boolean login (String username, String Password, UserType userType) {
+	public boolean login (String username, String Password, UserType sectionType) throws SQLException, UserLoginException {
 		String query;
-	/*	Statement stmt = con.createStatement();
-		query = "select count(*) from borrower where where bid = '" + username + "' and password = '" + Password + "'";
-		ResultSet rs = query(query);
-
-		int count = rs.getInt(1);
-		if (count != 1){
+		ResultSet rs;
+		boolean legit = false;
+		try{
+			Statement stmt = con.createStatement();
 			
+			query = "select count(*) from borrower where bid = '"+ username +"'";
+			rs = query(query, QueryType.query );
+
+			rs.next();
+			int count = rs.getInt(1);
+
+			//Check if user is in the system
+			if(count < 1){
+				throw new UserLoginException("There is no record of this user in our library. Please be sure to type your Library Number correctly.");
+			}else if(count >1){
+				throw new UserLoginException("Duplicate users in the system. Please consult a staff member before loggin in.");
+			}else{
+				
+				query = "select * from borrower where bid = '" + username + "'";
+				
+				rs = stmt.executeQuery(query);
+				rs = query(query, QueryType.query );
+
+				rs.next();
+				
+				//Check if the user has the correct login information
+				String currUserPass = rs.getString("password");
+				if (currUserPass != Password){
+					throw new UserLoginException("Incorrect password. Please try again.");
+				}else{
+					
+					//Check If user has access to specific section
+					String currUserType = rs.getString("type");
+					if(UserType.librarian == UserType.valueOf(currUserType)){
+						legit = true;
+					}else if(UserType.valueOf(currUserType) == UserType.clerk && sectionType != UserType.librarian){
+						legit = true;
+					}else if(UserType.valueOf(currUserType) == UserType.borrower && sectionType == UserType.borrower){
+						legit = true;
+					}else{
+						throw new UserLoginException("You are trying to access a section you do not have permissions for. Please select another section.");
+					}
+				}
+			}	
+		}catch(UserLoginException e){
+			throw e;
 		}
 		
-		query = "select type, count(bid) from borrower where bid = '" + username + "' and password = '" + Password + "'";
-		rs = stmt.executeQuery(query);
-		
-		rs.next();
-				
-		*/
-		return true;
+			
+		return legit;
 	}
 
 	public User getUser(String userName, String password) throws SQLException {
@@ -621,17 +657,20 @@ stmt = con.createStatement();
 	 * @return The result of the query in a ResultSet
 	 * @throws SQLException - if you screwed up the query. Jerk. 
 	 */
-/*	public ResultSet query(String query) throws SQLException{
+	public ResultSet query(String query, QueryType type) throws SQLException{
 		
 		try {
 			Statement stmt = con.createStatement();
 			
+			if(type == QueryType.query){
 			ResultSet rs = stmt.executeQuery(query);
+			return rs;
 			
-		} 
-		catch (UserCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			}else if(type == QueryType.insert){
+				
+			}else if(type == QueryType.delete){
+				
+			}
 			return null;
 		}
 		catch (SQLException ex)
@@ -649,7 +688,7 @@ stmt = con.createStatement();
 		    }
 		    throw ex;
 		}
-	}*/
+	}
 	
 	
 }
