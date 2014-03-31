@@ -38,8 +38,7 @@ public class BorrowerView extends ContentPane {
 		try{
 			/*public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
-			loggedInUser = new User("2201 Lower Mall", "1234", "Bob Smith", "202921", "test@gmail.com",
-					"123344556", "Januray 17, 2015", UserType.borrower);
+			loggedInUser = mySession.getUser(this.userName, this.password);
 		}
 		catch(UserCreationException e){
 			
