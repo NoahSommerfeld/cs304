@@ -176,9 +176,7 @@ public class Controller {
 		try{
 			ResultSet rs = stmt.executeQuery(query);
 			rs.next();
-			ResultSetMetaData rsmd = rs.getMetaData();
 			int numUsers = rs.getInt(1);
-			System.out.println(numUsers);
 			return numUsers;
 			
 		}catch (SQLException ex)
@@ -342,9 +340,12 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 stmt = con.createStatement();
 		
-		//try{
-
-			String query = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
+		try{
+			String query;
+			ResultSet rs;
+			//book
+			
+			query = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
 					+ newBook.getISBN() + "', '"
 					+ newBook.getTitle() + "', '" + newBook.getMainAuthor() + "', "
 					+ newBook.getPublisher() + ", '" + newBook.getYear() + "')";
@@ -353,9 +354,29 @@ stmt = con.createStatement();
 			
 			stmt.executeUpdate(query);
 			
+			//Copy Number
 			
+			try{
+				
+				//Check if 
+				query = "select count(*) from BookCopy where copyNo=" + newBook.getCopyNo();
+				rs = stmt.executeQuery(query);
+				rs.next();
+				int copyCount = rs.getInt(1);
+				if( copyCount == 1){
+					String message = "The copy number" + newBook.getCopyNo() + "does not exist. The next available copy number is: ";
+					throw new BadCopyNumberException(message,copyCount++);
+				}
+				
+				
+				
+			}catch(BadCopyNumberException BDCPY){
+				throw BDCPY;
+			}
+/*			
+			//Author
 			
-			/*while(){
+			while(){
 				query = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
 						+ newBook.getMainAuthor() + "')";
 	
@@ -364,6 +385,8 @@ stmt = con.createStatement();
 				stmt.executeUpdate(query);
 			}
 			
+			//Subject
+			
 			while(){
 				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
 						+ newBook.getSubject() + "')";
@@ -371,7 +394,7 @@ stmt = con.createStatement();
 				System.out.println(query);
 				
 				stmt.executeUpdate(query);
-			}
+			}*/
 			
 			
 			updateMessage("Adding User", true);
@@ -379,10 +402,10 @@ stmt = con.createStatement();
 			
 			
 		}
-		catch (IOException e)
-		{
-		    System.out.println("IOException!");
-		}
+//		catch (IOException e)
+//		{
+//		    System.out.println("IOException!");
+//		}
 
 		catch (SQLException ex)
 		{
@@ -398,7 +421,7 @@ stmt = con.createStatement();
 			throw ex2;
 		    }
 		    throw ex;
-		}*/
+		}
 	}
 	
 	/**
@@ -510,20 +533,20 @@ stmt = con.createStatement();
 	}
 	
 	/**
-	 * String ["Call Number", "Title", "Book Due", "Returned", "Fine Amount"]
+	 * String ["Fine ID", "Title", "Book Due", "Returned", "Fine Amount"]
 	 * @param loggedInUser
 	 * @return
 	 */
 
 	public String[][] getOutstandingFines(User loggedInUser) {
 			String[][] date = { 
-				{"A2NRBS2", "Long Island Ice Tea",
+				{"22", "Long Island Ice Tea",
 		     "January 15, 2014", "April 30, 2014", "$25.03"},
-		    {"34534q5w", "Noah>Daniel, inc", 
+		    {"34534", "Noah>Daniel, inc", 
 		     "March 25, 2014", "April 25, 2014", "$26.02"},
-		    {"A6 FGD 234", "That time I saw a ghost",
+		    {"6234", "That time I saw a ghost",
 		     "March 10, 2014", "March 17, 2014", "$1.03"},
-		    {"43A dfgdfg", "Smokin the While Elephant",
+		    {"43", "Smokin the While Elephant",
 		     "March 12, 2014", "March 16, 2014", "$5.01"}
 	};
 		return date;
