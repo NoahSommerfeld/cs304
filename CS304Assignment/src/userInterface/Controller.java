@@ -170,12 +170,13 @@ public class Controller {
 
 		stmt = con.createStatement();
 		
-		String query = "SELECT * FROM Borrower";
+		String query = "SELECT count(*) FROM Borrower";
 		
 		try{
 			ResultSet rs = stmt.executeQuery(query);
+			rs.next();
 			ResultSetMetaData rsmd = rs.getMetaData();
-			int numUsers = rsmd.getColumnCount();
+			int numUsers = rs.getInt(1);
 			System.out.println(numUsers);
 			return numUsers;
 			
