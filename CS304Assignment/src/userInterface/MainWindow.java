@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JPanel;
 
@@ -22,7 +24,7 @@ import java.awt.BorderLayout;
 import java.sql.SQLException;
 
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements ComponentListener{
 	
 	private Controller session;
 	private JPanel loginPanel;
@@ -30,7 +32,41 @@ public class MainWindow extends JFrame {
 	private static Controller staticSession;
 	private int userBID;
 	private String loggedInUserPassword;
-	
+	static final int WIDTH = 400;
+    static final int HEIGHT = 400;
+    static final int MIN_WIDTH = 800;
+    static final int MIN_HEIGHT = 600;
+    
+
+    public void componentResized(ComponentEvent e) {
+       int width = getWidth();
+       int height = getHeight();
+     //we check if either the width
+     //or the height are below minimum
+     boolean resize = false;
+       if (width < MIN_WIDTH) {
+            resize = true;
+            width = MIN_WIDTH;
+     }
+       if (height < MIN_HEIGHT) {
+            resize = true;
+            height = MIN_HEIGHT;
+       }
+     if (resize) {
+           setSize(width, height);
+     }
+    }
+    public void componentMoved(ComponentEvent e) {
+    }
+    public void componentShown(ComponentEvent e) {
+    }
+    public void componentHidden(ComponentEvent e) {
+    }
+    /*public static void main(String args[]) {
+            MinSizeFrame f = new MinSizeFrame();
+            f.setVisible(true);
+    }
+}*/
 	/**
 	 * Launch the application.
 	 */
@@ -56,6 +92,7 @@ public class MainWindow extends JFrame {
 			System.exit(1);
 		}
 		MainWindow tempWindow = new MainWindow(staticSession);
+		tempWindow.setMinimumSize(new Dimension(MIN_WIDTH,MIN_HEIGHT));
 		tempWindow.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentHidden(ComponentEvent e) {
@@ -97,6 +134,8 @@ public class MainWindow extends JFrame {
 		session = theSession;
 		session.registerAsMainWindow(this);
 		this.setVisible(false);
+		this.setSize(WIDTH, HEIGHT);
+        addComponentListener(this);
 		initialize();
 	}
 

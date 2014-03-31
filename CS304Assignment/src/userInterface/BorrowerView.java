@@ -70,13 +70,15 @@ public class BorrowerView extends ContentPane {
 		mainPanel.add(panel_3, BorderLayout.EAST);
 		
 		panel_4 = new JPanel();
+		
 		mainPanel.add(panel_4, BorderLayout.CENTER);
+		
 		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(111dlu;default)"),},
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("50px"),},
 			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("fill:max(125dlu;default)"),}));
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("50px"),}));
 		
 		panel = new JPanel();
 		add(panel, BorderLayout.WEST);

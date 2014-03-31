@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
@@ -199,6 +200,9 @@ public class AddNewUserDialog extends JDialog {
 							JOptionPane.showMessageDialog(getInstance(), ue.getMessage());
 						}
 						catch(SQLException e1){
+							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
 							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
 						}
 					}

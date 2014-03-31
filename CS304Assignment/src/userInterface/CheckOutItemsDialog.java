@@ -188,7 +188,7 @@ public class CheckOutItemsDialog extends JDialog {
 						
 						for(int i = 0; i<numberOfBooks; i++){
 							try {
-								mySession.checkOut((String)listModel.get(i), txtBidshouldWe.getText());
+								mySession.checkOut((String)listModel.get(i), Integer.parseInt(txtBidshouldWe.getText()));
 							} catch (SQLException e1) {
 								JOptionPane.showMessageDialog(getInstance(), "SQLException");
 								//return; //TODO wanring! If we encounter errors half way through the list, we'd probably have to revert it.
@@ -207,6 +207,9 @@ public class CheckOutItemsDialog extends JDialog {
 								 JOptionPane.showMessageDialog(getInstance(), "User Not Found in the DB");
 								return;
 								}
+							catch(IllegalArgumentException e5){
+								 JOptionPane.showMessageDialog(getInstance(), "BID not an int");
+							}
 						}
 						//TODO this is a terrible idea. If there's an error, should abandon everything.
 						 JOptionPane.showMessageDialog(getInstance(), "Items checked out (except for those with errors)");
