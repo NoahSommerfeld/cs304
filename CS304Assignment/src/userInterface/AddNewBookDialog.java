@@ -170,16 +170,19 @@ public class AddNewBookDialog extends JDialog {
 		}
 		{
 			txtCallNo = new JTextField();
+			txtCallNo.setText("A2 4.35");
 			//txtBidshouldWe.setText("BID (should we autoGenerate?)");
 			contentPanel.add(txtCallNo, "2, 4, 5, 1, fill, default");
 			txtCallNo.setColumns(10);
 		}
 		{
 			JLabel lblCallNo = new JLabel("Call Number");
+			
 			contentPanel.add(lblCallNo, "8, 4");
 		}
 		{
 			txtISBN = new JTextField();
+			txtISBN.setText("34534");
 			//txtName.setText("Name");
 			contentPanel.add(txtISBN, "2, 6, 5, 1, fill, default");
 			txtISBN.setColumns(10);
@@ -190,7 +193,7 @@ public class AddNewBookDialog extends JDialog {
 		}
 		{
 			txtTitle = new JTextField();
-			//txtPassword.setText("Password");
+			txtTitle.setText("Bobs Guide");
 			contentPanel.add(txtTitle, "2, 8, 5, 1, fill, default");
 			txtTitle.setColumns(10);
 		}
@@ -200,7 +203,7 @@ public class AddNewBookDialog extends JDialog {
 		}
 		{
 			txtAuthor = new JTextField();
-			//txtAddress.setText("Address");
+			txtAuthor.setText("Bob");
 			contentPanel.add(txtAuthor, "2, 10, 5, 1, fill, default");
 			txtAuthor.setColumns(10);
 		}
@@ -210,7 +213,7 @@ public class AddNewBookDialog extends JDialog {
 		}
 		{
 			txtPublisher = new JTextField();
-			//txtPhoneNumber.setText("Phone Number");
+			txtPublisher.setText("Random House");
 			contentPanel.add(txtPublisher, "2, 12, 5, 1, fill, default");
 			txtPublisher.setColumns(10);
 		}
@@ -220,7 +223,7 @@ public class AddNewBookDialog extends JDialog {
 		}
 		{
 			txtYear = new JTextField();
-			//txtTxtboxemailaddress.setText("txtBoxEmailAddress");
+			txtYear.setText("1992");
 			contentPanel.add(txtYear, "2, 14, 5, 1, fill, default");
 			txtYear.setColumns(10);
 		}

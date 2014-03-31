@@ -31,6 +31,10 @@ import exceptions.UserLoginException;
 public class Controller {
 	private Connection con;
 	private Statement stmt;
+	private final String ON_HOLD = "on-hold";
+	private final String IN = "in";
+	private final String OUT = "out";
+	
 	
 	private MainWindow mainWindow;
 	
@@ -283,7 +287,7 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 				
 				//Check if there is a 
 				statement = "select count(*) from BookCopy where callnumber ='" 
-							+ newBook.getCallNumber() + "' and copyNo=" + newBook.getCopyNo()+")";
+							+ newBook.getCallNumber() + "' and copyNo=" + newBook.getCopyNo();
 				rs = sql(statement, SQLType.query);
 				rs.next();
 				
@@ -298,11 +302,11 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 							+ newBook.getISBN() + ", '"
 							+ newBook.getTitle() + "', '" 
 							+ newBook.getMainAuthor() + "', '"
-							+ newBook.getPublisher() + ", '" 
+							+ newBook.getPublisher() + "', " 
 							+ newBook.getYear() + ")";
 					
 					System.out.println(statement);
-					
+					System.out.println(newBook.getCopyNo());
 					sql(statement, SQLType.insert);
 					
 					
@@ -310,27 +314,28 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					//CopyNo
 					
 					statement = "INSERT INTO BookCopy VALUES ('" 
-							+ newBook.getCallNumber() + "', " 
-							+ newBook.getCopyNo() + ")";
+							+ newBook.getCallNumber() + "'," 
+							+ newBook.getCopyNo() + ",'in')";
 				
+					System.out.println(statement);
 					sql(statement, SQLType.insert);
-
+					System.out.println(statement);
 					//Author
 
 					//Add Main Author
 					statement = "INSERT INTO HasAuthor VALUES ('" 
 							+ newBook.getCallNumber() + "', '"
 							+ newBook.getMainAuthor() + "')";
-					
+					System.out.println(statement);
 					sql(statement, SQLType.insert);
-						
+						System.out.println("Size: " + newBook.getAuthors().size());
 					//Add Secondary Authors
 					for(String s : newBook.getAuthors()){
 						statement = "INSERT INTO HasAuthor VALUES ('" + newBook.getCallNumber() + "', '" + s +"')";
 						System.out.println(statement);
 						sql(statement, SQLType.insert);
 					}
-					
+
 					//Subject
 					
 					for(String s : newBook.getSubjects()){
