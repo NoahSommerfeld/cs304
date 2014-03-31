@@ -35,6 +35,12 @@ insert into BorrowerType Values
 ('librarian',NULL);
 insert into BorrowerType Values
 ('borrower',NULL);
+insert into BorrowerType Values
+('student',NULL);
+insert into BorrowerType Values
+('faculty',NULL);
+insert into BorrowerType Values
+('staff',NULL);
 
 
 
@@ -168,3 +174,5 @@ ADD Constraint fk_fine
 FOREIGN KEY(borid)
 REFERENCES Borrowing(borid)
 ;
+
+//INSERT

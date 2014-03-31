@@ -7,6 +7,7 @@ package userInterface;
 import java.io.IOException;
 import java.security.interfaces.RSAKey;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class Controller {
 	//			- update message to return bid
 	
 	
-	public void createNewUser(User newUser) throws SQLException, ParseException{
+	public int createNewUser(User newUser) throws SQLException, ParseException{
 		
 		stmt = con.createStatement();
 		
@@ -100,6 +101,12 @@ public class Controller {
 			stmt.executeUpdate(query);
 
 			updateMessage("Adding User", true);
+			
+			String newQuery = "SELECT BID from Borrower where sinOrStNo = " + newUser.getSinOrStNo();
+			
+			ResultSet rs = stmt.executeQuery(newQuery);
+			rs.next();
+			return rs.getInt(1);
 			
 			
 			
@@ -738,9 +745,12 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 		mainWindow.getMyContentPane().setStatusLbl(message);
 	}
 
-	public Date formatDate(Date oldDate) throws ParseException{
-		String oldString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(oldDate);
-		Date newDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldString);
+	public String formatDate(Date oldDate) throws ParseException{
+		DateFormat temp = new SimpleDateFormat("dd/MMM/YYYY");
+		String newDate = temp.format(oldDate);
+		//String oldString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(oldDate);
+		//Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(oldString);
+		//System.out.println(newDate);
 		return newDate;
 	}
 	
