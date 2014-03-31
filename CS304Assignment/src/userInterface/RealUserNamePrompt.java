@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import exceptions.UserLoginException;
 import model.UserType;
 
 
@@ -40,21 +41,26 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 
 		System.out.println("Buton pressed");
 		// try{
-			if(session.login(usernameField.getText(), String.valueOf(passwordField.getPassword()), neededType)){
-				System.out.println("login accepted");
-				parent.setUNPW(usernameField.getText(), String.valueOf(passwordField.getPassword()));
-				parent.loginGo(neededType);
-				this.setVisible(false);
-				mainFrame.setVisible(false);
+			try {
+				if(session.login(usernameField.getText(), String.valueOf(passwordField.getPassword()), neededType)){
+					System.out.println("login accepted");
+					parent.setUNPW(usernameField.getText(), String.valueOf(passwordField.getPassword()));
+					parent.loginGo(neededType);
+					this.setVisible(false);
+					mainFrame.setVisible(false);
 
-				mainFrame.dispose();
-				this.dispose();
-				
-			}
-			else{
-				JOptionPane.showMessageDialog(this, "Nope, not logged in");
-				passwordField.setText("");
-				return;
+					mainFrame.dispose();
+					this.dispose();
+					
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "Nope, not logged in");
+					passwordField.setText("");
+					return;
+				}
+			} catch (HeadlessException | SQLException | UserLoginException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			
 			 
