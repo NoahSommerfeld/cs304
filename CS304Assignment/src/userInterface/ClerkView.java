@@ -1,6 +1,7 @@
 package userInterface;
 
 import javax.swing.JDialog;
+import java.awt.Dialog;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -61,7 +62,7 @@ public class ClerkView extends ContentPane {
 						checkOutItems.dispose();
 					}
 					checkOutItems = new CheckOutItemsDialog(getThisSession(), getMySession());
-					
+					checkOutItems.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 					
 					checkOutItems.setVisible(true);
 					}
@@ -78,8 +79,8 @@ public class ClerkView extends ContentPane {
 				addNewuserDialog.dispose();
 			}
 				addNewuserDialog = new AddNewUserDialog(getThisSession(), getMySession());
-			
-			
+				
+				addNewuserDialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				addNewuserDialog.setVisible(true);
 			}
 		});
@@ -95,7 +96,7 @@ public class ClerkView extends ContentPane {
 					processReturnDialog.dispose();
 				}
 				processReturnDialog = new ProcessReturnDialog(getThisSession(), getMySession());
-				
+				processReturnDialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				
 				processReturnDialog.setVisible(true);
 				}

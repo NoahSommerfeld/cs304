@@ -2,6 +2,7 @@ package userInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,6 +75,7 @@ public class AddNewBookDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddNewBookDialog(LibrarianView parent, Controller session) {
+		
 		setTitle("Add New ");
 		this.parent = parent;
 		this.mySession = session;

@@ -118,7 +118,9 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 			        	return;
 			        }
 			        
-					PayFineDialog temp = new PayFineDialog(getInstance(), mySession, getSelectedFID(), parent.getLoggedInUser().getName());
+					PayFineDialog temp = new PayFineDialog(getInstance(), mySession, getSelectedFID(), "Bob");//parent.getLoggedInUser().getName());
+					temp.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+					
 			        temp.setVisible(true);
 				}
 			});
@@ -342,5 +344,9 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    		return -1;
 	    	}
 	    	
+	    }
+	    
+	    public int getLoggedInUserBID(){
+	    	return parent.getLoggedInUserBID();
 	    }
 }

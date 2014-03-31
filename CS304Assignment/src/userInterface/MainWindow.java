@@ -151,6 +151,8 @@ public class MainWindow extends JFrame {
 	}
 	public void displayClerkPanel(){
 		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.clerk);
+		ImageIcon img = new ImageIcon("res/library-icon.png");
+		tempWindow.setIconImage(img.getImage());
 
 		}
 	
@@ -167,7 +169,8 @@ public class MainWindow extends JFrame {
 	
 	public void displayBorrowerPanel(){
 		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.borrower);
-	
+		ImageIcon img = new ImageIcon("res/library-icon.png");
+		tempWindow.setIconImage(img.getImage());
 	}
 	public void borrowerGo(){
 		removeCurrentContent();
@@ -182,7 +185,8 @@ this.repaint();
 	
 	public void displayLibrarianPanel(){
 		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.librarian);
-	
+		ImageIcon img = new ImageIcon("res/library-icon.png");
+		tempWindow.setIconImage(img.getImage());
 		
 	}
 	

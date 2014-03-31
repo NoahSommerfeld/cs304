@@ -121,6 +121,10 @@ public class BorrowerView extends ContentPane {
 		//TODO put any saving methods here. Maybe DB.commit?
 		
 	}
+	
+	public int getLoggedInUserBID(){
+		return this.userBID;
+	}
 
 	@Override
 	protected UserType getNeededUserType() {

@@ -33,7 +33,7 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 		this.usernameField.setText("2");
 		this.neededType = neededType;
 		ImageIcon img = new ImageIcon("res/library-icon.png");
-		super.setIconImage(img.getImage());
+		setIconImage(img.getImage());
 		// TODO Auto-generated constructor stub
 	}
 

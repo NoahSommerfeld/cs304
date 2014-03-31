@@ -111,6 +111,10 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	        }
 	    }
 	    
+	    public int getLoggedInUserBID(){
+	    	return this.getLoggedInUserBID();
+	    }
+	    
 	    class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	        	listModel.clear();

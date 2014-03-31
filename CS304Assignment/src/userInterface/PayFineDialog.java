@@ -49,8 +49,8 @@ public class PayFineDialog extends JDialog {
 	private ButtonGroup typeButtonGroup;
 	private int fineID;
 	private JComboBox cmboCardType;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textCardNumber;
+	private JTextField textFineAmount;
 	private String borrowerName;
 	
 	/**
@@ -109,6 +109,7 @@ public class PayFineDialog extends JDialog {
 		}
 		{
 			txtBookTitle = new JTextField();
+			txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtBookTitle.setEditable(false);
 			//txtPassword.setText("Password");
 			contentPanel.add(txtBookTitle, "2, 4, 5, 1, fill, default");
@@ -120,6 +121,7 @@ public class PayFineDialog extends JDialog {
 		}
 		{
 			txtIssueDate = new JTextField();
+			txtIssueDate.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtIssueDate.setEditable(false);
 			//txtAddress.setText("Address");
 			contentPanel.add(txtIssueDate, "2, 6, 5, 1, fill, default");
@@ -131,6 +133,7 @@ public class PayFineDialog extends JDialog {
 		}
 		{
 			txtBorrowerName = new JTextField();
+			txtBorrowerName.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtBorrowerName.setEditable(false);
 			txtBorrowerName.setText(this.borrowerName);
 			//txtPhoneNumber.setText("Phone Number");
@@ -143,6 +146,7 @@ public class PayFineDialog extends JDialog {
 		}
 		{
 			txtAmountDue = new JTextField();
+			txtAmountDue.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtAmountDue.setEditable(false);
 			//txtTxtboxemailaddress.setText("txtBoxEmailAddress");
 			contentPanel.add(txtAmountDue, "2, 10, 5, 1, fill, default");
@@ -158,20 +162,25 @@ public class PayFineDialog extends JDialog {
 			contentPanel.add(cmboCardType, "4, 14, fill, default");
 		}
 		{
-			textField = new JTextField();
-			textField.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(textField, "6, 14, fill, default");
-			textField.setColumns(10);
+			textCardNumber = new JTextField();
+			textCardNumber.setHorizontalAlignment(SwingConstants.RIGHT);
+			contentPanel.add(textCardNumber, "6, 14, fill, default");
+			textCardNumber.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Card Number");
 			contentPanel.add(lblNewLabel, "8, 14");
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(textField_1, "6, 16, fill, default");
-			textField_1.setColumns(10);
+			JLabel lblDollarSign = new JLabel("$");
+			contentPanel.add(lblDollarSign, "4, 16, right, default");
+		}
+		{
+			textFineAmount = new JTextField();
+			textFineAmount.setEditable(false);
+			textFineAmount.setHorizontalAlignment(SwingConstants.RIGHT);
+			contentPanel.add(textFineAmount, "6, 16, fill, default");
+			textFineAmount.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Amount");
@@ -188,18 +197,17 @@ public class PayFineDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						try{
-							User newUser = turnIntoUser();
-
-							mySession.createNewUser(newUser);
-							JOptionPane.showMessageDialog(getInstance(), "New User Created");
+						/*try{
+							double payment = Double.parseDouble(textFineAmount.getText());
+							int BID = getInstance().parent.getLoggedInUserBID();
+							int creditCardNum = Integer.parseInt(textCardNumber.getText().replace(" ", ""));
+							//mySession.processPayment(BID, payment, creditCardNum);
+							JOptionPane.showMessageDialog(getInstance(), "Payment Processed");
 							closeDialogBox();
-						}catch(UserCreationException ue){
-							JOptionPane.showMessageDialog(getInstance(), ue.getMessage());
 						}
 						catch(SQLException e1){
 							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
-						}
+						}*/
 					}
 				});
 				buttonPane.add(okButton);
