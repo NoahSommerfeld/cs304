@@ -420,6 +420,34 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 
 	}
 	
+
+/** DANIEL! 
+ * Please format like below (# in, # out, #hold) - TITLE. Next Due date if there's outs
+ * 
+ * @param selectedItem - Title, author, subject. 
+ * @param what the user is searching for 
+ * @return
+ * @throws SQLException - if you screwed up the query. Jerk. 
+ */
+public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String searchArgument) throws SQLException{
+	//I would reccomend doing several helper methods, one for each SearchAbleKeyword. 
+	ArrayList<String> results = new ArrayList<String>();
+	results.add("(1 in, 2 out, 1 hold) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
+	results.add("(3 in, 0 out, 0 hold) - Daniel's guide to the galaxy. All in");
+	results.add("(0 in, 2 out, 1 hold) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
+	
+	return results;
+	
+}
+
+
+public void processPayment(int bid, double paymentAmount, int creditCardNo){
+	
+}
+
+
+
+
 	/**
 	 * Returns the most popular books, and the number of times they've been
 	 * checked out. May need to modify this later from just titles. 
@@ -613,6 +641,7 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 		String statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
 		
 		ResultSet rs = query(statement, QueryType.query);
+		rs.next();
 		
 		String address = rs.getString("address");
 		String password = rs.getString("password");
@@ -630,31 +659,6 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 			
 	}
 
-	
-	/** DANIEL! 
-	 * Please format like below (# in, # out, #hold) - TITLE. Next Due date if there's outs
-	 * 
-	 * @param selectedItem - Title, author, subject. 
-	 * @param what the user is searching for 
-	 * @return
-	 * @throws SQLException - if you screwed up the query. Jerk. 
-	 */
-	public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String searchArgument) throws SQLException{
-		//I would reccomend doing several helper methods, one for each SearchAbleKeyword. 
-		ArrayList<String> results = new ArrayList<String>();
-		results.add("(1 in, 2 out, 1 hold) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
-		results.add("(3 in, 0 out, 0 hold) - Daniel's guide to the galaxy. All in");
-		results.add("(0 in, 2 out, 1 hold) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
-		
-		return results;
-		
-	}
-	
-	
-	public void processPayment(int bid, double paymentAmount, int creditCardNo){
-		
-	}
-	
 	
 	
 	
