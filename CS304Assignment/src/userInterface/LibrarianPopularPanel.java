@@ -28,9 +28,16 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	    private JButton searchButton;
 	  //  private JButton sendMessageButton;
 	    private JTextField employeeName;
+	    private JComboBox<String> numOfBooks;
+	    private JComboBox<String> comboBoxYear;
+	    private String defaultYearString = "year";
+	    private String defaultNoResults = "# of Results";
 
 	    public LibrarianPopularPanel(LibrarianView borrowerView, Controller mySession) {
 	        super(new BorderLayout());
+	        for(int i = 1; i<25; i++){
+	        	System.out.println(i);
+	        }
 	        parent = borrowerView;
 	        this.mySession = mySession;
 
@@ -67,8 +74,15 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	                                           BoxLayout.LINE_AXIS));
 	        buttonPane.add(searchButton);
 	        buttonPane.add(Box.createHorizontalStrut(5));
-	        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
-	        buttonPane.add(Box.createHorizontalStrut(5));
+	        
+	        comboBoxYear = new JComboBox();
+	        comboBoxYear.setModel(new DefaultComboBoxModel(new String[] {defaultYearString, "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961"}));
+	        buttonPane.add(comboBoxYear);
+	        
+	        numOfBooks = new JComboBox();
+	        numOfBooks.setModel(new DefaultComboBoxModel(new String[] {defaultNoResults, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"}));
+	    
+	        buttonPane.add(numOfBooks);
 	      // buttonPane.add(employeeName);
 	       // buttonPane.add(sendMessageButton);
 	        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
@@ -85,10 +99,21 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 
 	    class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
+	     
+	        	if(comboBoxYear.getSelectedItem().equals(defaultYearString)){
+	        		JOptionPane.showMessageDialog(parent, "Please Select Year");
+	        		return;
+	        	}
+	        	if(numOfBooks.getSelectedItem().equals(defaultNoResults)){
+	        		JOptionPane.showMessageDialog(parent, "Please Select Number of Results");
+	        		return;
+	        	}
+	        	
 	        	listModel.clear();
 	        	ArrayList<String> slackers = null;
+	        	
 				try {
-					slackers = (ArrayList<String>) mySession.getPopularBooks();
+					slackers = (ArrayList<String>) mySession.getPopularBooks(Integer.parseInt((String) comboBoxYear.getSelectedItem()), Integer.parseInt((String) numOfBooks.getSelectedItem()));
 				} catch (SQLException e1) {
 					//e1.printStackTrace();
 					JOptionPane.showMessageDialog(parent, e1.getMessage());
