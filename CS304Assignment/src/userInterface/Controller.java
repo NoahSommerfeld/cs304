@@ -606,7 +606,7 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 	
 	//TODO: Maybe implement user checks
 	
-	public User getUser(int bid) throws SQLException {
+	public User getUser(int bid) throws SQLException, UserCreationException {
 	
 		User user;
 		
@@ -614,21 +614,19 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 		
 		ResultSet rs = query(statement, QueryType.query);
 		
+		String address = rs.getString("address");
+		String password = rs.getString("password");
+		String name = rs.getString("name");
+		long phone = rs.getLong("phone");
+		String emailAddress = rs.getString("emailAddress");
+		long sinorstno = rs.getLong("sinorstno");
+		Date date = rs.getDate("expirydate");
+		UserType type = UserType.valueOf(rs.getString("type"));
 		
-		user = new User()
-		
-		int	currbid =				rs.getInt("bid");
-		String password=		
-		String name=				
-		Long phone=				
-		String emailAddress=		
-		Long sinOrStNo=			
-		Date expiryDate=			
-		UserType type=			
-		String address=			
-		
-		
-		return null;
+		user = new User(address,password,name,phone,
+				emailAddress,sinorstno,date,type);
+					
+		return user;
 			
 	}
 
@@ -651,6 +649,13 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 		return results;
 		
 	}
+	
+	
+	public void processPayment(int bid, double paymentAmount, int creditCardNo){
+		
+	}
+	
+	
 	
 	
 	/** 
