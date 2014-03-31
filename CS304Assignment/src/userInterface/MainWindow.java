@@ -150,7 +150,7 @@ public class MainWindow extends JFrame {
 		}
 	}
 	public void displayClerkPanel(){
-		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.borrower);
+		RealUserNamePrompt tempWindow = new RealUserNamePrompt(getSession(), this, UserType.clerk);
 
 		}
 	

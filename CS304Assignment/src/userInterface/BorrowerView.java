@@ -31,6 +31,7 @@ public class BorrowerView extends ContentPane {
 	private JPanel listContentPanel;
 	private JPanel panel_3;
 	private User loggedInUser;
+	private JPanel panel_4;
 	
 	public BorrowerView(MainWindow parent, Controller session, String username, String password) {
 		
@@ -64,6 +65,15 @@ public class BorrowerView extends ContentPane {
 		
 		panel_3 = new BorrowerAccountPanel(this, mySession);
 		mainPanel.add(panel_3, BorderLayout.EAST);
+		
+		panel_4 = new JPanel();
+		mainPanel.add(panel_4, BorderLayout.CENTER);
+		panel_4.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(111dlu;default)"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("fill:max(125dlu;default)"),}));
 		
 		panel = new JPanel();
 		add(panel, BorderLayout.WEST);
