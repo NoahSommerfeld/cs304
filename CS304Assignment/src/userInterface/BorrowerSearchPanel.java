@@ -14,6 +14,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.SearchAbleKeywords;
+
 public class BorrowerSearchPanel extends JPanel implements ListSelectionListener  {
 //Some code reverse engineered from http://docs.oracle.com/javase/tutorial/uiswing/examples/components/ListDemoProject/src/components/ListDemo.java
 	
@@ -24,9 +26,11 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	    private Controller mySession;
 	    private static final String sendMessageString = "Send Message";
 	    private static final String searchString = "Search";
-	    private JButton searchButton;
-	    private JButton sendMessageButton;
 	    private JTextField employeeName;
+	    private JTextField searchArgument;
+	    private JButton btnSearch;
+	    private JButton btbPlaceOnHold;
+	    private JComboBox cmboKeyWords;
 
 	    public BorrowerSearchPanel(BorrowerView borrowerView, Controller mySession) {
 	        super(new BorderLayout());
@@ -43,16 +47,6 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	        list.addListSelectionListener(this);
 	        list.setVisibleRowCount(5);
 	        JScrollPane listScrollPane = new JScrollPane(list);
-
-	        sendMessageButton = new JButton(sendMessageString);
-	        SendMessageListener sendMessageListener = new SendMessageListener(sendMessageButton);
-	        sendMessageButton.setActionCommand(sendMessageString);
-	        sendMessageButton.addActionListener(sendMessageListener);
-	        sendMessageButton.setEnabled(false);
-
-	        searchButton = new JButton(searchString);
-	        searchButton.setActionCommand(searchString);
-	        searchButton.addActionListener(new SearchListener());
 /*
 	        employeeName = new JTextField(10);
 	        employeeName.addActionListener(hireListener);
@@ -62,14 +56,6 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 
 	        //Create a panel that uses BoxLayout.
 	        JPanel buttonPane = new JPanel();
-	        buttonPane.setLayout(new BoxLayout(buttonPane,
-	                                           BoxLayout.LINE_AXIS));
-	        buttonPane.add(searchButton);
-	        buttonPane.add(Box.createHorizontalStrut(5));
-	        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
-	        buttonPane.add(Box.createHorizontalStrut(5));
-	      // buttonPane.add(employeeName);
-	        buttonPane.add(sendMessageButton);
 	        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
 	        add(listScrollPane, BorderLayout.CENTER);
@@ -80,24 +66,67 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	        JLabel lblSearchForBooks = new JLabel("Search For Books");
 	        panel.add(lblSearchForBooks);
 	        add(buttonPane, BorderLayout.PAGE_END);
+	        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.X_AXIS));
+	        
+	        JSplitPane splitPane = new JSplitPane();
+	        splitPane.setContinuousLayout(true);
+	        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+	        buttonPane.add(splitPane);
+	        
+	        JPanel panel_1 = new JPanel();
+	        splitPane.setLeftComponent(panel_1);
+	        
+	        cmboKeyWords = new JComboBox();
+	        cmboKeyWords.setModel(new DefaultComboBoxModel(new String[] {"Title", "Author", "Subject"}));
+	        cmboKeyWords.setSize(100, 75);
+	        panel_1.add(cmboKeyWords);
+	        
+	        searchArgument = new JTextField();
+	        panel_1.add(searchArgument);
+	        searchArgument.setColumns(10);
+	        
+	        JPanel panel_2 = new JPanel();
+	        splitPane.setRightComponent(panel_2);
+	        
+	        btnSearch = new JButton("Search");
+	        btnSearch.addActionListener(new SearchListener());
+	        panel_2.add(btnSearch);
+	        
+	        btbPlaceOnHold = new JButton("Place Holding");
+	        panel_2.add(btbPlaceOnHold);
 	    }
 
+	    //This method is required by ListSelectionListener.
+	    public void valueChanged(ListSelectionEvent e) {
+	        if (e.getValueIsAdjusting() == false) {
+
+	            if (list.getSelectedIndex() == -1) {
+	            //No selection, disable search button.
+	               // searchButton.setEnabled(false);
+
+	            } else {
+	            //Selection, enable the search button.
+	             //  searchButton.setEnabled(true);
+	            }
+	        }
+	    }
+	    
 	    class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	        	listModel.clear();
-	        	ArrayList<String> slackers = null;
+	        	ArrayList<String> searchResults = null;
 				try {
-					slackers = mySession.searchForOverDues();
+					searchResults	 = mySession.searchBooks(SearchAbleKeywords.valueOf((String)cmboKeyWords.getSelectedItem()), searchArgument.getText());
 				} catch (SQLException e1) {
 					//e1.printStackTrace();
 					JOptionPane.showMessageDialog(parent, e1.getMessage());
 					return;
 				}
-				if(slackers != null && slackers.size()>=1){
-	        	for(String s : slackers){
+				if(searchResults != null && searchResults.size()>=1){
+	        	for(String s : searchResults){
 	        		listModel.addElement(s);
 	        	}
-	        	sendMessageButton.setEnabled(true);
+	        	btbPlaceOnHold.setEnabled(true);
 				}
 		        /*listModel.addElement("Jane Doe");
 		        listModel.addElement("John Smith");
@@ -125,123 +154,6 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	        }
 	    }
 
-	    //This listener is shared by the text field and the hire button.
-	    class SendMessageListener implements ActionListener, DocumentListener {
-	    	
-	        private boolean alreadyEnabled = false;
-	        private JButton button;
-
-	        public SendMessageListener(JButton button) {
-	            this.button = button;
-	        }
-
-	        //Required by ActionListener.
-	        public void actionPerformed(ActionEvent e) {
-	        	int[] index = list.getSelectedIndices();
-	        	if(index == null || index.length == 0){
-	        		if(listModel.getSize() == 0){
-	        			sendMessageButton.setEnabled(false);
-	        		}
-	        		return;
-	        	}
-	        	
-	        	for(int i : index){
-	        		try{
-	        		mySession.sendLateMessage((String) listModel.get(i));
-	        		}
-	        		catch(SQLException e2){
-	        			JOptionPane.showMessageDialog(parent, e2.getMessage());
-	        		}
-	        		catch(Exception e3){
-	        			JOptionPane.showMessageDialog(parent, e3.getMessage());
-	        		}
-	        	}
-	        	list.clearSelection();
-	        	/*
-	            String name = employeeName.getText();
-
-	            //User didn't type in a unique name...
-	            if (name.equals("") || alreadyInList(name)) {
-	                Toolkit.getDefaultToolkit().beep();
-	                employeeName.requestFocusInWindow();
-	                employeeName.selectAll();
-	                return;
-	            }
-
-	            int index = list.getSelectedIndex(); //get selected index
-	            if (index == -1) { //no selection, so insert at beginning
-	                index = 0;
-	            } else {           //add after the selected item
-	                index++;
-	            }
-
-	            listModel.insertElementAt(employeeName.getText(), index);
-	            //If we just wanted to add to the end, we'd do this:
-	            //listModel.addElement(employeeName.getText());
-
-	            //Reset the text field.
-	            employeeName.requestFocusInWindow();
-	            employeeName.setText("");
-
-	            //Select the new item and make it visible.
-	            list.setSelectedIndex(index);
-	            list.ensureIndexIsVisible(index);*/
-	        }
-
-	        //This method tests for string equality. You could certainly
-	        //get more sophisticated about the algorithm.  For example,
-	        //you might want to ignore white space and capitalization.
-	        protected boolean alreadyInList(String name) {
-	            return listModel.contains(name);
-	        }
-
-	        //Required by DocumentListener.
-	        public void insertUpdate(DocumentEvent e) {
-	            enableButton();
-	        }
-
-	        //Required by DocumentListener.
-	        public void removeUpdate(DocumentEvent e) {
-	            handleEmptyTextField(e);
-	        }
-
-	        //Required by DocumentListener.
-	        public void changedUpdate(DocumentEvent e) {
-	            if (!handleEmptyTextField(e)) {
-	                enableButton();
-	            }
-	        }
-
-	        private void enableButton() {
-	            if (!alreadyEnabled) {
-	                button.setEnabled(true);
-	            }
-	        }
-
-	        private boolean handleEmptyTextField(DocumentEvent e) {
-	            if (e.getDocument().getLength() <= 0) {
-	                button.setEnabled(false);
-	                alreadyEnabled = false;
-	                return true;
-	            }
-	            return false;
-	        }
-	    }
-
-	    //This method is required by ListSelectionListener.
-	    public void valueChanged(ListSelectionEvent e) {
-	        if (e.getValueIsAdjusting() == false) {
-
-	            if (list.getSelectedIndex() == -1) {
-	            //No selection, disable search button.
-	                searchButton.setEnabled(false);
-
-	            } else {
-	            //Selection, enable the search button.
-	                searchButton.setEnabled(true);
-	            }
-	        }
-	    }
 
 	    /**
 	     * Create the GUI and show it.  For thread safety,

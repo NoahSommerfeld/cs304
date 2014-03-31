@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Book;
+import model.SearchAbleKeywords;
 import model.UserType;
 import exceptions.BadCallNumberException;
 import exceptions.BadCopyNumberException;
@@ -541,6 +542,26 @@ stmt = con.createStatement();
 			e.printStackTrace();
 			return null;
 		}
+		
+	}
+
+	
+	/** DANIEL! 
+	 * Please format like below (# in, # out, #hold) - TITLE. Next Due date if there's outs
+	 * 
+	 * @param selectedItem - Title, author, subject. 
+	 * @param what the user is searching for 
+	 * @return
+	 * @throws SQLException - if you screwed up the query. Jerk. 
+	 */
+	public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String searchArgument) throws SQLException{
+		//I would reccomend doing several helper methods, one for each SearchAbleKeyword. 
+		ArrayList<String> results = new ArrayList<String>();
+		results.add("(1 in, 2 out, 1 hold) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
+		results.add("(3 in, 0 out, 0 hold) - Daniel's guide to the galaxy. All in");
+		results.add("(0 in, 2 out, 1 hold) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
+		
+		return results;
 		
 	}
 	
