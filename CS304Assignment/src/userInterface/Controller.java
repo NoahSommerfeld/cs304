@@ -567,14 +567,14 @@ stmt = con.createStatement();
 		return date;
 	}
 	
-	public boolean login (String username, String Password, UserType sectionType) throws SQLException, UserLoginException {
+	public boolean login (int bid, String Password, UserType sectionType) throws SQLException, UserLoginException {
 		String query;
 		ResultSet rs;
 		boolean legit = false;
 		try{
 			Statement stmt = con.createStatement();
 			
-			query = "select count(*) from borrower where bid = '"+ username +"'";
+			query = "select count(*) from borrower where bid = '"+ bid +"'";
 			rs = query(query, QueryType.query );
 
 			rs.next();
@@ -587,7 +587,7 @@ stmt = con.createStatement();
 				throw new UserLoginException("Duplicate users in the system. Please consult a staff member before loggin in.");
 			}else{
 				
-				query = "select * from borrower where bid = '" + username + "'";
+				query = "select * from borrower where bid = '" + bid + "'";
 				
 				rs = stmt.executeQuery(query);
 				rs = query(query, QueryType.query );
