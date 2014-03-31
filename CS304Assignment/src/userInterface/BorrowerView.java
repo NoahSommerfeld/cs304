@@ -42,7 +42,12 @@ public class BorrowerView extends ContentPane {
 			/*public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
 		try {
-			loggedInUser = mySession.getUser(this.userBID); //assuming already logged in, don't need pw
+			try {
+				loggedInUser = mySession.getUser(this.userBID);
+			} catch (UserCreationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} //assuming already logged in, don't need pw
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(this, "Nope");
 		}
