@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import model.Book;
+import model.SQLType;
 import model.SearchAbleKeywords;
 import model.User;
 import model.UserType;
-import model.QueryType;
 import exceptions.BadCallNumberException;
 import exceptions.BadCopyNumberException;
 import exceptions.BadUserIDException;
@@ -140,7 +142,7 @@ public class Controller {
 			Statement stmt = con.createStatement();
 			
 			query = "select count(*) from borrower where bid = '"+ bid +"'";
-			rs = query(query, QueryType.query );
+			rs = sql(query, SQLType.query );
 
 			rs.next();
 			int count = rs.getInt(1);
@@ -155,7 +157,7 @@ public class Controller {
 				query = "select * from borrower where bid = '" + bid + "'";
 				
 				rs = stmt.executeQuery(query);
-				rs = query(query, QueryType.query );
+				rs = sql(query, SQLType.query );
 
 				rs.next();
 				
@@ -196,7 +198,7 @@ public class Controller {
 		
 		String statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
 		
-		ResultSet rs = query(statement, QueryType.query);
+		ResultSet rs = sql(statement, SQLType.query);
 		rs.next();
 		
 		String address = rs.getString("address");
@@ -272,33 +274,79 @@ public class Controller {
 	
 public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 		try{
-			String query;
+			String statement;
 			ResultSet rs;
 			//book
 			
-			query = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
+			statement = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
 					+ newBook.getISBN() + "', '"
 					+ newBook.getTitle() + "', '" 
 					+ newBook.getMainAuthor() + "', "
 					+ newBook.getPublisher() + ", '" 
 					+ newBook.getYear() + "')";
 			
-			System.out.println(query);
+			System.out.println(statement);
 			
-			stmt.executeUpdate(query);
+			sql(statement, SQLType.insert);
+			
+			
 			
 			//Copy Number
 			
-				
-				//Check if 
-				query = "select count(*) from BookCopy where copyNo=" + newBook.getCopyNo();
-				rs = query(query, QueryType.query);
+				//Check if there is a 
+				statement = "select count(*) from BookCopy where callnumber ='" 
+							+ newBook.getCallNumber() + "' copyNo='" + newBook.getCopyNo()+"')";
+				rs = sql(statement, SQLType.query);
 				rs.next();
+				
 				int copyCount = rs.getInt(1);
-				if( copyCount == 1){
+				if( copyCount >= 1){
+					statement = "select max(copyNo) from bookCopy where callNumber='" + newBook.getCallNumber() + "')";
+					rs = sql(statement, SQLType.query);
+					rs.next();
+					copyCount = rs.getInt(1);
+					
+					
 					String message = "The copy number" + newBook.getCopyNo() + "does not exist. The next available copy number is: ";
 					throw new BadCopyNumberException(message,copyCount++);
+				}else{
+					statement = "INSERT INTO BookCopy VALUES (CN_counter.curVal, '" 
+								+ newBook.getCopyNo() + "')";
+					
+					sql(statement, SQLType.insert);
 				}
+				
+
+				//Author
+
+				statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
+						+ newBook.getMainAuthor() + "')";
+				
+				sql(statement, SQLType.insert);
+				
+				ArrayList secAuthors = newBook.getAuthors();
+					
+			/*	for(String s : newBook.getAuthors()){
+					statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
+				}
+				while(){
+
+					System.out.println(statement);
+					
+				}
+				
+				//Subject
+				
+				while(){
+	//				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
+			//				+ newBook.) + "')";
+
+					System.out.println(statement);
+				}*/
+				
+				
+				updateMessage("Adding User", true);
+				
 				
 				
 				
@@ -306,34 +354,6 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 				throw BDCPY;
 			}
 			
-			//Author
-/*			
-			while(){
-				query = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
-						+ newBook.getMainAuthor() + "')";
-	
-				System.out.println(query);
-				
-				stmt.executeUpdate(query);
-			}
-			
-			//Subject
-			
-			while(){
-				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
-						+ newBook.getSubject() + "')";
-	
-				System.out.println(query);
-				
-				stmt.executeUpdate(query);
-			}
-			
-			
-			updateMessage("Adding User", true);
-			
-			
-			
-		}*/
 
 
 	}
@@ -368,7 +388,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 * checked out. May need to modify this later from just titles. 
 	 * @return a list of books and the times they've been checked out, all as one concatenated String. 
 	 */
-	public List<String> getPopularBooks() throws SQLException{
+	public List<String> getPopularBooks(int year, int numResults) throws SQLException{
 		ArrayList<String> theResults = new ArrayList<String>();
 		theResults.add("(5) - Hitchhiker's guide to your mom");
 		theResults.add("(2) - war of your mom");
@@ -630,18 +650,18 @@ public void processPayment(int bid, double paymentAmount, int creditCardNo){
 	 * @return The result of the query in a ResultSet
 	 * @throws SQLException - if you screwed up the query. Jerk. 
 	 */
-	public ResultSet query(String query, QueryType type) throws SQLException{
+public ResultSet sql(String query, SQLType type) throws SQLException{
 		
 		try {
 			Statement stmt = con.createStatement();
 			
-			if(type == QueryType.query){
+			if(type == SQLType.query){
 			ResultSet rs = stmt.executeQuery(query);
 			return rs;
 			
-			}else if(type == QueryType.insert){
+			}else if(type == SQLType.insert){
 				
-			}else if(type == QueryType.delete){
+			}else if(type == SQLType.delete){
 				
 			}
 			return null;

@@ -1,5 +1,5 @@
 package model;
 
-public enum QueryType {
+public enum SQLType {
 	query, insert, delete;
 }
