@@ -353,8 +353,6 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	 */
 	
 public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
-stmt = con.createStatement();
-		
 		try{
 			String query;
 			ResultSet rs;
@@ -371,11 +369,10 @@ stmt = con.createStatement();
 			
 			//Copy Number
 			
-			try{
 				
 				//Check if 
 				query = "select count(*) from BookCopy where copyNo=" + newBook.getCopyNo();
-				rs = stmt.executeQuery(query);
+				rs = query(query, QueryType.query);
 				rs.next();
 				int copyCount = rs.getInt(1);
 				if( copyCount == 1){
@@ -416,27 +413,9 @@ stmt = con.createStatement();
 			*/
 			
 			
-		}
-//		catch (IOException e)
-//		{
-//		    System.out.println("IOException!");
-//		}
+		//}
 
-		catch (SQLException ex)
-		{
-		    System.out.println("Message: " + ex.getMessage());
-		    try 
-		    {
-			// undo the insert
-			con.rollback();	
-		    }
-		    catch (SQLException ex2)
-		    {
-			System.out.println("Message: " + ex2.getMessage());
-			throw ex2;
-		    }
-		    throw ex;
-		}
+
 	}
 	
 	/**
@@ -596,7 +575,6 @@ stmt = con.createStatement();
 				
 				//Check if the user has the correct login information
 				String currUserPass = rs.getString("password");
-				System.out.println( currUserPass +" = " +Password);
 				if (!currUserPass.equals(Password)){
 					
 					throw new UserLoginException("Incorrect password. Please try again.");
@@ -623,9 +601,16 @@ stmt = con.createStatement();
 		return legit;
 	}
 
-	public User getUser(String userName, String password) throws SQLException {
 	
-	//	ResultSet rs = query("cats");
+	//TODO: Maybe implement user checks
+	
+	public User getUser(int userName) throws SQLException {
+	
+		User user;
+		
+		
+		
+		
 		return null;
 			
 	}
