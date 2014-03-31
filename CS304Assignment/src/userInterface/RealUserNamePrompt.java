@@ -42,7 +42,7 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 		System.out.println("Buton pressed");
 		// try{
 			try {
-				if(session.login(usernameField.getText(), String.valueOf(passwordField.getPassword()), neededType)){
+				if(session.login(Integer.parseInt(usernameField.getText()), String.valueOf(passwordField.getPassword()), neededType)){
 					System.out.println("login accepted");
 					parent.setUNPW(usernameField.getText(), String.valueOf(passwordField.getPassword()));
 					parent.loginGo(neededType);
@@ -58,8 +58,9 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 					passwordField.setText("");
 					return;
 				}
-			} catch (HeadlessException | SQLException | UserLoginException e1) {
+			} catch (HeadlessException | SQLException | UserLoginException | IllegalArgumentException e1) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this, e1.getClass());
 				e1.printStackTrace();
 			}
 			
