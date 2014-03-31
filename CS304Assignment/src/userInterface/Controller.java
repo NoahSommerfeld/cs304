@@ -278,8 +278,10 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 			
 			query = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
 					+ newBook.getISBN() + "', '"
-					+ newBook.getTitle() + "', '" + newBook.getMainAuthor() + "', "
-					+ newBook.getPublisher() + ", '" + newBook.getYear() + "')";
+					+ newBook.getTitle() + "', '" 
+					+ newBook.getMainAuthor() + "', "
+					+ newBook.getPublisher() + ", '" 
+					+ newBook.getYear() + "')";
 			
 			System.out.println(query);
 			
@@ -305,8 +307,8 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 			}
 			
 			//Author
-			
-			/*while(){
+/*			
+			while(){
 				query = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
 						+ newBook.getMainAuthor() + "')";
 	
@@ -328,10 +330,10 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 			
 			
 			updateMessage("Adding User", true);
-			*/
 			
 			
-		//}
+			
+		}*/
 
 
 	}
@@ -392,7 +394,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	
 	//Checks out a book, when given a call number
-	public void checkOut(String callNumber, String userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
+	public void checkOut(String callNumber, int userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
 		// TODO Auto-generated method stub
 		
 		//SQLException from the db
