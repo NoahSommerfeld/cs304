@@ -297,7 +297,7 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 			
 				//Check if there is a 
 				statement = "select count(*) from BookCopy where callnumber ='" 
-							+ newBook.getCallNumber() + "' copyNo='" + newBook.getCopyNo()+"')";
+							+ newBook.getCallNumber() + "' and copyNo='" + newBook.getCopyNo()+"')";
 				rs = sql(statement, SQLType.query);
 				rs.next();
 				
