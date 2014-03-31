@@ -336,7 +336,7 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	 * @throws BadCopyNumberException - if the copy number is already taken. 
 	 */
 	
-	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
+/*	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 stmt = con.createStatement();
 		
 		try{
@@ -350,24 +350,36 @@ stmt = con.createStatement();
 			
 			stmt.executeUpdate(query);
 			
-			query = "INSERT INTO HasAuthor VALUES (CN_counter., '"
-					+ newBook.getISBN() + "', '"
-					+ newBook.getTitle() + "', '" + newBook.getMainAuthor() + "', "
-					+ newBook.getPublisher() + ", '" + newBook.getYear() + "')";
 			
-			System.out.println(query);
 			
-			stmt.executeUpdate(query);
-
+			while(){
+				query = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
+						+ newBook.getMainAuthor() + "')";
+	
+				System.out.println(query);
+				
+				stmt.executeUpdate(query);
+			}
+			
+			while(){
+				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
+						+ newBook.getSubject() + "')";
+	
+				System.out.println(query);
+				
+				stmt.executeUpdate(query);
+			}
+			
+			
 			updateMessage("Adding User", true);
 			
 			
 			
 		}
-		/*catch (IOException e)
+		catch (IOException e)
 		{
 		    System.out.println("IOException!");
-		}*/
+		}
 
 		catch (SQLException ex)
 		{
@@ -384,7 +396,7 @@ stmt = con.createStatement();
 		    }
 		    throw ex;
 		}
-	}
+	}*/
 	
 	/**
 	 * Returns the most popular books, and the number of times they've been
