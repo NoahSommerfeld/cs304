@@ -117,6 +117,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 			        	JOptionPane.showMessageDialog(getInstance(), "No fine selected");
 			        	return;
 			        }
+			        
 					PayFineDialog temp = new PayFineDialog(getInstance(), mySession, getSelectedFID(), parent.getLoggedInUser().getName());
 			        temp.setVisible(true);
 				}

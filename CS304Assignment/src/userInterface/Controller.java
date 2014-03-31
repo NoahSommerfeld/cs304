@@ -12,6 +12,7 @@ import java.util.List;
 
 import model.Book;
 import model.SearchAbleKeywords;
+import model.User;
 import model.UserType;
 import model.QueryType;
 import exceptions.BadCallNumberException;

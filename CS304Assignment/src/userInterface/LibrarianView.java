@@ -33,9 +33,9 @@ public class LibrarianView extends ContentPane {
 	private AddNewBookDialog checkOutItems;
 	
 	
-	public LibrarianView(MainWindow parent, Controller session, String username, String password) {
+	public LibrarianView(MainWindow parent, Controller session, int userBID, String password) {
 		
-		super(parent, session, username, password);
+		super(parent, session, userBID, password);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.window);

@@ -29,7 +29,8 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 		super(mySession, parent);
 		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		//super(mySession, parent);
-		
+		this.passwordField.setText("1234Cats");
+		this.usernameField.setText("2");
 		this.neededType = neededType;
 		ImageIcon img = new ImageIcon("res/library-icon.png");
 		super.setIconImage(img.getImage());
@@ -38,13 +39,13 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		System.out.println("Buton pressed");
+	//	parent.loginGo(neededType); //used to bypass the login system
+	//	System.out.println("Buton pressed");
 		// try{
 			try {
 				if(session.login(Integer.parseInt(usernameField.getText()), String.valueOf(passwordField.getPassword()), neededType)){
 					System.out.println("login accepted");
-					parent.setUNPW(usernameField.getText(), String.valueOf(passwordField.getPassword()));
+					parent.setUNPW(Integer.parseInt(usernameField.getText()), String.valueOf(passwordField.getPassword()));
 					parent.loginGo(neededType);
 					this.setVisible(false);
 					mainFrame.setVisible(false);
@@ -60,7 +61,7 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 				}
 			} catch (HeadlessException | SQLException | UserLoginException | IllegalArgumentException e1) {
 				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(this, e1.getClass());
+				JOptionPane.showMessageDialog(this, e1.getMessage());
 				e1.printStackTrace();
 			}
 			
