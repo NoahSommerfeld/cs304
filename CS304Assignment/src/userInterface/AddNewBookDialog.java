@@ -448,7 +448,7 @@ public class AddNewBookDialog extends JDialog {
 			subjects.add(listModelSubjects.getElementAt(i));
 		}
 		for(int i = 0; i< listModelAuthors.getSize(); i++){
-			subjects.add(listModelAuthors.getElementAt(i));
+			authors.add(listModelAuthors.getElementAt(i));
 		}
 		Book temp = new Book(txtCallNo.getText(), txtISBN.getText(), txtTitle.getText(),
 							txtAuthor.getText(), txtPublisher.getText(), txtYear.getText(),

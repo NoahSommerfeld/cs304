@@ -60,7 +60,7 @@ public class LoginPanel extends JPanel {
 				getMyParent().displayClerkPanel();
 			}
 		});
-		btnClerk.setBounds(20, 12, 98, 25);
+		btnClerk.setBounds(20, 14, 98, 25);
 		panel.add(btnClerk);
 		
 		btnBorrower = new JButton("Borrower");
@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel {
 				getMyParent().displayBorrowerPanel();
 			}
 		});
-		btnBorrower.setBounds(20, 49, 98, 25);
+		btnBorrower.setBounds(20, 51, 98, 25);
 		panel.add(btnBorrower);
 		
 		btnLibrarian = new JButton("Librarian");
@@ -79,8 +79,12 @@ public class LoginPanel extends JPanel {
 				getMyParent().displayLibrarianPanel();
 			}
 		});
-		btnLibrarian.setBounds(20, 86, 98, 25);
+		btnLibrarian.setBounds(20, 88, 98, 25);
 		panel.add(btnLibrarian);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(43, 0, 55, 15);
+		panel.add(lblNewLabel);
 	}
 	private MainWindow getMyParent(){
 		return parent;

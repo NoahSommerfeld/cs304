@@ -35,9 +35,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 
 	    public LibrarianPopularPanel(LibrarianView borrowerView, Controller mySession) {
 	        super(new BorderLayout());
-	        for(int i = 1; i<25; i++){
-	        	System.out.println(i);
-	        }
+	        
 	        parent = borrowerView;
 	        this.mySession = mySession;
 
