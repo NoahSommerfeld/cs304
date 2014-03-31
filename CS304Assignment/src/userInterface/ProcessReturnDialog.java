@@ -39,7 +39,7 @@ public class ProcessReturnDialog extends JDialog {
 	private Controller mySession;
 	private JTextField txtCallNo;
 	private ButtonGroup typeButtonGroup;
-	private JTextField textField;
+	private JTextField textCopyNo;
 	private JLabel lblCopyNumber;
 	
 	/**
@@ -94,9 +94,9 @@ public class ProcessReturnDialog extends JDialog {
 			contentPanel.add(lblBid, "8, 2");
 		}
 		{
-			textField = new JTextField();
-			contentPanel.add(textField, "6, 4, fill, default");
-			textField.setColumns(10);
+			textCopyNo = new JTextField();
+			contentPanel.add(textCopyNo, "6, 4, fill, default");
+			textCopyNo.setColumns(10);
 		}
 		{
 			lblCopyNumber = new JLabel("Copy #");
@@ -114,7 +114,7 @@ public class ProcessReturnDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try{
-							mySession.returnBook(txtCallNo.getText(), System.currentTimeMillis(), Integer.parseInt(txtCallNo.getText()));
+							mySession.returnBook(txtCallNo.getText(), System.currentTimeMillis(), Integer.parseInt(textCopyNo.getText()));
 
 						//	mySession.createNewUser(newUser);
 							JOptionPane.showMessageDialog(getInstance(), "book Returned");
