@@ -137,7 +137,11 @@ public class CheckOutItemsDialog extends JDialog {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try{
+						if(txtCallnumber.getText() == "" || txtCallnumber.getText() == null){
+							return;
+						}
 						if(!mySession.confirmOkToCheckOut(txtCallnumber.getText())){
+							System.out.println("yep: "+ txtCallnumber.getText());
 							JOptionPane.showMessageDialog(getInstance(), "Call number invalid for some reason");
 							return;
 						};
@@ -209,6 +213,7 @@ public class CheckOutItemsDialog extends JDialog {
 								}
 							catch(IllegalArgumentException e5){
 								 JOptionPane.showMessageDialog(getInstance(), "BID not an int");
+								 return;
 							}
 						}
 						//TODO this is a terrible idea. If there's an error, should abandon everything.
