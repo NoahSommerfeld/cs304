@@ -282,8 +282,8 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 			statement = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
 					+ newBook.getISBN() + "', '"
 					+ newBook.getTitle() + "', '" 
-					+ newBook.getMainAuthor() + "', "
-					+ newBook.getPublisher() + ", '" 
+					+ newBook.getMainAuthor() + "', '"
+					+ newBook.getPublisher() + "', '" 
 					+ newBook.getYear() + "')";
 			
 			System.out.println(statement);
