@@ -5,6 +5,7 @@
 package userInterface;
 
 import java.io.IOException;
+import java.security.interfaces.RSAKey;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -312,30 +313,27 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 
 					//Author
 
+					//Add Main Author
 					statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
 							+ newBook.getMainAuthor() + "')";
 					
 					sql(statement, SQLType.insert);
-					
-					ArrayList secAuthors = newBook.getAuthors();
 						
-				/*	for(String s : newBook.getAuthors()){
-						statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
-					}
-					while(){
-
+					//Add Secondary Authors
+					for(String s : newBook.getAuthors()){
+						statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '" + s +"')";
 						System.out.println(statement);
-						
+						sql(statement, SQLType.insert);
 					}
 					
 					//Subject
 					
-					while(){
-		//				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
-				//				+ newBook.) + "')";
-
+					for(String s : newBook.getSubjects()){
+						statement = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '" + s +"')";
 						System.out.println(statement);
-					}*/
+						sql(statement, SQLType.insert);
+					}
+					
 					
 				}else 
 					
@@ -357,36 +355,6 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					sql(statement, SQLType.insert);
 				}
 				
-
-				//Author
-
-				statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
-						+ newBook.getMainAuthor() + "')";
-				
-				sql(statement, SQLType.insert);
-				
-				ArrayList secAuthors = newBook.getAuthors();
-					
-			/*	for(String s : newBook.getAuthors()){
-					statement = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
-				}
-				while(){
-
-					System.out.println(statement);
-					
-				}
-				
-				//Subject
-				
-				while(){
-	//				query = "INSERT INTO HasSubject VALUES (CN_counter.curVal, '"
-			//				+ newBook.) + "')";
-
-					System.out.println(statement);
-				}*/
-				
-				
-				updateMessage("Adding User", true);
 				
 				return newBook.getCopyNo();
 				
@@ -691,17 +659,18 @@ public void processPayment(int bid, double paymentAmount, int creditCardNo){
 	 * @return The result of the query in a ResultSet
 	 * @throws SQLException - if you screwed up the query. Jerk. 
 	 */
-public ResultSet sql(String query, SQLType type) throws SQLException{
+public ResultSet sql(String statement, SQLType type) throws SQLException{
 		
 		try {
 			Statement stmt = con.createStatement();
+			ResultSet rs;
 			
 			if(type == SQLType.query){
-			ResultSet rs = stmt.executeQuery(query);
+			rs = stmt.executeQuery(statement);
 			return rs;
 			
 			}else if(type == SQLType.insert){
-				
+				stmt.executeUpdate(statement);
 			}else if(type == SQLType.delete){
 				
 			}
