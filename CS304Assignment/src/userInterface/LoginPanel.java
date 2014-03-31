@@ -25,6 +25,7 @@ import java.awt.Insets;
 import javax.swing.border.BevelBorder;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 public class LoginPanel extends JPanel {
 	MainWindow parent;
@@ -82,8 +83,9 @@ public class LoginPanel extends JPanel {
 		btnLibrarian.setBounds(20, 88, 98, 25);
 		panel.add(btnLibrarian);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(43, 0, 55, 15);
+		JLabel lblNewLabel = new JLabel("Please Login");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(20, 0, 98, 15);
 		panel.add(lblNewLabel);
 	}
 	private MainWindow getMyParent(){
