@@ -59,6 +59,7 @@ public class CheckOutItemsDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public CheckOutItemsDialog(ClerkView parent, Controller session) {
+		setResizable(false);
 		setTitle("Check Out Items");
 		this.parent = parent;
 		this.mySession = session;

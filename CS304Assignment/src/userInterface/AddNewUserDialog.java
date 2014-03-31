@@ -53,6 +53,7 @@ public class AddNewUserDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddNewUserDialog(ClerkView parent, Controller session) {
+		setResizable(false);
 		setTitle("Add New User");
 		this.parent = parent;
 		this.mySession = session;

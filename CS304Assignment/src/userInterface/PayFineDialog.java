@@ -57,6 +57,7 @@ public class PayFineDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public PayFineDialog(BorrowerAccountPanel parent, Controller session, int FID, String borrowerName) {
+		setResizable(false);
 		setTitle("Pay Fine");
 		this.parent = parent;
 		this.mySession = session;

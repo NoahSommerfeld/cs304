@@ -46,6 +46,7 @@ public class ProcessReturnDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public ProcessReturnDialog(ClerkView parent, Controller session) {
+		setResizable(false);
 		setTitle("Return Book");
 		this.parent = parent;
 		this.mySession = session;

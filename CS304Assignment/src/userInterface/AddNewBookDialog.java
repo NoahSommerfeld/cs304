@@ -75,7 +75,7 @@ public class AddNewBookDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddNewBookDialog(LibrarianView parent, Controller session) {
-		
+		setResizable(false);
 		setTitle("Add New ");
 		this.parent = parent;
 		this.mySession = session;
