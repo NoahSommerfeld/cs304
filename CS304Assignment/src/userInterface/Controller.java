@@ -83,7 +83,7 @@ public class Controller {
 	public int createNewUser(User newUser) throws SQLException, ParseException{
 		
 		stmt = con.createStatement();
-		
+	
 		try{
 
 			String query = "INSERT INTO borrower VALUES (bid_counter.nextVal, '"
@@ -401,15 +401,39 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	results.add("(1 in, 2 out, 1 hold) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
 	results.add("(3 in, 0 out, 0 hold) - Daniel's guide to the galaxy. All in");
 	results.add("(0 in, 2 out, 1 hold) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
+	String query = makeSearchQuery(selectedItem, searchArgument);
 	
+	stmt = con.createStatement();
+	ResultSet rs;
+	rs = stmt.executeQuery(query);
+	
+	while(rs.next()){
+		results.add(rs.getString(3));
+	}
+	
+	//TODO: add in # of copies in and out
 	return results;
 	
 }
 
 
-
-
-
+	private String makeSearchQuery(SearchAbleKeywords selectedItem,
+		String searchArgument) {
+		
+		//TODO implement subject and author search
+		String query = "";
+	if(selectedItem == SearchAbleKeywords.Title){
+		query = "SELECT * From book where title = '" + searchArgument + "'";
+	}
+	else if(selectedItem == SearchAbleKeywords.Subject){
+		query = "SELECT * From book where title = '" + searchArgument + "'";
+	}
+	else if(selectedItem == SearchAbleKeywords.Author){
+		query = "SELECT * From book where title = '" + searchArgument + "'";
+	}
+	
+	return query;
+}
 
 	/**
 	 * Returns the most popular books, and the number of times they've been
@@ -455,8 +479,12 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	
 	//Checks out a book, when given a call number
-	public void checkOut(String callNumber, int userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
+	public void checkOut(String callNumber, int copyNo, int userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
 		// TODO Auto-generated method stub
+		
+		ResultSet rs1;
+		ResultSet rs2;
+		
 		
 		//SQLException from the db
 		//notcheckedinexception if it's not 'borrowable' //TODO differentiate between 'out' and 'on hold'
@@ -469,21 +497,45 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	/**
 	 * This method just confirms that call number is valid. 
 	 * @param callNumber
+	 * @param copyNo 
 	 * @return
 	 * @throws BadCallNumberException
 	 * @throws NotCheckedInException
 	 */
-	public boolean confirmOkToCheckOut(String callNumber) throws BadCallNumberException, NotCheckedInException {
-		if(false){
-			throw new BadCallNumberException("nope"); //for testing. 
-		}
-		if(false){
-			throw new NotCheckedInException("nope"); //for testing. 
+	public String confirmOkToCheckOut(String callNumber, int copyNo) throws SQLException, BadCallNumberException, NotCheckedInException {
+		stmt = con.createStatement();
+		String statement = "Select Status from bookcopy where callNumber = '" + callNumber + "'";
+		ResultSet rs = stmt.executeQuery(statement); 
+		if(!rs.next()){
+			throw new BadCallNumberException("Book not found in system");
 		}
 		
-		//if it's a valid call number
-		this.updateStatusBar("Call Number: " + callNumber + " Checked.");
-		return true; 
+		String statement2 = "Select Status from bookcopy where callnumber = '"+ callNumber +"' and copyNo = " + copyNo;
+
+		rs = stmt.executeQuery(statement2); 
+		
+		String status = "";
+		if(rs.next()){
+			status = rs.getString(1);
+		}
+		else{
+			throw new BadCallNumberException("Copy of book does not exist");
+			
+		}
+		if(!status.equals("in")){
+			throw new NotCheckedInException(status);
+		}
+		else{
+			statement = "Select title from book where callnumber = '" + callNumber + "'";
+			rs = stmt.executeQuery(statement);
+			if(rs.next()){
+				return rs.getString("title");
+			}
+			else{
+				throw new BadCallNumberException("Book not found");
+			}
+		}
+
 		
 	}
 
@@ -598,7 +650,14 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	 * @param selectedItem
 	 * @return
 	 */
-	public String[][] getCheckOuts(String filterSubject) {
+	public String[][] getCheckOuts(String filterSubject) throws SQLException{
+		if(filterSubject == null||filterSubject.equals("No Subject Filter")){
+			filterSubject = "";
+		}
+		
+		ResultSet rs;
+		
+		
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
 			     "January 15, 2014", "April 30, 2014", ""},

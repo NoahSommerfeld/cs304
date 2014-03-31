@@ -126,12 +126,18 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        public void actionPerformed(ActionEvent e) {
 	        	TableModel temp = table.getModel();
 	        	String subjectFilter = (String) comboBox.getSelectedItem();
-	        	String[][] toAdd;
+	        	String[][] toAdd = null;
+	        	try{
 	        	if(subjectFilter.equals("No Subject Filter")){
-	        		toAdd = mySession.getCheckOuts(null);
+	        		toAdd = mySession.getCheckOuts("");
 	        	}
 	        	else{
 	        		toAdd = mySession.getCheckOuts(subjectFilter);
+	        	}
+	        	}
+	        	catch(SQLException e2){
+	        		JOptionPane.showMessageDialog(getInstance(), "Bad SQL Query");
+	        		e2.printStackTrace();
 	        	}
 	        	DefaultTableModel model = (DefaultTableModel) table.getModel();
 	        	while(model.getRowCount()>0){
@@ -165,6 +171,11 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	            }
 	        }*/
 	    }
+
+		public Component getInstance() {
+			// TODO Auto-generated method stub
+			return this;
+		}
 
 	    /**
 	     * Create the GUI and show it.  For thread safety,

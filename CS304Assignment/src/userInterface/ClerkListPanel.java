@@ -93,6 +93,7 @@ public class ClerkListPanel extends JPanel implements ListSelectionListener  {
 					JOptionPane.showMessageDialog(parent, e1.getMessage());
 					return;
 				}
+				
 				if(slackers != null && slackers.size()>=1){
 	        	for(String s : slackers){
 	        		listModel.addElement(s);
