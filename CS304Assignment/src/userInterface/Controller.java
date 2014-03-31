@@ -291,7 +291,7 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	 * @throws SQLException - if the db operation failed. 
 	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
 	 */
-	public void returnBook(String callNumber, long currentTimeMillis) throws SQLException, FineAssessedException{
+	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException{
 		
 		if(false){
 			throw new SQLException(); //for testing. 
@@ -565,50 +565,31 @@ stmt = con.createStatement();
 		return date;
 	}
 	
-	public boolean login (String username, String Password, UserType userType){
+	public boolean login (String username, String Password, UserType userType) {
 		String query;
-		//try{
-			//Statement stmt = con.createStatement();
+	/*	Statement stmt = con.createStatement();
+		query = "select count(*) from borrower where where bid = '" + username + "' and password = '" + Password + "'";
+		ResultSet rs = query(query);
+
+		int count = rs.getInt(1);
+		if (count != 1){
 			
-		//	query = "select * from borrower where bid = '" + username + "' and password = '" + password + "'";
-		//}
+		}
 		
+		query = "select type, count(bid) from borrower where bid = '" + username + "' and password = '" + Password + "'";
+		rs = stmt.executeQuery(query);
+		
+		rs.next();
+				
+		*/
 		return true;
 	}
 
 	public User getUser(String userName, String password) throws SQLException {
-		String query;
-		try {
-			Statement stmt = con.createStatement();
+	
+	//	ResultSet rs = query("cats");
+		return null;
 			
-			//query = "select "
-			
-			
-			
-			return new User("2201 Lower Mall", "1234", "Bob Smith", "202921", "test@gmail.com",
-					"123344556", "01/05/2015", UserType.borrower);
-		} 
-		catch (UserCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		catch (SQLException ex)
-		{
-		    System.out.println("Message: " + ex.getMessage());
-		    try 
-		    {
-			// undo the insert
-			con.rollback();	
-		    }
-		    catch (SQLException ex2)
-		    {
-			System.out.println("Message: " + ex2.getMessage());
-			throw ex2;
-		    }
-		    throw ex;
-		}
-		
 	}
 
 	
@@ -630,6 +611,46 @@ stmt = con.createStatement();
 		return results;
 		
 	}
+	
+	
+	/** 
+	 * Used for looking up information in DB
+	 * 
+	 * @param Query string
+	 * @param what the user is searching for
+	 * @return The result of the query in a ResultSet
+	 * @throws SQLException - if you screwed up the query. Jerk. 
+	 */
+/*	public ResultSet query(String query) throws SQLException{
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+		} 
+		catch (UserCreationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		catch (SQLException ex)
+		{
+		    System.out.println("Message: " + ex.getMessage());
+		    try 
+		    {
+			// undo the insert
+			con.rollback();	
+		    }
+		    catch (SQLException ex2)
+		    {
+			System.out.println("Message: " + ex2.getMessage());
+			throw ex2;
+		    }
+		    throw ex;
+		}
+	}*/
+	
 	
 }
 
