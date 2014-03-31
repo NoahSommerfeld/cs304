@@ -39,6 +39,8 @@ public class ProcessReturnDialog extends JDialog {
 	private Controller mySession;
 	private JTextField txtCallNo;
 	private ButtonGroup typeButtonGroup;
+	private JTextField textField;
+	private JLabel lblCopyNumber;
 	
 	/**
 	 * Create the dialog.
@@ -57,9 +59,9 @@ public class ProcessReturnDialog extends JDialog {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(25dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(37dlu;default)"),
+				ColumnSpec.decode("max(19dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("center:default:grow"),},
 			new RowSpec[] {
@@ -92,6 +94,15 @@ public class ProcessReturnDialog extends JDialog {
 			contentPanel.add(lblBid, "8, 2");
 		}
 		{
+			textField = new JTextField();
+			contentPanel.add(textField, "6, 4, fill, default");
+			textField.setColumns(10);
+		}
+		{
+			lblCopyNumber = new JLabel("Copy #");
+			contentPanel.add(lblCopyNumber, "8, 4");
+		}
+		{
 			typeButtonGroup = new ButtonGroup();
 		}
 		{
@@ -103,7 +114,7 @@ public class ProcessReturnDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try{
-							mySession.returnBook(txtCallNo.getText(), System.currentTimeMillis());
+							mySession.returnBook(txtCallNo.getText(), System.currentTimeMillis(), Integer.parseInt(txtCallNo.getText()));
 
 						//	mySession.createNewUser(newUser);
 							JOptionPane.showMessageDialog(getInstance(), "book Returned");
@@ -114,6 +125,9 @@ public class ProcessReturnDialog extends JDialog {
 						}
 						catch(SQLException e1){
 							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
+						}
+						catch(IllegalArgumentException e3){
+							JOptionPane.showMessageDialog(getInstance(), "Bad copy number");
 						}
 					}
 				});
