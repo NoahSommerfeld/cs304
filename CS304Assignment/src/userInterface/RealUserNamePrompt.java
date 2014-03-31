@@ -113,7 +113,7 @@ public class RealUserNamePrompt extends JFrame implements ActionListener {
 	//FOLLOWING CODE TAKEN AND MODIFIED FROM BRANCH.JAVA
 	mainFrame = new JFrame("User Login");
 
-    JLabel usernameLabel = new JLabel("Enter username: ");
+    JLabel usernameLabel = new JLabel("Enter BID");
     JLabel passwordLabel = new JLabel("Enter password: ");
 
     usernameField = new JTextField(10);
