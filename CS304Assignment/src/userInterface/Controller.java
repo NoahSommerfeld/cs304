@@ -52,155 +52,9 @@ public class Controller {
 		con = DriverManager.getConnection(connectURL,username,password);
 	      }
 	
-	
-	/**
-	 * This registers the main window, so that we can update the status bar. 
-	 * Will only be one main window per program
-	 * @param window - the MainWindow with the status bar. 
-	 */
-	public void registerAsMainWindow(MainWindow window){
-		this.mainWindow = window;
-	}
-	
-	public ArrayList<String> getSubjects() throws SQLException{
-		ArrayList<String> temp = new ArrayList<String>();
-		temp.add("Science");
-		temp.add("Fantasy");
-		temp.add("non-fiction");
-		return temp;
-	}
-	
-	/**
-	 * updates the status bar at the bottom of the main window.
-	 * Just a helper method for this class
-	 * Was thinking of displaying the last complete transaction, for troubleshooting/demo purposes. 
-	 * @param message - the message to be displayed on the status bar
-	 */
-	private void updateStatusBar(String message){
-		mainWindow.getMyContentPane().setStatusLbl(message);
-	}
-	
-
-	/**
-	 * Calls System.exit(), but let's us close
-	 * anything that needs to be closed in the model (in case we need to gracefully kill the driver)
-	 * @param reasonCode - same as System.exit's parameter.
-	 */
-	public void exit(int reasonCode){
-		System.out.println("Controller Exit called");
-		System.exit(reasonCode);
-	}
-
 
 	
-	//Search for over due books. Called by ClerkListPanel.
-	//Need to figure out exactly what the format of the return should be.
-	//Can I return a list of Users??
-	/**
-	 * Search for overdue books, and return them as a String. 
-	 * TODO: figure out what the return type should be. Probably want to display user, book, and due date. 
-	 * Currently returning it all as one big string to load into the list
-	 * @return List of users, books, and due dates as one String
-	 * @throws SQLException - if for some reason the db query fails. 
-	 */
-	public ArrayList<String> searchForOverDues() throws SQLException{
-		
-		//TODO actually query the DB
-		ArrayList<String> slackers = new ArrayList<String>();
-		slackers.add("March 12 - Noah - textbook 32");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		
-		this.updateStatusBar("Overdues searched for");
-		
-		//throw new SQLException(); //for testing
-		return slackers;
-		
-		
-	}
-
-	//TODO: implement this. Called by ClerkListPanel when the 'send late message button to these poeple' button is pressed
-	public void sendLateMessage(String userKey) throws SQLException{
-		// TODO Auto-generated method stub
-		System.out.println("Sent message to: " + userKey);
-		this.updateStatusBar("Late Message Sent");
-		
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-
-	/**
-	 * This method is for the nice Stats bar at the top of the main window. 
-	 * May add more of these to make it look more impressive. 
-	 * @return the total number of users in the database
-	 * @throws SQLException - if for some reason, the query fails. Static command though...
-	 */
-	public int getNumberOfUsers() throws SQLException{
-		// TODO query and get total number of users
-		//this.updateStatusBar("Number of users counted");
-		
-
-		stmt = con.createStatement();
-		
-		String query = "SELECT count(*) FROM Borrower";
-		
-		try{
-			ResultSet rs = stmt.executeQuery(query);
-			rs.next();
-			int numUsers = rs.getInt(1);
-			return numUsers;
-			
-		}catch (SQLException ex)
-		{
-		    System.out.println("Message: " + ex.getMessage());
-		    try 
-		    {
-			// undo the insert
-			con.rollback();	
-		    }
-		    catch (SQLException ex2)
-		    {
-			System.out.println("Message: " + ex2.getMessage());
-			throw ex2;
-		    }
-		    throw ex;
-		}
-		
-	}
-	
+	//---------------------------------User Basics-------------------------------------//
 	
 	
 	/**
@@ -223,9 +77,13 @@ public class Controller {
 
 			String query = "INSERT INTO borrower VALUES (bid_counter.nextVal, '"
 					+ newUser.getPassword() + "', '"
-					+ newUser.getName() + "', '" + newUser.getAddress() + "', "
-					+ newUser.getPhone() + ", '" + newUser.getEmailAddress() + "', "
-					+ newUser.getSinOrStNo() + ", '" + newUser.getType() +"')";
+					+ newUser.getName() + "', '" 
+					+ newUser.getAddress() + "', "
+					+ newUser.getPhone() + ", '" 
+					+ newUser.getEmailAddress() + "', "
+					+ newUser.getSinOrStNo() + ", '"
+					+ newUser.getExpiryDate() + ", '"
+					+ newUser.getType() +"')";
 			
 			System.out.println(query);
 			
@@ -270,77 +128,133 @@ public class Controller {
 	}
 
 
-
-public void updateMessage(String comment, boolean was) throws SQLException{
 	
-	if(was){
-		this.updateStatusBar(comment + "was successfull");
-	}else{
-		this.updateStatusBar(comment + "was not successfull! Please check all criteria and try again.");
-		throw new SQLException(comment + "was not successfull! Please check all criteria and try again.");
-	}
-}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
 	
+	public boolean login (int bid, String Password, UserType sectionType) throws SQLException, UserLoginException {
+		String query;
+		ResultSet rs;
+		boolean legit = false;
+		try{
+			Statement stmt = con.createStatement();
+			
+			query = "select count(*) from borrower where bid = '"+ bid +"'";
+			rs = query(query, QueryType.query );
+
+			rs.next();
+			int count = rs.getInt(1);
+
+			//Check if user is in the system
+			if(count < 1){
+				throw new UserLoginException("There is no record of this user in our library. Please be sure to type your Library Number correctly.");
+			}else if(count >1){
+				throw new UserLoginException("Duplicate users in the system. Please consult a staff member before loggin in.");
+			}else{
+				
+				query = "select * from borrower where bid = '" + bid + "'";
+				
+				rs = stmt.executeQuery(query);
+				rs = query(query, QueryType.query );
+
+				rs.next();
+				
+				//Check if the user has the correct login information
+				String currUserPass = rs.getString("password");
+				if (!currUserPass.equals(Password)){
+					
+					throw new UserLoginException("Incorrect password. Please try again.");
+				}else{
+					
+					//Check If user has access to specific section
+					String currUserType = rs.getString("type");
+					if(UserType.librarian == UserType.valueOf(currUserType)){
+						legit = true;
+					}else if(UserType.valueOf(currUserType) == UserType.clerk && sectionType != UserType.librarian){
+						legit = true;
+					}else if(UserType.valueOf(currUserType) == UserType.borrower && sectionType == UserType.borrower){
+						legit = true;
+					}else{
+						throw new UserLoginException("You are trying to access a section you do not have permissions for. Please select another section.");
+					}
+				}
+			}	
+		}catch(UserLoginException e){
+			throw e;
+		}
+		
+			
+		return legit;
+	}
+
+	
+	//TODO: Maybe implement user checks
+	
+	public User getUser(int bid) throws SQLException, UserCreationException {
+	
+		User user;
+		
+		String statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
+		
+		ResultSet rs = query(statement, QueryType.query);
+		rs.next();
+		
+		String address = rs.getString("address");
+		String password = rs.getString("password");
+		String name = rs.getString("name");
+		long phone = rs.getLong("phone");
+		String emailAddress = rs.getString("emailAddress");
+		long sinorstno = rs.getLong("sinorstno");
+		Date date = rs.getDate("expirydate");
+		UserType type = UserType.valueOf(rs.getString("type"));
+		
+		user = new User(address,password,name,phone,
+				emailAddress,sinorstno,date,type);
+					
+		return user;
+			
+	}
+
+
 	/**
-	 * this method changes a book's status to 'checked in' or something...
-	 * @param callNumber - the call number to check in
-	 * @param currentTimeMillis - the current time. 
-	 * @throws SQLException - if the db operation failed. 
-	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
+	 * This method is for the nice Stats bar at the top of the main window. 
+	 * May add more of these to make it look more impressive. 
+	 * @return the total number of users in the database
+	 * @throws SQLException - if for some reason, the query fails. Static command though...
 	 */
-	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException{
+	public int getNumberOfUsers() throws SQLException{
+		// TODO query and get total number of users
+		//this.updateStatusBar("Number of users counted");
 		
-		if(false){
-			throw new SQLException(); //for testing. 
-		}
-		if(true){
-			this.updateStatusBar("Book was returned. Fine issued");
-			throw new FineAssessedException("Book was late, fine assessed", 1.02);
-		}
 
-		//this.updateStatusBar("Book checked back in");
+		stmt = con.createStatement();
+		
+		String query = "SELECT count(*) FROM Borrower";
+		
+		try{
+			ResultSet rs = stmt.executeQuery(query);
+			rs.next();
+			int numUsers = rs.getInt(1);
+			return numUsers;
+			
+		}catch (SQLException ex)
+		{
+		    System.out.println("Message: " + ex.getMessage());
+		    try 
+		    {
+			// undo the insert
+			con.rollback();	
+		    }
+		    catch (SQLException ex2)
+		    {
+			System.out.println("Message: " + ex2.getMessage());
+			throw ex2;
+		    }
+		    throw ex;
+		}
 		
 	}
-
-	/**
-	 * This method just confirms that call number is valid. 
-	 * @param callNumber
-	 * @return
-	 * @throws BadCallNumberException
-	 * @throws NotCheckedInException
-	 */
-	public boolean confirmOkToCheckOut(String callNumber) throws BadCallNumberException, NotCheckedInException {
-		if(false){
-			throw new BadCallNumberException("nope"); //for testing. 
-		}
-		if(false){
-			throw new NotCheckedInException("nope"); //for testing. 
-		}
-		
-		//if it's a valid call number
-		this.updateStatusBar("Call Number: " + callNumber + " Checked.");
-		return true; 
-		
-	}
-
-	//Checks out a book, when given a call number
-	public void checkOut(String callNumber, String userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
-		// TODO Auto-generated method stub
-		
-		//SQLException from the db
-		//notcheckedinexception if it's not 'borrowable' //TODO differentiate between 'out' and 'on hold'
-		//badCallNumberException if it isn't in the db. (vs. db connection errors)
-		//BadUserIDException if the user is not in the DB
-		this.updateStatusBar("Item(s) checked out");
-		
-	}
+	
+	
+//---------------------------------------BOOKS--------------------------------------//	
 	
 	/**
 	 * DANIEL: THIS IS IMPORTANT
@@ -441,9 +355,6 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 }
 
 
-public void processPayment(int bid, double paymentAmount, int creditCardNo){
-	
-}
 
 
 
@@ -462,29 +373,155 @@ public void processPayment(int bid, double paymentAmount, int creditCardNo){
 		
 	}
 	
-	
-	public void test() throws SQLException{
-		Statement stmt = con.createStatement();
-		ResultSet test = stmt.executeQuery("SELECT * FROM Borrower");
-		ResultSetMetaData rsmd = test.getMetaData();
-		int numCols = rsmd.getColumnCount();
-		System.out.println(numCols);
-		 // display column names;
-		  for (int i = 0; i < numCols; i++)
-		  {
-		      // get column name and print it
-
-		      System.out.printf("%-15s", rsmd.getColumnName(i+1));    
-		  }
-		 //boolean bleh = test.next();
-		  System.out.println(test.next());
-		  System.out.println("CATS ARE SHITTING HERE LOTS OF SHIT");
-		while(test.next()){
-			String bid = test.getString("bid");
-		      System.out.printf("%-10.10s", bid);
-		}
-	
+	public ArrayList<String> getSubjects() throws SQLException{
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add("Science");
+		temp.add("Fantasy");
+		temp.add("non-fiction");
+		return temp;
 	}
+	
+
+
+	
+	
+//----------------------------------ProcessingBooks--------------------------------------//
+	
+
+	
+	//Checks out a book, when given a call number
+	public void checkOut(String callNumber, String userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
+		// TODO Auto-generated method stub
+		
+		//SQLException from the db
+		//notcheckedinexception if it's not 'borrowable' //TODO differentiate between 'out' and 'on hold'
+		//badCallNumberException if it isn't in the db. (vs. db connection errors)
+		//BadUserIDException if the user is not in the DB
+		this.updateStatusBar("Item(s) checked out");
+		
+	}
+
+	/**
+	 * This method just confirms that call number is valid. 
+	 * @param callNumber
+	 * @return
+	 * @throws BadCallNumberException
+	 * @throws NotCheckedInException
+	 */
+	public boolean confirmOkToCheckOut(String callNumber) throws BadCallNumberException, NotCheckedInException {
+		if(false){
+			throw new BadCallNumberException("nope"); //for testing. 
+		}
+		if(false){
+			throw new NotCheckedInException("nope"); //for testing. 
+		}
+		
+		//if it's a valid call number
+		this.updateStatusBar("Call Number: " + callNumber + " Checked.");
+		return true; 
+		
+	}
+
+	
+	/**
+	 * this method changes a book's status to 'checked in' or something...
+	 * @param callNumber - the call number to check in
+	 * @param currentTimeMillis - the current time. 
+	 * @throws SQLException - if the db operation failed. 
+	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
+	 */
+	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException{
+		
+		if(false){
+			throw new SQLException(); //for testing. 
+		}
+		if(true){
+			this.updateStatusBar("Book was returned. Fine issued");
+			throw new FineAssessedException("Book was late, fine assessed", 1.02);
+		}
+
+		//this.updateStatusBar("Book checked back in");
+		
+	}
+
+
+public void processPayment(int bid, double paymentAmount, int creditCardNo){
+	
+	
+	
+	
+}
+	
+	//Search for over due books. Called by ClerkListPanel.
+	//Need to figure out exactly what the format of the return should be.
+	//Can I return a list of Users??
+	/**
+	 * Search for overdue books, and return them as a String. 
+	 * TODO: figure out what the return type should be. Probably want to display user, book, and due date. 
+	 * Currently returning it all as one big string to load into the list
+	 * @return List of users, books, and due dates as one String
+	 * @throws SQLException - if for some reason the db query fails. 
+	 */
+	public ArrayList<String> searchForOverDues() throws SQLException{
+		
+		//TODO actually query the DB
+		ArrayList<String> slackers = new ArrayList<String>();
+		slackers.add("March 12 - Noah - textbook 32");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
+		slackers.add("March 20 - Daniel - how to seduce mothers");
+		
+		this.updateStatusBar("Overdues searched for");
+		
+		//throw new SQLException(); //for testing
+		return slackers;
+		
+		
+	}
+
+	//TODO: implement this. Called by ClerkListPanel when the 'send late message button to these poeple' button is pressed
+	public void sendLateMessage(String userKey) throws SQLException{
+		// TODO Auto-generated method stub
+		System.out.println("Sent message to: " + userKey);
+		this.updateStatusBar("Late Message Sent");
+		
+	}
+
+	
+	
+
+
+
+
+//--------------------------------GetRelationships--------------------------------//
+
+
+
 
 	/**
 	 * this is a fun one. Every row in the table is represented by an array.
@@ -575,91 +612,10 @@ public void processPayment(int bid, double paymentAmount, int creditCardNo){
 	};
 		return date;
 	}
-	
-	public boolean login (int bid, String Password, UserType sectionType) throws SQLException, UserLoginException {
-		String query;
-		ResultSet rs;
-		boolean legit = false;
-		try{
-			Statement stmt = con.createStatement();
-			
-			query = "select count(*) from borrower where bid = '"+ bid +"'";
-			rs = query(query, QueryType.query );
 
-			rs.next();
-			int count = rs.getInt(1);
-
-			//Check if user is in the system
-			if(count < 1){
-				throw new UserLoginException("There is no record of this user in our library. Please be sure to type your Library Number correctly.");
-			}else if(count >1){
-				throw new UserLoginException("Duplicate users in the system. Please consult a staff member before loggin in.");
-			}else{
-				
-				query = "select * from borrower where bid = '" + bid + "'";
-				
-				rs = stmt.executeQuery(query);
-				rs = query(query, QueryType.query );
-
-				rs.next();
-				
-				//Check if the user has the correct login information
-				String currUserPass = rs.getString("password");
-				if (!currUserPass.equals(Password)){
-					
-					throw new UserLoginException("Incorrect password. Please try again.");
-				}else{
-					
-					//Check If user has access to specific section
-					String currUserType = rs.getString("type");
-					if(UserType.librarian == UserType.valueOf(currUserType)){
-						legit = true;
-					}else if(UserType.valueOf(currUserType) == UserType.clerk && sectionType != UserType.librarian){
-						legit = true;
-					}else if(UserType.valueOf(currUserType) == UserType.borrower && sectionType == UserType.borrower){
-						legit = true;
-					}else{
-						throw new UserLoginException("You are trying to access a section you do not have permissions for. Please select another section.");
-					}
-				}
-			}	
-		}catch(UserLoginException e){
-			throw e;
-		}
-		
-			
-		return legit;
-	}
 
 	
-	//TODO: Maybe implement user checks
-	
-	public User getUser(int bid) throws SQLException, UserCreationException {
-	
-		User user;
-		
-		String statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
-		
-		ResultSet rs = query(statement, QueryType.query);
-		rs.next();
-		
-		String address = rs.getString("address");
-		String password = rs.getString("password");
-		String name = rs.getString("name");
-		long phone = rs.getLong("phone");
-		String emailAddress = rs.getString("emailAddress");
-		long sinorstno = rs.getLong("sinorstno");
-		Date date = rs.getDate("expirydate");
-		UserType type = UserType.valueOf(rs.getString("type"));
-		
-		user = new User(address,password,name,phone,
-				emailAddress,sinorstno,date,type);
-					
-		return user;
-			
-	}
-
-	
+//------------------------------------Other-------------------------------------//	
 	
 	
 	/** 
@@ -702,7 +658,48 @@ public void processPayment(int bid, double paymentAmount, int creditCardNo){
 		    throw ex;
 		}
 	}
+
+public void updateMessage(String comment, boolean was) throws SQLException{
+	
+	if(was){
+		this.updateStatusBar(comment + "was successfull");
+	}else{
+		this.updateStatusBar(comment + "was not successfull! Please check all criteria and try again.");
+		throw new SQLException(comment + "was not successfull! Please check all criteria and try again.");
+	}
+}
+
+	/**
+	 * updates the status bar at the bottom of the main window.
+	 * Just a helper method for this class
+	 * Was thinking of displaying the last complete transaction, for troubleshooting/demo purposes. 
+	 * @param message - the message to be displayed on the status bar
+	 */
+	private void updateStatusBar(String message){
+		mainWindow.getMyContentPane().setStatusLbl(message);
+	}
+
 	
 	
+	/**
+	 * This registers the main window, so that we can update the status bar. 
+	 * Will only be one main window per program
+	 * @param window - the MainWindow with the status bar. 
+	 */
+	public void registerAsMainWindow(MainWindow window){
+		this.mainWindow = window;
+	}
+	
+
+	/**
+	 * Calls System.exit(), but let's us close
+	 * anything that needs to be closed in the model (in case we need to gracefully kill the driver)
+	 * @param reasonCode - same as System.exit's parameter.
+	 */
+	public void exit(int reasonCode){
+		System.out.println("Controller Exit called");
+		System.exit(reasonCode);
+	}
+
 }
 
