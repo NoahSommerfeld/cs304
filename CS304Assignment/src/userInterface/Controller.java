@@ -478,7 +478,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	}
 
 
-public void processPayment(int bid, double paymentAmount, int creditCardNo){
+public void processPayment(int bid, double paymentAmount, int creditCardNo) throws SQLException{
 	
 	
 	

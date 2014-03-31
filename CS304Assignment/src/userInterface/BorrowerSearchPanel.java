@@ -114,13 +114,19 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	    public int getLoggedInUserBID(){
 	    	return this.getLoggedInUserBID();
 	    }
-	    
+	    public BorrowerSearchPanel getInstance(){
+	    	return this;
+	    }
 	    class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	        	listModel.clear();
 	        	ArrayList<String> searchResults = null;
 				try {
-					searchResults	 = mySession.searchBooks(SearchAbleKeywords.valueOf((String)cmboKeyWords.getSelectedItem()), searchArgument.getText());
+					if(searchArgument.getText() == null || searchArgument.getText().equals("")){
+						JOptionPane.showMessageDialog(getInstance(), "Please Enter A Search Argument");
+						return;
+					}
+					searchResults = mySession.searchBooks(SearchAbleKeywords.valueOf((String)cmboKeyWords.getSelectedItem()), searchArgument.getText());
 				} catch (SQLException e1) {
 					//e1.printStackTrace();
 					JOptionPane.showMessageDialog(parent, e1.getMessage());
@@ -131,6 +137,9 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	        		listModel.addElement(s);
 	        	}
 	        	btbPlaceOnHold.setEnabled(true);
+				}
+				else if(searchResults.size() == 0){
+					listModel.addElement("No Results Found");
 				}
 		        /*listModel.addElement("Jane Doe");
 		        listModel.addElement("John Smith");
