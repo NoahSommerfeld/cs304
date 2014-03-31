@@ -149,6 +149,7 @@ public class PayFineDialog extends JDialog {
 			txtAmountDue = new JTextField();
 			txtAmountDue.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtAmountDue.setEditable(false);
+			txtAmountDue.setText("21.02"); //TODO: GET THIS FROM DANIEL!!
 			//txtTxtboxemailaddress.setText("txtBoxEmailAddress");
 			contentPanel.add(txtAmountDue, "2, 10, 5, 1, fill, default");
 			txtAmountDue.setColumns(10);
@@ -179,6 +180,7 @@ public class PayFineDialog extends JDialog {
 		{
 			textFineAmount = new JTextField();
 			textFineAmount.setEditable(false);
+			textFineAmount.setText(txtAmountDue.getText()); //TODO: Fix this!!
 			textFineAmount.setHorizontalAlignment(SwingConstants.RIGHT);
 			contentPanel.add(textFineAmount, "6, 16, fill, default");
 			textFineAmount.setColumns(10);
@@ -198,17 +200,17 @@ public class PayFineDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						/*try{
+						try{
 							double payment = Double.parseDouble(textFineAmount.getText());
 							int BID = getInstance().parent.getLoggedInUserBID();
 							int creditCardNum = Integer.parseInt(textCardNumber.getText().replace(" ", ""));
-							//mySession.processPayment(BID, payment, creditCardNum);
+							mySession.processPayment(BID, payment, creditCardNum);
 							JOptionPane.showMessageDialog(getInstance(), "Payment Processed");
 							closeDialogBox();
 						}
 						catch(SQLException e1){
 							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
-						}*/
+						}
 					}
 				});
 				buttonPane.add(okButton);

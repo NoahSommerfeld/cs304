@@ -68,7 +68,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        table = new JTable();
 	        table.setModel(new DefaultTableModel(
 	        	new Object[][] {
-	        		{"hello", "bob", "I", null, null},
+	        		{null, null, null, null, null},
 	        		{null, null, null, null, null},
 	        		{null, null, null, null, null},
 	        		{null, null, null, null, null},
