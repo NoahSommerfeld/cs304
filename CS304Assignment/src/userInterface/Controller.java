@@ -283,7 +283,7 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 				
 				//Check if there is a 
 				statement = "select count(*) from BookCopy where callnumber ='" 
-							+ newBook.getCallNumber() + "' and copyNo='" + newBook.getCopyNo()+"')";
+							+ newBook.getCallNumber() + "' and copyNo=" + newBook.getCopyNo()+")";
 				rs = sql(statement, SQLType.query);
 				rs.next();
 				
@@ -294,12 +294,12 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					//book
 					
 					statement = "INSERT INTO Book VALUES ('" 
-							+ newBook.getCallNumber() + "', '"
-							+ newBook.getISBN() + "', '"
+							+ newBook.getCallNumber() + "', "
+							+ newBook.getISBN() + ", '"
 							+ newBook.getTitle() + "', '" 
 							+ newBook.getMainAuthor() + "', '"
-							+ newBook.getPublisher() + "', '" 
-							+ newBook.getYear() + "')";
+							+ newBook.getPublisher() + ", '" 
+							+ newBook.getYear() + ")";
 					
 					System.out.println(statement);
 					
@@ -310,8 +310,8 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					//CopyNo
 					
 					statement = "INSERT INTO BookCopy VALUES ('" 
-							+ newBook.getCallNumber() + "', '" 
-							+ newBook.getCopyNo() + "')";
+							+ newBook.getCallNumber() + "', " 
+							+ newBook.getCopyNo() + ")";
 				
 					sql(statement, SQLType.insert);
 
@@ -355,8 +355,8 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 				
 				else{
 					statement = "INSERT INTO BookCopy VALUES ('" 
-								+ newBook.getCallNumber() + "', '" 
-								+ newBook.getCopyNo() + "')";
+								+ newBook.getCallNumber() + "', " 
+								+ newBook.getCopyNo() + ")";
 					
 					sql(statement, SQLType.insert);
 				}
