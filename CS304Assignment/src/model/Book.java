@@ -75,7 +75,8 @@ public class Book {
 	this.setCopyNo(newCopyNo);
 	this.setStatus(status);
 	this.setMainAuthor(mainAuthor);
-	
+	this.authors = authors;
+	this.subjects = subjects;
 	
 }
 
