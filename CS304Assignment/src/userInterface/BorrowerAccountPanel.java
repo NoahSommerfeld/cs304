@@ -30,7 +30,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    private JTable table;
 	    private JComboBox<String> comboBox;
 	    private String[] coloumnNames ={"Call Number", "Title", "Checked Out", "Due Date"};
-	    private JButton btnNewButton;
+	    private JButton btnPayFine;
 
 	    public BorrowerAccountPanel(BorrowerView borrowerView, final Controller mySession) {
 	        super(new BorderLayout());
@@ -107,18 +107,22 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        listScrollPane.setViewportView(table);
 	        add(buttonPane, BorderLayout.PAGE_END);
 	        
-	        btnNewButton = new JButton("Pay Fine");
+	        btnPayFine = new JButton("Pay Fine");
 	        
 	        //TODO: make sure we won't get a null. Disable the 'pay fine' button until a row has been
 	        //selected
-	        btnNewButton.addActionListener(new ActionListener() {
+	        btnPayFine.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-			        PayFineDialog temp = new PayFineDialog(getInstance(), mySession, getSelectedFID());
+			        if(getSelectedFID() == -1){
+			        	JOptionPane.showMessageDialog(getInstance(), "No fine selected");
+			        	return;
+			        }
+					PayFineDialog temp = new PayFineDialog(getInstance(), mySession, getSelectedFID(), parent.getLoggedInUser().getName());
 			        temp.setVisible(true);
 				}
 			});
 
-	        buttonPane.add(btnNewButton);
+	        buttonPane.add(btnPayFine);
 	    }
 
 	    private void populateComboBox() {
@@ -254,6 +258,9 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		return false;
 	    	        	}
 	    	        });
+	    	        table.getColumnModel().getColumn(0).setPreferredWidth(40);
+	    	        table.getColumnModel().getColumn(1).setPreferredWidth(150);
+	    	        table.getColumnModel().getColumn(2).setPreferredWidth(85);
 	    	        table.setRowSelectionAllowed(true);
 	        	}
 	        	
@@ -324,6 +331,9 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    }*/
 	    
 	    public int getSelectedFID(){
+	    	if(table.getSelectedRow() == -1){
+	    		return -1;
+	    	}
 	    	String fid = (String)table.getValueAt(table.getSelectedRow(), 0);
 	    	try{
 	    		return Integer.parseInt(fid);
