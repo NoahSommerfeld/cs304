@@ -197,7 +197,20 @@ public class Controller {
 		
 	}
 	
-
+	
+	
+	/**
+	 * This method is for creating new users
+	 * @return A message of confirmation and containing the new bid of the user.
+	 * @throws SQLException - if for some reason, the query fails. Static command though...
+	 * 			
+	 */
+	
+	// To do:
+	//			- confirm user is not already in the DB. (check sinorst)
+	//			- update message to return bid
+	
+	
 	public void createNewUser(User newUser) throws SQLException {
 		
 		stmt = con.createStatement();
@@ -373,10 +386,10 @@ stmt = con.createStatement();
 			}catch(BadCopyNumberException BDCPY){
 				throw BDCPY;
 			}
-/*			
+			
 			//Author
 			
-			while(){
+			/*while(){
 				query = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
 						+ newBook.getMainAuthor() + "')";
 	
@@ -394,11 +407,11 @@ stmt = con.createStatement();
 				System.out.println(query);
 				
 				stmt.executeUpdate(query);
-			}*/
+			}
 			
 			
 			updateMessage("Adding User", true);
-			
+			*/
 			
 			
 		}
@@ -553,17 +566,47 @@ stmt = con.createStatement();
 	}
 	
 	public boolean login (String username, String Password, UserType userType){
+		String query;
+		//try{
+			//Statement stmt = con.createStatement();
+			
+		//	query = "select * from borrower where bid = '" + username + "' and password = '" + password + "'";
+		//}
+		
 		return true;
 	}
 
-	public User getUser(String userName, String password) {
+	public User getUser(String userName, String password) throws SQLException {
+		String query;
 		try {
+			Statement stmt = con.createStatement();
+			
+			//query = "select "
+			
+			
+			
 			return new User("2201 Lower Mall", "1234", "Bob Smith", "202921", "test@gmail.com",
 					"123344556", "01/05/2015", UserType.borrower);
-		} catch (UserCreationException e) {
+		} 
+		catch (UserCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}
+		catch (SQLException ex)
+		{
+		    System.out.println("Message: " + ex.getMessage());
+		    try 
+		    {
+			// undo the insert
+			con.rollback();	
+		    }
+		    catch (SQLException ex2)
+		    {
+			System.out.println("Message: " + ex2.getMessage());
+			throw ex2;
+		    }
+		    throw ex;
 		}
 		
 	}
