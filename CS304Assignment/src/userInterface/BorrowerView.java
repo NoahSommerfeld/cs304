@@ -49,7 +49,8 @@ public class BorrowerView extends ContentPane {
 				e.printStackTrace();
 			} //assuming already logged in, don't need pw
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(this, "Nope");
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			e.printStackTrace();
 		}
 		
 		mainPanel = new JPanel();

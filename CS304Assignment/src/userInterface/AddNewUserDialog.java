@@ -45,9 +45,9 @@ public class AddNewUserDialog extends JDialog {
 	private JTextField txtSinorstno;
 	private JTextField txtDate;
 	private ButtonGroup typeButtonGroup;
-	private JRadioButton rdbtnClerk;
-	private JRadioButton rdbtnBorrower;
-	private JRadioButton rdbtnLibrarian;
+	private JRadioButton rdbtnFaculty;
+	private JRadioButton rdbtnStaff;
+	private JRadioButton rdbtnStudent;
 	
 	/**
 	 * Create the dialog.
@@ -162,19 +162,19 @@ public class AddNewUserDialog extends JDialog {
 			typeButtonGroup = new ButtonGroup();
 		}
 		{
-			rdbtnClerk = new JRadioButton("Clerk");
-			contentPanel.add(rdbtnClerk, "2, 16");
-			typeButtonGroup.add(rdbtnClerk);
+			rdbtnFaculty = new JRadioButton("Faculty");
+			contentPanel.add(rdbtnFaculty, "2, 16");
+			typeButtonGroup.add(rdbtnFaculty);
 		}
 		{
-			rdbtnBorrower = new JRadioButton("Borrower");
-			contentPanel.add(rdbtnBorrower, "4, 16");
-			typeButtonGroup.add(rdbtnBorrower);
+			rdbtnStaff = new JRadioButton("Staff");
+			contentPanel.add(rdbtnStaff, "4, 16");
+			typeButtonGroup.add(rdbtnStaff);
 		}
 		{
-			rdbtnLibrarian = new JRadioButton("Librarian");
-			contentPanel.add(rdbtnLibrarian, "6, 16");
-			typeButtonGroup.add(rdbtnLibrarian);
+			rdbtnStudent = new JRadioButton("Student");
+			contentPanel.add(rdbtnStudent, "6, 16");
+			typeButtonGroup.add(rdbtnStudent);
 		}
 		{
 			JLabel lblType = new JLabel("Type");
@@ -242,14 +242,14 @@ public class AddNewUserDialog extends JDialog {
 			if(typeButtonGroup.isSelected(rdbtnLibrarian));
 		}
 		*/
-		if(rdbtnClerk.isSelected()){
-			tempType = UserType.clerk;
+		if(rdbtnFaculty.isSelected()){
+			tempType = UserType.faculty;
 		}
-		else if(rdbtnBorrower.isSelected()){
-			tempType = UserType.borrower;
+		else if(rdbtnStaff.isSelected()){
+			tempType = UserType.staff;
 		}
-		else if(rdbtnLibrarian.isSelected()){
-			tempType = UserType.librarian;
+		else if(rdbtnStudent.isSelected()){
+			tempType = UserType.student;
 		}
 		else{
 			throw new UserCreationException("No type selected");
