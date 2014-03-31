@@ -17,6 +17,8 @@ import model.UserType;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BorrowerView extends ContentPane {
 	private JPanel mainPanel;
@@ -25,9 +27,6 @@ public class BorrowerView extends ContentPane {
 	private JPanel panel_1;
 	private JButton btnNewButton_4;
 	private JPanel panel_2;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
 	private JPanel listContentPanel;
 	private JPanel panel_3;
 	private User loggedInUser;
@@ -50,15 +49,6 @@ public class BorrowerView extends ContentPane {
 		
 		panel_2 = new JPanel();
 		mainPanel.add(panel_2, BorderLayout.NORTH);
-		
-		btnNewButton = new JButton("New button");
-		panel_2.add(btnNewButton);
-		
-		btnNewButton_1 = new JButton("New button");
-		panel_2.add(btnNewButton_1);
-		
-		btnNewButton_2 = new JButton("New button");
-		panel_2.add(btnNewButton_2);
 		
 		listContentPanel = new BorrowerSearchPanel(this, this.mySession);
 		mainPanel.add(listContentPanel, BorderLayout.WEST);

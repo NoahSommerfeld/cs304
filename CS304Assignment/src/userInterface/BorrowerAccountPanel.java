@@ -30,8 +30,9 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    private JTable table;
 	    private JComboBox<String> comboBox;
 	    private String[] coloumnNames ={"Call Number", "Title", "Checked Out", "Due Date"};
+	    private JButton btnNewButton;
 
-	    public BorrowerAccountPanel(BorrowerView borrowerView, Controller mySession) {
+	    public BorrowerAccountPanel(BorrowerView borrowerView, final Controller mySession) {
 	        super(new BorderLayout());
 	        parent = borrowerView;
 	        this.mySession = mySession;
@@ -105,6 +106,19 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        table.setRowSelectionAllowed(false);
 	        listScrollPane.setViewportView(table);
 	        add(buttonPane, BorderLayout.PAGE_END);
+	        
+	        btnNewButton = new JButton("Pay Fine");
+	        
+	        //TODO: make sure we won't get a null. Disable the 'pay fine' button until a row has been
+	        //selected
+	        btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+			        PayFineDialog temp = new PayFineDialog(getInstance(), mySession, getSelectedFID());
+			        temp.setVisible(true);
+				}
+			});
+
+	        buttonPane.add(btnNewButton);
 	    }
 
 	    private void populateComboBox() {
@@ -113,6 +127,10 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 			comboBox.addItem("Outstanding Fines");
 			
 		}
+	    
+	    private BorrowerAccountPanel getInstance(){
+	    	return this;
+	    }
 
 		class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
@@ -157,6 +175,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		return false;
 	    	        	}
 	    	        });
+	    	        table.setRowSelectionAllowed(true);
 	        	}
 	        	else if(subjectFilter.equals("Loaned books")){
 	        		toAdd = mySession.getLoanedBooks(parent.getLoggedInUser());
@@ -191,11 +210,12 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        	}
 	    	        	boolean[] columnEditables = new boolean[] {
 	    	        		false, false, false, false, false
-	    	        	};
+	    	        			};
 	    	        	public boolean isCellEditable(int row, int column) {
 	    	        		return false;
 	    	        	}
 	    	        });
+	    	        table.setRowSelectionAllowed(true);
 	        	}
 	        	else if(subjectFilter.equals("Outstanding Fines")){
 	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
@@ -218,7 +238,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		{null, null, null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        			"Call Number", "Title", "Book Due", "Returned", "Fine Amount"
+	    	        			"Fine ID", "Title", "Book Due", "Returned", "Fine Amount"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
@@ -234,6 +254,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		return false;
 	    	        	}
 	    	        });
+	    	        table.setRowSelectionAllowed(true);
 	        	}
 	        	
 	        	
@@ -301,4 +322,14 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        frame.pack();
 	        frame.setVisible(true);
 	    }*/
+	    
+	    public int getSelectedFID(){
+	    	String fid = (String)table.getValueAt(table.getSelectedRow(), 0);
+	    	try{
+	    		return Integer.parseInt(fid);
+	    	}catch(IllegalArgumentException e){
+	    		return -1;
+	    	}
+	    	
+	    }
 }
