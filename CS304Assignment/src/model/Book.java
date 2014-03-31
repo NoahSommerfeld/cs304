@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import exceptions.BookCreationException;
 import exceptions.UserCreationException;
@@ -15,12 +17,16 @@ public class Book {
 	private int year;
 	private int copyNo;
 	private BorrowStatus status;
+	private ArrayList<String> authors;
+	private ArrayList<String> subjects;
 	
 	public Book(String callNumber, String ISBN, String title,
 			String mainAuthor, String publisher, int year,
-			int copyNo, BorrowStatus status) throws BookCreationException{
+			int copyNo, BorrowStatus status, ArrayList<String> authors, ArrayList<String> subjects) throws BookCreationException{
 	validate(callNumber, ISBN, title, mainAuthor, 
-			publisher, year, copyNo, status);
+			publisher, year, copyNo, status, authors, subjects);
+	
+	
 	this.setCallNumber(callNumber);
 	this.setISBN(ISBN);
 	this.setTitle(title);
@@ -29,6 +35,8 @@ public class Book {
 	this.setCopyNo(copyNo);
 	this.setStatus(status);
 	this.setMainAuthor(mainAuthor);
+	this.authors = authors;
+	this.subjects = subjects;
 
 	
 	
@@ -36,7 +44,7 @@ public class Book {
 	
 	public Book(String callNumber, String ISBN, String title,
 			String mainAuthor, String publisher, String year,
-			String copyNo, BorrowStatus status) throws BookCreationException{
+			String copyNo, BorrowStatus status, ArrayList<String> authors, ArrayList<String> subjects) throws BookCreationException{
 	
 		
 		int newYear;
@@ -58,7 +66,7 @@ public class Book {
 		
 		
 	validate(callNumber, ISBN, title, mainAuthor, 
-				publisher, newYear, newCopyNo, status);
+				publisher, newYear, newCopyNo, status, authors, subjects);
 	this.setCallNumber(callNumber);
 	this.setISBN(ISBN);
 	this.setTitle(title);
@@ -73,7 +81,7 @@ public class Book {
 
 private void validate(String callNumber, String ISBN, String title,
 		String mainAuthor, String publisher, int year,
-		int copyNo, BorrowStatus status) throws BookCreationException{
+		int copyNo, BorrowStatus status, ArrayList<String> authors2, ArrayList<String> subjects2) throws BookCreationException{
 	
 	
 	if(callNumber == null){ //TODO do the checks here. 
@@ -146,6 +154,17 @@ public BorrowStatus getStatus() {
 public void setStatus(BorrowStatus status) {
 	this.status = status;
 }
+
+public ArrayList<String> getSubjects() {
+	return subjects;
+}
+
+
+public ArrayList<String> getAuthors() {
+	return authors;
+}
+
+
 
 
 

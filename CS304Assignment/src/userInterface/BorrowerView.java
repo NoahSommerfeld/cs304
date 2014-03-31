@@ -1,5 +1,6 @@
 package userInterface;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -19,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class BorrowerView extends ContentPane {
 	private JPanel mainPanel;
@@ -38,7 +40,11 @@ public class BorrowerView extends ContentPane {
 		
 			/*public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
-		loggedInUser = mySession.getUser(this.userName, this.password);
+		try {
+			loggedInUser = mySession.getUser(this.userName, this.password);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, "Nope");
+		}
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.window);

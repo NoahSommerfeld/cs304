@@ -23,11 +23,15 @@ public class RealUserNamePrompt extends UserNamePrompt implements ActionListener
 	
 	private UserType neededType;
 	
+	
 	public RealUserNamePrompt(Controller mySession, MainWindow parent, UserType neededType) {
 		super(mySession, parent);
+		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		//super(mySession, parent);
+		
 		this.neededType = neededType;
 		ImageIcon img = new ImageIcon("res/library-icon.png");
-		this.setIconImage(img.getImage());
+		super.setIconImage(img.getImage());
 		// TODO Auto-generated constructor stub
 	}
 

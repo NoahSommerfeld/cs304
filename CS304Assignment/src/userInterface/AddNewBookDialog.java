@@ -1,20 +1,25 @@
 package userInterface;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -34,6 +39,11 @@ import model.Book;
 import model.BorrowStatus;
 import model.UserType;
 
+import javax.swing.JList;
+import javax.swing.border.LineBorder;
+
+import java.awt.Color;
+
 public class AddNewBookDialog extends JDialog {
 //TODO will need to make the rest of the application stop accepting inputs
 	// see http://docs.oracle.com/javase/tutorial/uiswing/misc/modality.html
@@ -47,6 +57,18 @@ public class AddNewBookDialog extends JDialog {
 	private JTextField txtTitle;
 	private JTextField txtCallNo;
 	private ButtonGroup typeButtonGroup;
+	private JTextField textAddSubjects;
+	private JButton btnAddSubject;
+	private JLabel lblSubjectLabel;
+	private JTextField textAddAuthors;
+	private JButton btnAddAuthors;
+	private JLabel lblAuthors;
+	private JList<String> listSubjects;
+	private JList<String> listAuthors;
+	private DefaultListModel<String> listModelSubjects;
+	private DefaultListModel<String> listModelAuthors;
+	private JScrollPane scrollPanelAuthors;
+	private JScrollPane scrollPanelSubjects;
 	
 	/**
 	 * Create the dialog.
@@ -55,9 +77,11 @@ public class AddNewBookDialog extends JDialog {
 		setTitle("Add New ");
 		this.parent = parent;
 		this.mySession = session;
+		listModelSubjects = new DefaultListModel<String>();
+		listModelAuthors = new DefaultListModel<String>();
 		ImageIcon img = new ImageIcon("res/library-icon.png");
 		this.setIconImage(img.getImage());
-		setBounds(100, 100, 300, 250);
+		setBounds(100, 100, 300, 450);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -81,6 +105,14 @@ public class AddNewBookDialog extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("fill:default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		{
@@ -143,6 +175,90 @@ public class AddNewBookDialog extends JDialog {
 			JLabel lblYear = new JLabel("Year");
 			contentPanel.add(lblYear, "8, 12");
 		}
+		{
+			listSubjects = new JList<String>(listModelSubjects);
+			scrollPanelSubjects = new JScrollPane(listSubjects);
+			listSubjects.setVisibleRowCount(2);
+			listSubjects.setBorder(new LineBorder(new Color(0, 0, 0)));
+			contentPanel.add(scrollPanelSubjects, "2, 14, 5, 2, fill, fill");
+		}
+		{
+			
+			lblSubjectLabel = new JLabel("Subject(s)");
+			contentPanel.add(lblSubjectLabel, "8, 14");
+		}
+		{
+			textAddSubjects = new JTextField();
+			contentPanel.add(textAddSubjects, "2, 16, 5, 1, fill, default");
+			textAddSubjects.setColumns(10);
+		}
+		{
+			btnAddSubject = new JButton("Add");
+			btnAddSubject.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(isNoDuplicates(textAddSubjects.getText(), listModelSubjects)){
+					listModelSubjects.addElement(textAddSubjects.getText());
+					textAddSubjects.setText("");
+					}
+				}
+				private boolean isNoDuplicates(String text,
+						ListModel<String> listModel) {
+					for(int i = 0; i<listModel.getSize(); i++){
+						if(listModel.getElementAt(i).equals(text)){
+							return false;
+						}
+					}
+
+					return true;
+				}
+			});
+			contentPanel.add(btnAddSubject, "8, 16");
+		}
+		{
+			listAuthors = new JList<String>(listModelAuthors);
+			//listAuthors.setBorder(new LineBorder(new Color(0, 0, 0)));
+			scrollPanelAuthors = new JScrollPane(listAuthors);
+			contentPanel.add(scrollPanelAuthors, "2, 18, 5, 2, fill, fill");
+		}
+		{
+			lblAuthors = new JLabel("Authors");
+			contentPanel.add(lblAuthors, "8, 18");
+		}
+		{
+			textAddAuthors = new JTextField();
+			contentPanel.add(textAddAuthors, "2, 20, 5, 1, fill, default");
+			textAddAuthors.setColumns(10);
+		}
+		{
+			btnAddAuthors = new JButton("Add");
+			btnAddAuthors.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(isNoDuplicates(textAddAuthors.getText(), listModelAuthors)){
+					listModelAuthors.addElement(textAddAuthors.getText());
+					textAddAuthors.setText("");
+					}
+					
+				
+				}
+
+				private boolean isNoDuplicates(String text,
+						ListModel<String> listModel) {
+					for(int i = 0; i<listModel.getSize(); i++){
+						if(listModel.getElementAt(i).equals(text)){
+							return false;
+						}
+					}
+
+					return true;
+				}
+				
+			});
+			contentPanel.add(btnAddAuthors, "8, 20");
+		}
 
 		{
 			JPanel buttonPane = new JPanel();
@@ -201,10 +317,7 @@ public class AddNewBookDialog extends JDialog {
 	}
 	
 	
-	private boolean isInputGood(){
-		//TODO check if input is actually correct
-		return true;
-	}
+
 	private Book turnIntoBook() throws BookCreationException{
 		/*private JTextField txtYear;
 		private JTextField txtPublisher;
@@ -213,9 +326,19 @@ public class AddNewBookDialog extends JDialog {
 		private JTextField txtTitle;
 		private JTextField txtCallNo;
 		private ButtonGroup typeButtonGroup;*/
+		ArrayList<String> authors = new ArrayList<String>();
+		ArrayList<String> subjects = new ArrayList<String>();
+		//TODO convert from that list. 
+		
+		for(int i = 0; i< listModelSubjects.getSize(); i++){
+			subjects.add(listModelSubjects.getElementAt(i));
+		}
+		for(int i = 0; i< listModelAuthors.getSize(); i++){
+			subjects.add(listModelAuthors.getElementAt(i));
+		}
 		Book temp = new Book(txtCallNo.getText(), txtISBN.getText(), txtTitle.getText(),
 							txtAuthor.getText(), txtPublisher.getText(), txtYear.getText(),
-							"0", BorrowStatus.CHECKED_IN);
+							"0", BorrowStatus.CHECKED_IN,authors, subjects);
 							
 		return temp;
 	}
