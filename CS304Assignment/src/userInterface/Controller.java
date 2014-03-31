@@ -176,7 +176,7 @@ public class Controller {
 			ResultSet rs = stmt.executeQuery(query);
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int numUsers = rsmd.getColumnCount();
-			
+			System.out.println(numUsers);
 			return numUsers;
 			
 		}catch (SQLException ex)
