@@ -277,24 +277,10 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 		try{
 			String statement;
 			ResultSet rs;
-			//book
-			
-			statement = "INSERT INTO Book VALUES ('" 
-					+ newBook.getCallNumber() + "', '"
-					+ newBook.getISBN() + "', '"
-					+ newBook.getTitle() + "', '" 
-					+ newBook.getMainAuthor() + "', '"
-					+ newBook.getPublisher() + "', '" 
-					+ newBook.getYear() + "')";
-			
-			System.out.println(statement);
-			
-			sql(statement, SQLType.insert);
-			
 			
 			
 			//Copy Number
-			
+				
 				//Check if there is a 
 				statement = "select count(*) from BookCopy where callnumber ='" 
 							+ newBook.getCallNumber() + "' and copyNo='" + newBook.getCopyNo()+"')";
@@ -304,6 +290,22 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 				int copyCount = rs.getInt(1);
 				
 				if (copyCount == 0){
+					
+					//book
+					
+					statement = "INSERT INTO Book VALUES ('" 
+							+ newBook.getCallNumber() + "', '"
+							+ newBook.getISBN() + "', '"
+							+ newBook.getTitle() + "', '" 
+							+ newBook.getMainAuthor() + "', '"
+							+ newBook.getPublisher() + "', '" 
+							+ newBook.getYear() + "')";
+					
+					System.out.println(statement);
+					
+					sql(statement, SQLType.insert);
+					
+					
 					
 					//CopyNo
 					
