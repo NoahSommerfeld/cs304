@@ -26,11 +26,11 @@ public abstract class ContentPane extends JPanel {
 	private JLabel lblStatusLabel;
 	private JLabel lblStatsLabel1;
 	protected Controller mySession;
-	protected String userName;
+	protected int userBID;
 	protected String password;
 	
-	public ContentPane(MainWindow parent, Controller session, String username, String password) {
-		this.userName = username;
+	public ContentPane(MainWindow parent, Controller session, int userBID, String password) {
+		this.userBID = userBID;
 		this.password = password;
 		this.parent = parent;
 		mySession = session;

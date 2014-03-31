@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 
+import model.User;
 import model.UserType;
 
 public class AddNewUserDialog extends JDialog {

@@ -1,9 +1,8 @@
-package userInterface;
+package model;
 
 import java.util.Date;
 
 import exceptions.UserCreationException;
-import model.UserType;
 
 public class User {
 	

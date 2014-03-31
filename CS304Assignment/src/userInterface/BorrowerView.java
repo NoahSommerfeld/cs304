@@ -13,6 +13,7 @@ import exceptions.UserCreationException;
 
 import javax.swing.JButton;
 
+import model.User;
 import model.UserType;
 
 import java.awt.BorderLayout;
@@ -34,14 +35,14 @@ public class BorrowerView extends ContentPane {
 	private User loggedInUser;
 	private JPanel panel_4;
 	
-	public BorrowerView(MainWindow parent, Controller session, String username, String password) {
+	public BorrowerView(MainWindow parent, Controller session, int userBID, String password) {
 		
-		super(parent, session, username, password);
+		super(parent, session, userBID, password);
 		
 			/*public User(String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type)*/
 		try {
-			loggedInUser = mySession.getUser(this.userName, this.password);
+			loggedInUser = mySession.getUser(this.userBID); //assuming already logged in, don't need pw
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(this, "Nope");
 		}

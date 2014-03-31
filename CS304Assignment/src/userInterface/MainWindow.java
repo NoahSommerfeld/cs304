@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 	private JPanel loginPanel;
 	private ContentPane contentPane;
 	private static Controller staticSession;
-	private String loggedInUserName;
+	private int userBID;
 	private String loggedInUserPassword;
 	
 	/**
@@ -157,7 +157,7 @@ public class MainWindow extends JFrame {
 	public void clerkGo(){
 		removeCurrentContent();
 		System.out.println("new clerkview");
-		contentPane = new ClerkView(this, session,this.loggedInUserName, this.loggedInUserPassword);
+		contentPane = new ClerkView(this, session,this.userBID, this.loggedInUserPassword);
 	
 
 	getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -172,7 +172,7 @@ public class MainWindow extends JFrame {
 	public void borrowerGo(){
 		removeCurrentContent();
 	System.out.println("new borrwerview");
-	contentPane = new BorrowerView(this, session, this.loggedInUserName, this.loggedInUserPassword);
+	contentPane = new BorrowerView(this, session, this.userBID, this.loggedInUserPassword);
 
 
 getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -189,7 +189,7 @@ this.repaint();
 	public void librarianGo(){
 		removeCurrentContent();
 		System.out.println("new Librarian");
-		contentPane = new LibrarianView(this, session, this.loggedInUserName, this.loggedInUserPassword);
+		contentPane = new LibrarianView(this, session, this.userBID, this.loggedInUserPassword);
 	
 
 	getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -200,7 +200,7 @@ this.repaint();
 	
 	public void signOut(){
 		contentPane.signOut();
-		this.loggedInUserName = "";
+		this.userBID = -1;
 		this.loggedInUserPassword = "";
 		this.removeCurrentContent();
 		
@@ -209,8 +209,8 @@ this.repaint();
 		this.revalidate();
 		this.repaint();
 	}
-	public void setUNPW(String un, String pw) {
-		this.loggedInUserName = un;
+	public void setUNPW(int un, String pw) {
+		this.userBID = un;
 		this.loggedInUserPassword = pw;
 		
 	}

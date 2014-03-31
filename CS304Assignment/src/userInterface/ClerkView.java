@@ -36,9 +36,9 @@ public class ClerkView extends ContentPane {
 	private ClerkView getThisSession(){
 		return this;
 	}
-	public ClerkView(MainWindow parent, Controller session, String username, String password) {
+	public ClerkView(MainWindow parent, Controller session, int userBID, String password) {
 		
-		super(parent, session, username, password);
+		super(parent, session, userBID, password);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.window);

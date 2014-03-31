@@ -28,7 +28,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 
+import model.User;
 import model.UserType;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
