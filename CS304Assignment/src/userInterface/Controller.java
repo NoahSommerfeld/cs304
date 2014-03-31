@@ -596,7 +596,9 @@ stmt = con.createStatement();
 				
 				//Check if the user has the correct login information
 				String currUserPass = rs.getString("password");
-				if (currUserPass != Password){
+				System.out.println( currUserPass +" = " +Password);
+				if (!currUserPass.equals(Password)){
+					
 					throw new UserLoginException("Incorrect password. Please try again.");
 				}else{
 					
