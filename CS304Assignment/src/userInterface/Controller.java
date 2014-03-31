@@ -82,7 +82,7 @@ public class Controller {
 					+ newUser.getPhone() + ", '" 
 					+ newUser.getEmailAddress() + "', "
 					+ newUser.getSinOrStNo() + ", '"
-					+ newUser.getExpiryDate() + ", '"
+					+ newUser.getExpiryDate() + "', '"
 					+ newUser.getType() +"')";
 			
 			System.out.println(query);
