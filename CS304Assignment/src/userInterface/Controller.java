@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
@@ -410,6 +411,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 */
 	public List<String> getPopularBooks(int year, int numResults) throws SQLException{
 		ArrayList<String> theResults = new ArrayList<String>();
+		
 		theResults.add("(5) - Hitchhiker's guide to your mom");
 		theResults.add("(2) - war of your mom");
 		theResults.add("(2) - around Daniel's mom in 80 days");
@@ -419,9 +421,21 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	
 	public ArrayList<String> getSubjects() throws SQLException{
 		ArrayList<String> temp = new ArrayList<String>();
-		temp.add("Science");
-		temp.add("Fantasy");
-		temp.add("non-fiction");
+		HashSet<String> tempSet = new HashSet<String>();
+		String statement;
+		ResultSet rs;
+		
+		statement = "SELECT subject from HasSubject";
+		rs = sql(statement, SQLType.query);
+				
+		while(rs.next()){
+			tempSet.add(rs.getString(1));
+		}
+		
+		for(String s : tempSet){
+			temp.add(s);
+		}
+		
 		return temp;
 	}
 	
@@ -489,7 +503,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	}
 
 
-public void processPayment(int bid, double paymentAmount, int creditCardNo) throws SQLException{
+public void processPayment(int fid, int bid, double paymentAmount, int creditCardNo) throws SQLException{
 	
 	
 	

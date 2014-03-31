@@ -204,7 +204,7 @@ public class PayFineDialog extends JDialog {
 							double payment = Double.parseDouble(textFineAmount.getText());
 							int BID = getInstance().parent.getLoggedInUserBID();
 							int creditCardNum = Integer.parseInt(textCardNumber.getText().replace(" ", ""));
-							mySession.processPayment(BID, payment, creditCardNum);
+							mySession.processPayment(fineID, BID, payment, creditCardNum);
 							JOptionPane.showMessageDialog(getInstance(), "Payment Processed");
 							closeDialogBox();
 						}
