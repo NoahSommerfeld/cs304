@@ -6,6 +6,8 @@ package userInterface;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +71,7 @@ public class Controller {
 	//			- update message to return bid
 	
 	
-	public void createNewUser(User newUser) throws SQLException {
+	public void createNewUser(User newUser) throws SQLException, ParseException{
 		
 		stmt = con.createStatement();
 		
@@ -82,7 +84,7 @@ public class Controller {
 					+ newUser.getPhone() + ", '" 
 					+ newUser.getEmailAddress() + "', "
 					+ newUser.getSinOrStNo() + ", '"
-					+ newUser.getExpiryDate() + "', '"
+					+ formatDate(newUser.getExpiryDate()) + "', '"
 					+ newUser.getType() +"')";
 			
 			System.out.println(query);
@@ -679,7 +681,11 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 		mainWindow.getMyContentPane().setStatusLbl(message);
 	}
 
-	
+	public Date formatDate(Date oldDate) throws ParseException{
+		String oldString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(oldDate);
+		Date newDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldString);
+		return newDate;
+	}
 	
 	/**
 	 * This registers the main window, so that we can update the status bar. 
