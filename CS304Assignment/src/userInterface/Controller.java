@@ -16,6 +16,7 @@ import exceptions.BadCopyNumberException;
 import exceptions.BadUserIDException;
 import exceptions.FineAssessedException;
 import exceptions.NotCheckedInException;
+import exceptions.UserCreationException;
 
 public class Controller {
 	private Connection con;
@@ -336,10 +337,10 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	 * @throws BadCopyNumberException - if the copy number is already taken. 
 	 */
 	
-/*	public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
+public void createNewBook(Book newBook) throws SQLException, BadCopyNumberException{
 stmt = con.createStatement();
 		
-		try{
+		//try{
 
 			String query = "INSERT INTO Book VALUES (CN_counter.nextVal, '"
 					+ newBook.getISBN() + "', '"
@@ -352,7 +353,7 @@ stmt = con.createStatement();
 			
 			
 			
-			while(){
+			/*while(){
 				query = "INSERT INTO HasAuthor VALUES (CN_counter.curVal, '"
 						+ newBook.getMainAuthor() + "')";
 	
@@ -395,8 +396,8 @@ stmt = con.createStatement();
 			throw ex2;
 		    }
 		    throw ex;
-		}
-	}*/
+		}*/
+	}
 	
 	/**
 	 * Returns the most popular books, and the number of times they've been
@@ -463,23 +464,83 @@ stmt = con.createStatement();
 		return data;
 	}
 
+	/**
+	 * Need each row formatted like this :)
+	 * String["Call Number", "Title", "Hold Requested Date", "Status", "Book Due"]
+	 * @param loggedInUser
+	 * @return
+	 */
 	public String[][] getHoldRequests(User loggedInUser) {
-		// TODO Auto-generated method stub
-		return null;
+		String[][] data = {
+			    {"A2NRBS2", "Long Island Ice Tea",
+			     "January 15, 2014", "Checked Out", "April 30, 2014"},
+			    {"34534q5w", "Noah>Daniel, inc", 
+			     "March 25, 2014", "On Hold", "April 25, 2014"},
+			    {"A6 FGD 234", "That time I saw a ghost",
+			     "March 10, 2014", "Checked Out", "March 17, 2014"},
+			    {"43A dfgdfg", "Smokin the While Elephant",
+			     "March 12, 2014", "On Hold", "March 16, 2014"}
+			};
+
+		
+		return data;
 	}
 
+	
+	/**
+	 * String ["Call Number", "Title", "Checked Out", "Due", ""]
+	 * @param loggedInUser
+	 * @return
+	 */
 	public String[][] getLoanedBooks(User loggedInUser) {
-		// TODO Auto-generated method stub
-		return null;
+		String[][] data = {
+			    {"A2NRBS2", "Long Island Ice Tea",
+			     "January 15, 2014", "April 30, 2014", ""},
+			    {"34534q5w", "Noah>Daniel, inc", 
+			     "March 25, 2014", "April 25, 2014", ""},
+			    {"A6 FGD 234", "That time I saw a ghost",
+			     "March 10, 2014", "March 17, 2014", ""},
+			    {"43A dfgdfg", "Smokin the While Elephant",
+			     "March 12, 2014", "March 16, 2014", ""}
+			};
+
+		return data;
 	}
+	
+	/**
+	 * String ["Call Number", "Title", "Book Due", "Returned", "Fine Amount"]
+	 * @param loggedInUser
+	 * @return
+	 */
 
 	public String[][] getOutstandingFines(User loggedInUser) {
-		// TODO Auto-generated method stub
-		return null;
+			String[][] date = { 
+				{"A2NRBS2", "Long Island Ice Tea",
+		     "January 15, 2014", "April 30, 2014", "$25.03"},
+		    {"34534q5w", "Noah>Daniel, inc", 
+		     "March 25, 2014", "April 25, 2014", "$26.02"},
+		    {"A6 FGD 234", "That time I saw a ghost",
+		     "March 10, 2014", "March 17, 2014", "$1.03"},
+		    {"43A dfgdfg", "Smokin the While Elephant",
+		     "March 12, 2014", "March 16, 2014", "$5.01"}
+	};
+		return date;
 	}
 	
 	public boolean login (String username, String Password, UserType userType){
 		return true;
+	}
+
+	public User getUser(String userName, String password) {
+		try {
+			return new User("2201 Lower Mall", "1234", "Bob Smith", "202921", "test@gmail.com",
+					"123344556", "01/05/2015", UserType.borrower);
+		} catch (UserCreationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 }
