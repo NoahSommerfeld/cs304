@@ -7,6 +7,7 @@ package userInterface;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import model.Book;
@@ -605,11 +606,26 @@ public void createNewBook(Book newBook) throws SQLException, BadCopyNumberExcept
 	
 	//TODO: Maybe implement user checks
 	
-	public User getUser(int userName) throws SQLException {
+	public User getUser(int bid) throws SQLException {
 	
 		User user;
 		
+		String statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
 		
+		ResultSet rs = query(statement, QueryType.query);
+		
+		
+		user = new User()
+		
+		int	currbid =				rs.getInt("bid");
+		String password=		
+		String name=				
+		Long phone=				
+		String emailAddress=		
+		Long sinOrStNo=			
+		Date expiryDate=			
+		UserType type=			
+		String address=			
 		
 		
 		return null;
