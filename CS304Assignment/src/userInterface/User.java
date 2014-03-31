@@ -7,6 +7,7 @@ import model.UserType;
 
 public class User {
 	
+	private int	bid;
 	private String password;
 	private String name;
 	private Long phone;
@@ -16,10 +17,11 @@ public class User {
 	private UserType type;
 	private String address;
 	
-	public User(String address, String password, String name, Long phone, 
+	public User(int bid, String address, String password, String name, Long phone, 
 			String emailAddress, Long sinOrStNo, Date expiryDate, UserType type) throws UserCreationException{
 	validate(address, password, name, phone, 
 		emailAddress, sinOrStNo, expiryDate, type);
+	this.bid = bid;
 	this.address = address;
 	this.password = password;
 	this.name = name;
