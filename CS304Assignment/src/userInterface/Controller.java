@@ -5,9 +5,11 @@
 package userInterface;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.security.interfaces.RSAKey;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -617,10 +619,15 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		Date outDate;
 		long timeOut;
 		boolean late = false;
+
+		Date currDate = new Date(System.currentTimeMillis());
 		
 		
 		//Return 
 		
+		statement = "update borrowing set inDate='"+formatDate(currDate)+"' WHERE callNumber='" 
+					+ callNumber + "' and copyNo ="+ copyNo;
+		rs = sql(statement, SQLType.insert);
 		
 		//process fine if needed
 		
@@ -629,16 +636,31 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 					+ callNumber + "' and copyNo ="+ copyNo;
 		System.out.println(statement);
 		rs = sql(statement, SQLType.query);
+		rs.next();
 		
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
 
+		
+		System.out.println(bid);
 		Date dueDate = rs.getDate("dueDate");
 		Date inDate = rs.getDate("inDate");
-		Date currDate = new Date(System.currentTimeMillis());
-		timeOut = inDate.getTime() - dueDate.getTime();
 		
+		
+		System.out.println(dueDate.toString()+ "   "+inDate.toString());
+		
+		long dDate = dueDate.getTime();
+		long iDate = inDate.getTime();
+		
+		System.out.println(dDate +"     " +iDate);
+		
+		timeOut = iDate - dDate;
+		System.out.println(timeOut);
 		if(timeOut > 0) late = true;
+		
+		
+		DecimalFormat df = new DecimalFormat ("##.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		
 		if(late){
 			
@@ -647,8 +669,8 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 					+formatDate(currDate) +"', NULL, "
 					+ rs.getInt("borid") +")";
 			
-			this.updateStatusBar("Book was returned. Fine issued");
-			throw new FineAssessedException("Book was late, fine assessed", (timeOut*0.05/1000));
+			this.updateStatusBar("Book was returned. Fine issued: $" + df.format(timeOut*0.05/10000000));
+			throw new FineAssessedException("Book was late, fine assessed", (timeOut*0.05/10000000));
 		}
 		
 		this.updateStatusBar("Book has been checked in and is on time!");

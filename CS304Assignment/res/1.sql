@@ -218,18 +218,18 @@ insert into Borrower values
 (bid_counter.nextVal, '1234Cats', 'OMGSUPERCAT', '123 Cat st.',
  4794322, 'theGREATKITTY@gmail.com',1,'31/may/98', 'librarian');
 
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'GFG7.CC7', 2, '12/mar/13', '15/apr/13', NULL);
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '12/mar/13', '14/mar/13', NULL);
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'E3K8.E8D', 1, '2/mar/13', '14/apr/13', NULL);
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'AD98.6DH', 1, '9/mar/13', '1/apr/13', NULL);
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'GFG7.CC7', 2, '12/mar/2013', '15/apr/2013', NULL);
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '12/mar/2013', '14/mar/2013', NULL);
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'E3K8.E8D', 1, '2/mar/2013', '14/apr/2013', NULL);
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'AD98.6DH', 1, '9/mar/2013', '1/apr/2013', NULL);
 
 
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'FNAE.007', 1, '12/mar/13', '14/mar/13', '18/mar/13');
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '12/mar/13', '13/mar/13', '14/mar/13');
-INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '14/mar/13', '15/mar/13', '25/mar/13');
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'FNAE.007', 1, '12/mar/2013', '14/mar/2013', '18/mar/2013');
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '12/mar/2013', '13/mar/2013', '14/mar/2013');
+INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '14/mar/2013', '15/mar/2013', '25/mar/2013');
 
-INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/mar/13', NULL, 6);
-INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/mar/13', '15/mar/13', 7);
+INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/mar/2013', NULL, 6);
+INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/mar/2013', '15/mar/2013', 7);
 
-insert into holdrequest values(hid_counter.nextVal, 2, 'E3K8.E8D', '14/MAR/13');
+insert into holdrequest values(hid_counter.nextVal, 2, 'E3K8.E8D', '14/MAR/2013');
 
