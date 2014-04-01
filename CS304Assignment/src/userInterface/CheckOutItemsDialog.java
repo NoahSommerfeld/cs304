@@ -101,8 +101,9 @@ public class CheckOutItemsDialog extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		{
 			txtBidshouldWe = new JTextField();
+			txtBidshouldWe.setHorizontalAlignment(SwingConstants.RIGHT);
 			//txtBidshouldWe.setText("BID (should we autoGenerate?)");
-			contentPanel.add(txtBidshouldWe, "2, 2, 7, 1, fill, default");
+			contentPanel.add(txtBidshouldWe, "8, 2, fill, default");
 			txtBidshouldWe.setColumns(10);
 		}
 		{
@@ -234,10 +235,29 @@ public class CheckOutItemsDialog extends JDialog {
 						int numberOfBooks = listModel.getSize();
 						
 						ArrayList<BookCopy> checkouts = new ArrayList<BookCopy>();
+						
 						for(int i = 0; i<listModel.size(); i++){
-						String callNumber = (String) listModel.get(i);
-						String temp = "" + copyNo;
-						checkouts.add(new BookCopy(callNumber.substring("Copy ".length() + temp.length() + " - ".length()), copyNo)); //remove the copyNo at the beggining
+							String phrase = (String) listModel.get(i);
+							int thisCopyNo = 0;
+							String tempString = phrase.substring("copy ".length());
+							for(int spotCount = 0; tempString.charAt(i) != ' '; i++){
+								thisCopyNo++;
+							}
+							try{
+								thisCopyNo = Integer.parseInt(tempString.substring(0, thisCopyNo));
+							}catch(IllegalArgumentException ilae){
+							System.out.println("Couldn't convert copy number from the list");
+							ilae.printStackTrace();
+							return;
+						}
+						
+						System.out.println("Copy no: " + thisCopyNo);
+						String temp = ""+thisCopyNo;
+						String callNumber = phrase.substring("Copy ".length() + temp.length() + " - ".length());
+						
+						
+
+						checkouts.add(new BookCopy(callNumber, thisCopyNo)); //remove the copyNo at the beggining
 						
 						
 						
@@ -245,7 +265,9 @@ public class CheckOutItemsDialog extends JDialog {
 					//	for(int i = 0; i<numberOfBooks; i++){
 							try {
 							
-								
+								if(txtBidshouldWe.getText() == null || txtBidshouldWe.getText().equals("")){
+									System.out.println("GSDGDSGFDG");
+								}
 								mySession.checkOut(checkouts, Integer.parseInt(txtBidshouldWe.getText()));
 								
 								

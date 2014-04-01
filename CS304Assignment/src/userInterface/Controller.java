@@ -533,7 +533,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			System.out.println(statement);
 			rs = sql(statement, SQLType.insert);
-			rs.next();
+		//	rs.next();
 			
 			
 		}
@@ -562,6 +562,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		stmt = con.createStatement();
 		String statement = "Select Status from bookcopy where callNumber = '" + callNumber + "'";
 		ResultSet rs = stmt.executeQuery(statement); 
+		System.out.println(callNumber);
 		if(!rs.next()){
 			throw new BadCallNumberException("Book not found in system");
 		}
