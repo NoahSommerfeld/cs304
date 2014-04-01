@@ -558,18 +558,18 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			statement = "select * from BookCopy where callnumber='" + copy.getCallNo()
 												+ "' and copyNo ="+copy.getCopyNo();
-			
+			System.out.println(statement);
 			rs = sql(statement, SQLType.query);
 			
 			while(!rs.next()){
 				if(rs.getString("status").equalsIgnoreCase("on-hold")){
-					
+					System.out.println("Was on hold");
 					//Update status to out
 					statement = "update BookCopy set status='out' where "
 							+ "callnumber='"+ copy.getCallNo()
 							+ "' and copyNo ="+copy.getCopyNo();
 
-					sql(statement, SQLType.insert);
+					sql(statement, SQLType.query);
 					
 					//Delete Hold Request
 					
@@ -581,11 +581,12 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 					
 				}else{
 					//Update status to out
+					
 					statement = "update BookCopy set status='out' where "
 							+ "callnumber='"+ copy.getCallNo()
 							+ "' and copyNo ="+copy.getCopyNo();
-
-					sql(statement, SQLType.insert);
+					System.out.println("setting to out");
+					sql(statement, SQLType.query);
 				}
 			}
 					
