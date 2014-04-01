@@ -809,13 +809,41 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 
 	/**
 	 * Need each row formatted like this :)
-	 * String["Call Number", "Title", "Hold Requested Date", "Status", "Book Due"]
+	 * String["Call Number", "Title"]
 	 * @param loggedInUser
 	 * @return
+	 * @throws SQLException 
 	 */
-	public String[][] getHoldRequests(User loggedInUser) {
+	public String[][] getHoldRequests(User loggedInUser) throws SQLException {
+		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
+		String statement = "Select holdrequest.callnumber,"
+				+ " book.title, book.mainAuthor from holdrequest, book, "
+				+ "borrower WHERE holdrequest.bid = borrower.bid AND "
+				+ "holdrequest.callnumber = book.callnumber AND "
+				+ "holdrequest.bid = "+ loggedInUser.getBID();
 		
-		//String statement = "Select holdrequest.callnumber, book.title, hold.issuedate, "
+		ResultSet rs = sql(statement, SQLType.query);
+		
+		while(rs.next()){
+			System.out.println("yep");
+			ArrayList<String> row = new ArrayList<String>();
+			row.add(rs.getString("callnumber"));
+			row.add(rs.getString("Title"));
+			row.add(rs.getString("MainAuthor"));
+			temp.add(row);
+		}
+		if(temp.size() == 0){
+			return new String[0][3];
+		}
+		String[][] newData = new String[temp.size()][temp.get(0).size()];
+		for(int outerCount = 0; outerCount<temp.size(); outerCount++){
+			for(int innerCount = 0; innerCount<temp.get(0).size(); innerCount++){
+				newData[outerCount][innerCount] = temp.get(outerCount).get(innerCount);
+			}
+		}
+		
+		return newData;/*
+		
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
 			     "January 15, 2014", "Checked Out", "April 30, 2014"},
@@ -828,7 +856,7 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 			};
 
 		
-		return data;
+		return data;*/
 	}
 
 	
