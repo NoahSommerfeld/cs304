@@ -605,6 +605,15 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
 	 */
 	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException{
+		String statement;
+		ResultSet rs;
+		
+		//Determine the borrower using the callNumber
+		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
+					+ callNumber + "' and copyNo ='"+ copyNo +"'";
+		System.out.println("statement");
+		rs = sql(statement, SQLType.query);
+		
 		
 		if(false){
 			throw new SQLException(); //for testing. 
