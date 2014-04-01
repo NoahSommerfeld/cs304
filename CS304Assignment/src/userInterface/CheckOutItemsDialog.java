@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -37,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 
+import model.BookCopy;
 import model.UserType;
 
 import javax.swing.JList;
@@ -230,13 +232,20 @@ public class CheckOutItemsDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						int numberOfBooks = listModel.getSize();
 						
-						for(int i = 0; i<numberOfBooks; i++){
+						ArrayList<BookCopy> checkouts = new ArrayList<BookCopy>();
+						for(int i = 0; i<listModel.size(); i++){
+						String callNumber = (String) listModel.get(i);
+						String temp = "" + copyNo;
+						checkouts.add(new BookCopy(callNumber.substring("Copy ".length() + temp.length() + " - ".length()), copyNo)); //remove the copyNo at the beggining
+						
+						
+						
+					}
+					//	for(int i = 0; i<numberOfBooks; i++){
 							try {
-								String callNumber = (String) listModel.get(i);
-								String temp = "" + copyNo;
-								callNumber = callNumber.substring("Copy ".length() + temp.length() + " - ".length()); //remove the copyNo at the beggining
+							
 								
-								mySession.checkOut(callNumber, copyNo, Integer.parseInt(txtBidshouldWe.getText()));
+								mySession.checkOut(checkouts, Integer.parseInt(txtBidshouldWe.getText()));
 								
 								
 							} catch (SQLException e1) {
@@ -264,7 +273,7 @@ public class CheckOutItemsDialog extends JDialog {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-						}
+					//	}
 						//TODO this is a terrible idea. If there's an error, should abandon everything.
 						 JOptionPane.showMessageDialog(getInstance(), "Items checked out (except for those with errors)");
 						 closeDialogBox();
