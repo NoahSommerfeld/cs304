@@ -630,7 +630,7 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 		stmt = con.createStatement();
 		if(BID == -1){
 			System.out.println("tets");
-			return sql("select borrowing.borid, book.title, borrower.bid, borrowing.outdate, borrower.type "
+			return sql("select borrowing.borid, book.callNumber, book.title, borrower.bid, borrowing.outdate, borrower.type, borrower.name "
 					+ "from borrowing, book, borrower where"
 					+ " borrowing.bid = borrower.bid"
 					+ " AND borrowing.callnumber = book.callnumber"
@@ -669,9 +669,14 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 
 		while(rs.next()){
 			String test = "";
-			test += rs.getString("borid");
-			test += rs.getString(2);
+			test += rs.getString("bid");
+			test += " - ";
+			test += rs.getString("callnumber");
+			test += " - ";
+			test += rs.getString("name");
+
 			slackers.add(test);
+			
 			test = "";
 			System.out.println("yep");
 		}
@@ -681,37 +686,6 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 		
 		
 		//TODO actually query the DB
-
-		slackers.add("March 12 - Noah - textbook 32");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
-		slackers.add("March 20 - Daniel - how to seduce mothers");
-		
 		this.updateStatusBar("Overdues searched for");
 		
 		//throw new SQLException(); //for testing
