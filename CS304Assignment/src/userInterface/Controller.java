@@ -515,7 +515,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	
 	//Checks out a book, when given a call number
-	public void checkOut(ArrayList<BookCopy> copies, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException {
+	public void checkOut(ArrayList<BookCopy> copies, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException, ParseException {
 		String statement;
 		ResultSet rs;
 		User user = getUser(bid);
@@ -525,11 +525,11 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 			String title = confirmOkToCheckOut(copy.getCallNo(), copy.getCopyNo());
 			Date date = new Date(System.currentTimeMillis());
-			statement = "insert into borrowing values (borid_counter.nextVal, '"
-					+ user.getBID()+"', '" 
-					+ copy.getCallNo()+"',"
-					+ copy.getCopyNo() +","
-					+ date +", Null)";
+			statement = "insert into borrowing values (borid_counter.nextVal, "
+					+ user.getBID()+", '" 
+					+ copy.getCallNo()+"', "
+					+ copy.getCopyNo() +", '"
+					+ formatDate(date) +"', Null)";
 			
 			System.out.println(statement);
 			rs = sql(statement, SQLType.insert);
@@ -628,6 +628,15 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	//use BID of -1 for all checked out books
 	private ResultSet getCheckedOuts(int BID) throws SQLException{
 		stmt = con.createStatement();
+		if(BID == -1){
+			System.out.println("tets");
+			return sql("select borrowing.borid, book.title, borrower.bid, borrowing.outdate, borrower.type "
+					+ "from borrowing, book, borrower where"
+					+ " borrowing.bid = borrower.bid"
+					+ " AND borrowing.callnumber = book.callnumber"
+					+ " AND borrowing.indate is NULL",SQLType.query);
+			
+		}
 		String statement = "Select * from borrowing where indate = null";
 		return stmt.executeQuery(statement); 
 		
@@ -651,17 +660,28 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 		ResultSet rs = stmt.executeQuery(statement); 
 		*/
 		//select borrowing.borid, borrowing.outdate, borrower.type from borrowing, borrower where borrowing.bid = borrower.bid AND borrowing.indate = null ??
+		ArrayList<String> slackers = new ArrayList<String>();
 		DateFormat temp = new SimpleDateFormat("dd/MMM/YYYY");
 		String toDaysDate = temp.format(System.currentTimeMillis());
 		System.out.println(toDaysDate);
 		ResultSet rs = getCheckedOuts(-1);
+		
+
+		while(rs.next()){
+			String test = "";
+			test += rs.getString("borid");
+			test += rs.getString(2);
+			slackers.add(test);
+			test = "";
+			System.out.println("yep");
+		}
 		
 		
 		
 		
 		
 		//TODO actually query the DB
-		ArrayList<String> slackers = new ArrayList<String>();
+
 		slackers.add("March 12 - Noah - textbook 32");
 		slackers.add("March 25 - Daniel - Hamster's guide to the Galaxy");
 		slackers.add("March 20 - Daniel - how to seduce mothers");
