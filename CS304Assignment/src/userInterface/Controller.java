@@ -455,7 +455,9 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	}
 	else if(selectedItem == SearchAbleKeywords.Author){
-		query = "SELECT * From book where title = '" + searchArgument + "'";
+		query = "select * from book, hasAuthor where"
+				+ " book.callnumber = hasAuthor.callnumber"
+				+ " AND hasAuthor.name = '" + searchArgument + "'";
 	}
 	
 	return query;
