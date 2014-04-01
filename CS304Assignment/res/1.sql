@@ -139,7 +139,7 @@ INCREMENT BY 1;
 
 CREATE TABLE Fine(
     fid        	INTEGER NOT NULL,
-    amount   	FLOAT,
+    amount   	VARCHAR(10),
     issueDate   DATE,
     paidDate    DATE,
     borid       INTEGER,
@@ -228,8 +228,8 @@ INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'FNAE.007', 1, '12/mar/2
 INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '12/mar/2013', '13/mar/2013', '14/mar/2013');
 INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '14/mar/2013', '15/mar/2013', '25/mar/2013');
 
-INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/mar/2013', NULL, 6);
-INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/mar/2013', '15/mar/2013', 7);
+INSERT INTO fine values(fid_counter.nextVal, '25.02', '25/mar/2013', NULL, 6);
+INSERT INTO fine values(fid_counter.nextVal, '25.02', '14/mar/2013', '15/mar/2013', 7);
 
 insert into holdrequest values(hid_counter.nextVal, 2, 'E3K8.E8D', '14/MAR/2013');
 

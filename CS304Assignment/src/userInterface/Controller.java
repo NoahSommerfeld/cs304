@@ -664,13 +664,16 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		if(late){
 			
-			statement = "insert into fine values(fid_counter.nextVal, "
-					+ (timeOut*0.05/1000) +", '"
+			statement = "insert into fine values(fid_counter.nextVal, '"
+					+ df.format(timeOut*0.05/10000000) +"', '"
 					+formatDate(currDate) +"', NULL, "
 					+ rs.getInt("borid") +")";
 			
+			sql(statement, SQLType.insert);
+			
+			
 			this.updateStatusBar("Book was returned. Fine issued: $" + df.format(timeOut*0.05/10000000));
-			throw new FineAssessedException("Book was late, fine assessed", (timeOut*0.05/10000000));
+			throw new FineAssessedException("Book was late, fine assessed", timeOut*0.05/10000000);
 		}
 		
 		this.updateStatusBar("Book has been checked in and is on time!");
