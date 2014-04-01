@@ -624,7 +624,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		outDate = rs.getDate("outDate");
 		
-/*public long calcDueDateOrLate (int bid, Usertype type){
+/*public long calcDueDate (int bid, Usertype type){
  
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
@@ -636,7 +636,22 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		outDate = rs.getDate("outDate");
 		
+		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
+			 timeOut =  outDate.getTime() - currentTimeMillis;
+		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
+			System.out.println("Clerk/Staff");
+		}else{
+			System.out.println("Student/Borrower");
+		}
 		
+		
+		if(false){
+			throw new SQLException(); //for testing. 
+		}
+		if(true){
+			this.updateStatusBar("Book was returned. Fine issued");
+			throw new FineAssessedException("Book was late, fine assessed", 1.02);
+		}
 		
 		
 		*/
@@ -819,8 +834,38 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	 * String ["Call Number", "Title", "Checked Out", "Due", ""]
 	 * @param loggedInUser
 	 * @return
+	 * @throws SQLException 
 	 */
-	public String[][] getLoanedBooks(User loggedInUser) {
+	public String[][] getLoanedBooks(User loggedInUser) throws SQLException {
+		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
+		String statement = "select borrowing.callnumber,"
+				+ " book.title, borrowing.outdate from borrowing,"
+				+ " book where borrowing.callnumber = book.callnumber"
+				+ " AND borrowing.indate is null AND borrowing.bid = " + loggedInUser.getBID();
+		ResultSet rs = sql(statement, SQLType.query);
+		
+		
+		while(rs.next()){
+			System.out.println("yep");
+			ArrayList<String> row = new ArrayList<String>();
+			row.add(rs.getString("Callnumber"));
+			row.add(rs.getString("Title"));
+			row.add(rs.getString("outdate"));
+			row.add(rs.getString("outdate")); //TODO calculate due date
+			row.add("");
+			temp.add(row);
+		}
+		if(temp.size() == 0){
+			return new String[0][5];
+		}
+		String[][] newData = new String[temp.size()][temp.get(0).size()];
+		for(int outerCount = 0; outerCount<temp.size(); outerCount++){
+			for(int innerCount = 0; innerCount<temp.get(0).size(); innerCount++){
+				newData[outerCount][innerCount] = temp.get(outerCount).get(innerCount);
+			}
+		}
+		
+		return newData;/*
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
 			     "January 15, 2014", "April 30, 2014", ""},
@@ -832,7 +877,7 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 			     "March 12, 2014", "March 16, 2014", ""}
 			};
 
-		return data;
+		return data;*/
 	}
 	
 	/**
@@ -975,7 +1020,7 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 	}
 	
 
-	/**
+	/****
 	 * Calls System.exit(), but let's us close
 	 * anything that needs to be closed in the model (in case we need to gracefully kill the driver)
 	 * @param reasonCode - same as System.exit's parameter.
