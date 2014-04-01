@@ -609,13 +609,14 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
 	 * @throws BadUserIDException 
 	 * @throws UserCreationException 
+	 * @throws ParseException 
 	 */
-	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException, UserCreationException, BadUserIDException{
+	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException, UserCreationException, BadUserIDException, ParseException{
 		String statement;
 		ResultSet rs;
 		Date outDate;
 		long timeOut;
-		boolean Late;
+		boolean late = false;
 		
 		
 		//Return 
@@ -623,71 +624,34 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		//process fine if needed
 		
-		
-		//Determine the borrower using the callNumber
-		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
-					+ callNumber + "' and copyNo ="+ copyNo;
-		System.out.println(statement);
-		rs = sql(statement, SQLType.query);
-		
-		int bid = rs.getInt("bid");
-		User user = getUser(bid);
-		
-		outDate = rs.getDate("outDate");
-		
-/*public long overDue (int bid, Usertype type){
  
-		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
+		statement = "SELECT * FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
 		System.out.println(statement);
 		rs = sql(statement, SQLType.query);
 		
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
-		
-		outDate = rs.getDate("outDate");
-		timeOut =  dueDate.getTime() - inTime();
-		
-		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
-			
-			if(
-			 
-		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
-			System.out.println("Clerk/Staff");
-		}else{
-			System.out.println("Student/Borrower");
-		}
-		
-		
-		if(false){
-			throw new SQLException(); //for testing. 
-		}
-		if(true){
-			this.updateStatusBar("Book was returned. Fine issued");
-			throw new FineAssessedException("Book was late, fine assessed", 1.02);
-		}
-		
-		
-		*/
-		
-		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
-			 timeOut =  outDate.getTime() - currentTimeMillis;
-		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
-			System.out.println("Clerk/Staff");
-		}else{
-			System.out.println("Student/Borrower");
-		}
-		
-		
-		if(false){
-			throw new SQLException(); //for testing. 
-		}
-		if(true){
-			this.updateStatusBar("Book was returned. Fine issued");
-			throw new FineAssessedException("Book was late, fine assessed", 1.02);
-		}
 
-		//this.updateStatusBar("Book checked back in");
+		Date dueDate = rs.getDate("dueDate");
+		Date inDate = rs.getDate("inDate");
+		Date currDate = new Date(System.currentTimeMillis());
+		timeOut = inDate.getTime() - dueDate.getTime();
+		
+		if(timeOut > 0) late = true;
+		
+		if(late){
+			
+			statement = "insert into fine values(fid_counter.nextVal, "
+					+ (timeOut*0.05/1000) +", '"
+					+formatDate(currDate) +"', NULL, "
+					+ rs.getInt("borid") +")";
+			
+			this.updateStatusBar("Book was returned. Fine issued");
+			throw new FineAssessedException("Book was late, fine assessed", (timeOut*0.05/1000));
+		}
+		
+		this.updateStatusBar("Book has been checked in and is on time!");
 		
 	}
 
@@ -828,6 +792,8 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	 * @return
 	 */
 	public String[][] getHoldRequests(User loggedInUser) {
+		
+		//String statement = "Select holdrequest.callnumber, book.title, hold.issuedate, "
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
 			     "January 15, 2014", "Checked Out", "April 30, 2014"},
