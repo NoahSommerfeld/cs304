@@ -835,13 +835,49 @@ public String[] getFineInfo(int fid) throws SQLException{
 	 * @return
 	 */
 	public String[][] getCheckOuts(String filterSubject) throws SQLException{
+		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
+		String statement;
 		if(filterSubject == null||filterSubject.equals("No Subject Filter")){
 			filterSubject = "";
+			statement = "Select borrowing.callnumber, book.title, borrowing.outdate, borrowing.duedate "
+					+ "FROM borrowing, book "
+					+ "WHERE borrowing.callNumber = book.callNumber AND"
+					+ " borrowing.indate is null";
+		}
+		else{
+			statement = "select borrowing.callnumber, book.title, borrowing.outdate, borrowing.duedate "
+					+ "from borrowing, book, hassubject where"
+				+ " book.callnumber = hasSubject.callnumber"
+				+ " AND hassubject.subject = '" + filterSubject + "' "
+						+ "AND borrowing.callNumber = book.callnumber AND"
+						+ " borrowing.indate is null";
 		}
 		
-		ResultSet rs;
 		
+		System.out.println(statement);
+		ResultSet rs = sql(statement, SQLType.query);
+		while(rs.next()){
+
+			ArrayList<String> row = new ArrayList<String>();
+			row.add(rs.getString("callnumber"));
+			row.add(rs.getString("Title"));
+			row.add(rs.getString("outdate"));
+			row.add(rs.getString("duedate"));
+			row.add("");
+			temp.add(row);
+		}
+		if(temp.size() == 0){
+			return new String[0][5];
+		}
+		String[][] newData = new String[temp.size()][temp.get(0).size()];
+		for(int outerCount = 0; outerCount<temp.size(); outerCount++){
+			for(int innerCount = 0; innerCount<temp.get(0).size(); innerCount++){
+				newData[outerCount][innerCount] = temp.get(outerCount).get(innerCount);
+			}
+		}
 		
+		return newData;
+		/*
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
 			     "January 15, 2014", "April 30, 2014", ""},
@@ -855,7 +891,7 @@ public String[] getFineInfo(int fid) throws SQLException{
 
 		
 		
-		return data;
+		return data;*/
 	}
 
 	/**
@@ -970,7 +1006,7 @@ public String[] getFineInfo(int fid) throws SQLException{
 
 	public String[][] getOutstandingFines(User loggedInUser) throws SQLException {
 		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
-		
+		//AAA
 		String statement = "Select fine.fid, book.title, "
 				+ "borrowing.outdate, borrowing.indate,"
 				+ " fine.amount from fine, book, borrowing "

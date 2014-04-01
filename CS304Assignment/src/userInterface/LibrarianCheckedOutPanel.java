@@ -129,7 +129,7 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        	String[][] toAdd = null;
 	        	try{
 	        	if(subjectFilter.equals("No Subject Filter")){
-	        		toAdd = mySession.getCheckOuts("");
+	        		toAdd = mySession.getCheckOuts(null);
 	        	}
 	        	else{
 	        		toAdd = mySession.getCheckOuts(subjectFilter);
@@ -146,13 +146,13 @@ public class LibrarianCheckedOutPanel extends JPanel implements ListSelectionLis
 	        	
 	        	
 	        	for(String[] eee : toAdd){
-	        		if(Date.parse(eee[3])<System.currentTimeMillis()){
+	        		/*if(Date.parse(eee[3])<System.currentTimeMillis()){
 	        			eee[4] = "OVERDUE";
-	        		}
+	        		}*/
 	        		model.addRow(eee);
 	        	}
 		        
-	        	table.setRowSelectionInterval(1, 2);
+	        	
 		        
 	        }
 	    }
