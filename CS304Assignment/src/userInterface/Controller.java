@@ -492,7 +492,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		String statement;
 		ResultSet rs;
 		
-		statement = "SELECT subject from HasSubject";
+		statement = "SELECT subject from HasSubject group By(subject)";
 		rs = sql(statement, SQLType.query);
 				
 		while(rs.next()){
@@ -515,7 +515,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	
 	//Checks out a book, when given a call number
-	public void checkOut(ArrayList<BookCopy> copies, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException {
+	public void checkOut(ArrayList<BookCopy> copies, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException, ParseException {
 		String statement;
 		ResultSet rs;
 		User user = getUser(bid);
@@ -525,11 +525,11 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 			String title = confirmOkToCheckOut(copy.getCallNo(), copy.getCopyNo());
 			Date date = new Date(System.currentTimeMillis());
-			statement = "insert into borrowing values (borid_counter.nextVal, '"
-					+ user.getBID()+"', '" 
-					+ copy.getCallNo()+"',"
-					+ copy.getCopyNo() +","
-					+ date +", Null)";
+			statement = "insert into borrowing values (borid_counter.nextVal, "
+					+ user.getBID()+", '" 
+					+ copy.getCallNo()+"', "
+					+ copy.getCopyNo() +", '"
+					+ formatDate(date) +"', Null)";
 			
 			System.out.println(statement);
 			rs = sql(statement, SQLType.insert);
