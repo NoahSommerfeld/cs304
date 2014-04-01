@@ -176,6 +176,7 @@ public class CheckOutItemsDialog extends JDialog {
 						return;
 					}catch(IllegalArgumentException ilae){
 						JOptionPane.showMessageDialog(getInstance(), "Please put in BID");
+						return;
 					}
 					
 					
