@@ -92,7 +92,17 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	        btnSearch.addActionListener(new SearchListener());
 	        panel_2.add(btnSearch);
 	        
-	        btbPlaceOnHold = new JButton("Place Holding");
+	        btbPlaceOnHold = new JButton("Place Hold Request");
+	        btbPlaceOnHold.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("yep");
+					PlaceHoldRequestDialog test = new PlaceHoldRequestDialog(getInstance(), getLoggedInUserBID(), getInstance().mySession);
+					test.setVisible(true);
+				}
+	        	
+	        });
 	        panel_2.add(btbPlaceOnHold);
 	    }
 
@@ -112,8 +122,10 @@ public class BorrowerSearchPanel extends JPanel implements ListSelectionListener
 	    }
 	    
 	    public int getLoggedInUserBID(){
-	    	return this.getLoggedInUserBID();
+	    	return parent.getLoggedInUserBID();
 	    }
+	    
+	    
 	    public BorrowerSearchPanel getInstance(){
 	    	return this;
 	    }
