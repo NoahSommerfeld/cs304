@@ -156,8 +156,9 @@ CREATE TABLE Borrowing(
     bid        	INTEGER,
     callNumber  VARCHAR(20),
     copyNo    	INTEGER,
-outDate    	DATE,
-inDate        	DATE,
+	outDate    	DATE,
+	dueDate		DATE,
+	inDate      DATE,
 PRIMARY KEY(borid),
 FOREIGN KEY(bid) 
 REFERENCES Borrower(bid),
@@ -202,11 +203,11 @@ insert into Borrower values
 (bid_counter.nextVal, '1234Cats', 'OMGSUPERCAT', '123 Cat st.',
  4794322, 'theGREATKITTY@gmail.com',1,'31/may/98', 'librarian');
 
-INSERT INTO BORROWING VALUES(123, 2 , 'GFG7.CC7', 2, '12/apr/13', NULL);
-INSERT INTO BORROWING VALUES(124, 2 , 'A323.347', 1, '12/apr/13', NULL);
-INSERT INTO BORROWING VALUES(125, 2 , 'FNAE.007', 1, '12/apr/13', NULL);
-INSERT INTO BORROWING VALUES(126, 2 , 'A323.347', 1, '12/apr/13', '14/apr/13');
-INSERT INTO BORROWING VALUES(127, 2 , 'A323.347', 1, '12/apr/13', '25/apr/13');
+INSERT INTO BORROWING VALUES(123, 2 , 'GFG7.CC7', 2, '12/apr/13', '15/apr/13', NULL);
+INSERT INTO BORROWING VALUES(124, 2 , 'A323.347', 1, '12/apr/13', '14/apr/13', NULL);
+INSERT INTO BORROWING VALUES(125, 2 , 'FNAE.007', 1, '12/apr/13', '14/apr/13', '18/apr/13');
+INSERT INTO BORROWING VALUES(126, 2 , 'A323.347', 1, '12/apr/13', '13/apr/13', '14/apr/13');
+INSERT INTO BORROWING VALUES(127, 2 , 'A323.347', 1, '12/apr/13', '14/apr/13', '25/apr/13');
 
 INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/apr/13', NULL, 127);
 INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/apr/13', '15/apr/13', 126);

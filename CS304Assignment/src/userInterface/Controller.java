@@ -613,6 +613,13 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		long timeOut;
 		boolean Late;
 		
+		
+		//Return 
+		
+		
+		//process fine if needed
+		
+		
 		//Determine the borrower using the callNumber
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
@@ -624,7 +631,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		outDate = rs.getDate("outDate");
 		
-/*public long calcDueDate (int bid, Usertype type){
+/*public long overDue (int bid, Usertype type){
  
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
@@ -635,9 +642,12 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		User user = getUser(bid);
 		
 		outDate = rs.getDate("outDate");
+		timeOut =  dueDate.getTime() - inTime();
 		
 		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
-			 timeOut =  outDate.getTime() - currentTimeMillis;
+			
+			if(
+			 
 		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
 			System.out.println("Clerk/Staff");
 		}else{
