@@ -50,8 +50,8 @@ public class UserNamePrompt extends JFrame implements ActionListener {
     passwordField = new JPasswordField(10);
     passwordField.setEchoChar('*');
 
-    usernameField.setText("ora_x4q8");
-    passwordField.setText("a20292124");
+    usernameField.setText("ora_q4k8");
+    passwordField.setText("a19338128");
     
     JButton loginButton = new JButton("Log In");
 

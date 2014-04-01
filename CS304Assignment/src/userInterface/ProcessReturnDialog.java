@@ -22,6 +22,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
+import exceptions.BadUserIDException;
 import exceptions.FineAssessedException;
 import exceptions.UserCreationException;
 
@@ -129,6 +130,12 @@ public class ProcessReturnDialog extends JDialog {
 						}
 						catch(IllegalArgumentException e3){
 							JOptionPane.showMessageDialog(getInstance(), "Bad copy number");
+						} catch (UserCreationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (BadUserIDException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 					}
 				});

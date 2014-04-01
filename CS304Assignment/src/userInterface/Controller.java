@@ -533,7 +533,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			System.out.println(statement);
 			rs = sql(statement, SQLType.insert);
-			rs.next();
+		//	rs.next();
 			
 			
 		}
@@ -562,6 +562,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		stmt = con.createStatement();
 		String statement = "Select Status from bookcopy where callNumber = '" + callNumber + "'";
 		ResultSet rs = stmt.executeQuery(statement); 
+		System.out.println(callNumber);
 		if(!rs.next()){
 			throw new BadCallNumberException("Book not found in system");
 		}
@@ -602,16 +603,29 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 * @param currentTimeMillis - the current time. 
 	 * @throws SQLException - if the db operation failed. 
 	 * @throws FineAssessedException - if it was checked in, but a fine was assessed
+	 * @throws BadUserIDException 
+	 * @throws UserCreationException 
 	 */
-	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException{
+	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException, UserCreationException, BadUserIDException{
 		String statement;
 		ResultSet rs;
 		
 		//Determine the borrower using the callNumber
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ='"+ copyNo +"'";
-		System.out.println("statement");
+		System.out.println(statement);
 		rs = sql(statement, SQLType.query);
+		System.out.print(rs.next());
+		int bid = rs.getInt("bid");
+		User user = getUser(bid);
+		
+		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
+			System.out.println("Librarian/Faculty");
+		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
+			System.out.println("Clerk/Staff");
+		}else{
+			System.out.println("Student/Borrower");
+		}
 		
 		
 		if(false){
