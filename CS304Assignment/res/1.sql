@@ -198,6 +198,14 @@ INSERT INTO BOOKCOPY VALUES('A323.347', 1, 'out');
 INSERT INTO BOOKCOPY VALUES('G754.347', 2, 'in');
 INSERT INTO BOOKCOPY VALUES('AD98.6DH', 1, 'in');
 
+
+insert into hasAuthor values('E3K8.E8D', 'curly');
+insert into hasAuthor values('E3K8.E8D', 'larry');
+insert into hasAuthor values('E3K8.E8D', 'moe');
+insert into hasAuthor values('GFG7.CC7', 'Mr. Everett');
+insert into hasAuthor values('2KSH.37D', 'ER hemingway');
+insert into hasAuthor values('2KSH.37D', '"Mozart');
+
 Insert INTO HASSUBJECT VALUES('FNAE.007', 'Sports');
 Insert INTO HASSUBJECT VALUES('FNAE.007', 'Science');
 Insert INTO HASSUBJECT VALUES('FNAE.007', 'Life');
