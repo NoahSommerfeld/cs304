@@ -5,9 +5,11 @@
 package userInterface;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.security.interfaces.RSAKey;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -419,9 +421,9 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String searchArgument) throws SQLException{
 	//I would reccomend doing several helper methods, one for each SearchAbleKeyword. 
 	ArrayList<String> results = new ArrayList<String>();
-	results.add("(1In-2Out-1Hld) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
+	/*results.add("(1In-2Out-1Hld) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
 	results.add("(1In-0Out-0Hldd) - Daniel's guide to the galaxy. All in");
-	results.add("(0In-1Out-2Hld) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
+	results.add("(0In-1Out-2Hld) - Shit Shit, fucking kittens. Next due back on April 20, 2015");*/
 	String query = makeSearchQuery(selectedItem, searchArgument);
 	
 	stmt = con.createStatement();
@@ -430,7 +432,8 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	
 	while(rs.next()){
 		System.out.println("should have worked");
-		results.add(rs.getString(3));
+		results.add(rs.getString(1) + " - " + rs.getString(3));
+		
 	}
 	
 	//TODO: add in # of copies in and out
@@ -617,10 +620,15 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		Date outDate;
 		long timeOut;
 		boolean late = false;
+
+		Date currDate = new Date(System.currentTimeMillis());
 		
 		
 		//Return 
 		
+		statement = "update borrowing set inDate='"+formatDate(currDate)+"' WHERE callNumber='" 
+					+ callNumber + "' and copyNo ="+ copyNo;
+		rs = sql(statement, SQLType.insert);
 		
 		//process fine if needed
 		
@@ -629,26 +637,44 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 					+ callNumber + "' and copyNo ="+ copyNo;
 		System.out.println(statement);
 		rs = sql(statement, SQLType.query);
+		rs.next();
 		
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
 
+		
+		System.out.println(bid);
 		Date dueDate = rs.getDate("dueDate");
 		Date inDate = rs.getDate("inDate");
-		Date currDate = new Date(System.currentTimeMillis());
-		timeOut = inDate.getTime() - dueDate.getTime();
 		
+		
+		System.out.println(dueDate.toString()+ "   "+inDate.toString());
+		
+		long dDate = dueDate.getTime();
+		long iDate = inDate.getTime();
+		
+		System.out.println(dDate +"     " +iDate);
+		
+		timeOut = iDate - dDate;
+		System.out.println(timeOut);
 		if(timeOut > 0) late = true;
+		
+		
+		DecimalFormat df = new DecimalFormat ("##.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		
 		if(late){
 			
-			statement = "insert into fine values(fid_counter.nextVal, "
-					+ (timeOut*0.05/1000) +", '"
+			statement = "insert into fine values(fid_counter.nextVal, '"
+					+ df.format(timeOut*0.05/10000000) +"', '"
 					+formatDate(currDate) +"', NULL, "
 					+ rs.getInt("borid") +")";
 			
-			this.updateStatusBar("Book was returned. Fine issued");
-			throw new FineAssessedException("Book was late, fine assessed", (timeOut*0.05/1000));
+			sql(statement, SQLType.insert);
+			
+			
+			this.updateStatusBar("Book was returned. Fine issued: $" + df.format(timeOut*0.05/10000000));
+			throw new FineAssessedException("Book was late, fine assessed", timeOut*0.05/10000000);
 		}
 		
 		this.updateStatusBar("Book has been checked in and is on time!");
@@ -1040,6 +1066,12 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 
 	public String placeHoldRequest(String callNumber, int BID) throws SQLException, ParseException{
 		int copyNo = getFirstInCallNo(callNumber);
+		String dublicateStatement = "Select * from HoldRequest where callnumber = '" + callNumber + "' AND bid = " + BID;
+		ResultSet rs = sql(dublicateStatement,SQLType.query);
+		if(rs.next()){
+			return "Hold Request Already Present";
+		}
+		
 		if(copyNo == -1){
 			String statement = "INSERT INTO HOLDREQUEST VALUES(hid_counter.nextVal, " + BID + ", '" + callNumber + "', " + "NULL)";
 			sql(statement, SQLType.query);
