@@ -609,6 +609,9 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException, UserCreationException, BadUserIDException{
 		String statement;
 		ResultSet rs;
+		Date outDate;
+		long timeOut;
+		boolean Late;
 		
 		//Determine the borrower using the callNumber
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
@@ -619,12 +622,27 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
 		
-		boolean Late;
-		Date date = rs.getDate("outDate");
-		long timeOut;
+		outDate = rs.getDate("outDate");
+		
+/*public long calcDueDateOrLate (int bid, Usertype type){
+ 
+		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
+					+ callNumber + "' and copyNo ="+ copyNo;
+		System.out.println(statement);
+		rs = sql(statement, SQLType.query);
+		
+		int bid = rs.getInt("bid");
+		User user = getUser(bid);
+		
+		outDate = rs.getDate("outDate");
+		
+		
+		
+		
+		*/
 		
 		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
-			 timeOut =  date.getTime() - currentTimeMillis;
+			 timeOut =  outDate.getTime() - currentTimeMillis;
 		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
 			System.out.println("Clerk/Staff");
 		}else{
