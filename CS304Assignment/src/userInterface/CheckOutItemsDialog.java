@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -273,6 +274,9 @@ public class CheckOutItemsDialog extends JDialog {
 								 JOptionPane.showMessageDialog(getInstance(), "BID not an int");
 								 return;
 							} catch (UserCreationException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (ParseException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
