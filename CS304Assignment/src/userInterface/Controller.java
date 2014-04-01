@@ -508,10 +508,17 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		for(BookCopy copy: copies){
 
 			String title = confirmOkToCheckOut(copy.getCallNo(), copy.getCopyNo());
+			Date date = new Date(System.currentTimeMillis());
+			statement = "insert into borrowing values (borid_counter.nextVal, '"
+					+ user.getBID()+"', '" 
+					+ copy.getCallNo()+"',"
+					+ copy.getCopyNo() +","
+					+ date +", Null)";
 			
-	//		statement = "insert into borrowing values (borid_counter.nextVal, '"+user.getBID()+"', '" + callNumber+"'CURRENT_TIMESTAMP', Null)";
-	//		rs = sql(statement, SQLType.insert);
-	//		rs.next();
+			System.out.println(statement);
+			rs = sql(statement, SQLType.insert);
+			rs.next();
+			
 			
 		}
 		
@@ -601,6 +608,15 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	
 	
 }
+
+	//use BID of -1 for all checked out books
+	private ResultSet getCheckedOuts(int BID) throws SQLException{
+		stmt = con.createStatement();
+		String statement = "Select * from borrowing where indate = null";
+		return stmt.executeQuery(statement); 
+		
+		
+	}
 	
 	//Search for over due books. Called by ClerkListPanel.
 	//Need to figure out exactly what the format of the return should be.
@@ -613,6 +629,20 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	 * @throws SQLException - if for some reason the db query fails. 
 	 */
 	public ArrayList<String> searchForOverDues() throws SQLException{
+		/*
+		stmt = con.createStatement();
+		String statement = "Select * from borrowing where outdate = '" + callNumber + "'";
+		ResultSet rs = stmt.executeQuery(statement); 
+		*/
+		//select borrowing.borid, borrowing.outdate, borrower.type from borrowing, borrower where borrowing.bid = borrower.bid AND borrowing.indate = null ??
+		DateFormat temp = new SimpleDateFormat("dd/MMM/YYYY");
+		String toDaysDate = temp.format(System.currentTimeMillis());
+		System.out.println(toDaysDate);
+		ResultSet rs = getCheckedOuts(-1);
+		
+		
+		
+		
 		
 		//TODO actually query the DB
 		ArrayList<String> slackers = new ArrayList<String>();

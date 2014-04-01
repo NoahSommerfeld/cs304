@@ -251,15 +251,18 @@ public class CheckOutItemsDialog extends JDialog {
 							} catch (SQLException e1) {
 								JOptionPane.showMessageDialog(getInstance(), "SQLException");
 								//return; //TODO wanring! If we encounter errors half way through the list, we'd probably have to revert it.
+								return;
 							}
 							 catch (NotCheckedInException e2) {
 								 //TODO check if it was on hold. 
 								 JOptionPane.showMessageDialog(getInstance(), "Not Checked In");
+								 return;
 								}
 							 catch (BadCallNumberException e3) {
 									// TODO Auto-generated catch block
-								 JOptionPane.showMessageDialog(getInstance(), "Bad Call number (how did it get throw the first check?)");
-								// return;
+								 JOptionPane.showMessageDialog(getInstance(), "Bad Call number (how did it get thru the first check?)");
+								 
+								 return;
 								}
 							 catch (BadUserIDException e4) {
 									// TODO Auto-generated catch block
