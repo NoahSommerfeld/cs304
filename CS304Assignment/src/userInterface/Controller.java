@@ -472,25 +472,30 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 * Returns the most popular books, and the number of times they've been
 	 * checked out. May need to modify this later from just titles. 
 	 * @return a list of books and the times they've been checked out, all as one concatenated String. 
+	 * @throws ParseException 
 	 */
-	public List<String> getPopularBooks(int year, int numResults) throws SQLException{
+	public List<String> getPopularBooks(int year, int numResults) throws SQLException, ParseException{
 		ArrayList<String> theResults = new ArrayList<String>();
 		//AAAAA
 		theResults.add("(5) - Hitchhiker's guide to your mom");
 		theResults.add("(2) - war of your mom");
 		theResults.add("(2) - around Daniel's mom in 80 days");
-		return theResults;
-		/*SELECT borrowing.callnumber, book.title
-		FROM borrowing, book,
-		WHERE borrowing.CALLNUMBER = book.CALLNUMBER
-		AND
-		salesDate BETWEEN '11/11/2010 00:00:00.00' AND '11/11/2010 23:59:59.999'*/
+	
+		Date minDate = new Date("01/01/" + year);
+		Date maxDate = new Date("31/12/" + year);
 		
+		String statement = "SELECT borrowing.callnumber, book.title"
+				+ " FROM borrowing, book, WHERE borrowing.CALLNUMBER = book.CALLNUMBER "
+				+ "AND borrowing.indate"
+				+ " BETWEEN " + formatDate(minDate)+ " AND " + formatDate(maxDate);
+		System.out.println(statement);
+		sql(statement, SQLType.query);
+
 		/*
 		SELECT borrowing.callnumber, book.title, count(column_name)
 		FROM borrowing
 		GROUP BY column_name; */
-		
+		return theResults;
 	}
 	
 	public ArrayList<String> getSubjects() throws SQLException{
@@ -548,7 +553,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			System.out.println(statement);
 			sql(statement, SQLType.insert);
-			
+			System.out.println("insertCopy");
 			
 			
 			//update bookcopy
@@ -558,10 +563,10 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			statement = "select * from BookCopy where callnumber='" + copy.getCallNo()
 												+ "' and copyNo ="+copy.getCopyNo();
-			System.out.println(statement);
-			rs = sql(statement, SQLType.query);
 			
-			while(!rs.next()){
+			rs = sql(statement, SQLType.query);
+			System.out.println(statement);
+			rs.next();
 				if(rs.getString("status").equalsIgnoreCase("on-hold")){
 					System.out.println("Was on hold");
 					//Update status to out
@@ -589,10 +594,6 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 					sql(statement, SQLType.query);
 				}
 			}
-					
-					
-					
-		}
 		
 		//SQLException from the db
 		//notcheckedinexception if it's not 'borrowable'
@@ -612,7 +613,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 */
 	
 	//TODO CHECK IF BOOK IS ON HOLD AND IF IT IS IS IT THE CORRECT PERSON?
-	public String confirmOkToCheckOut(String callNumber, int copyNo) throws SQLException, BadCallNumberException, NotCheckedInException {
+	public String confirmOkToCheckOut(String callNumber, int copyNo, int bid) throws SQLException, BadCallNumberException, NotCheckedInException {
 		stmt = con.createStatement();
 		String statement = "Select Status from bookcopy where callNumber = '" + callNumber + "'";
 		ResultSet rs = stmt.executeQuery(statement); 

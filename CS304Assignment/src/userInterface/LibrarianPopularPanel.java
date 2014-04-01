@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -94,7 +95,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        panel.add(lblSearchForBooks);
 	        add(buttonPane, BorderLayout.PAGE_END);
 	    }
-
+	    public 
 	    class SearchListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	     
@@ -116,6 +117,12 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 					//e1.printStackTrace();
 					JOptionPane.showMessageDialog(parent, e1.getMessage());
 					return;
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(getInstance(),"Something went wrong");
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				if(slackers != null && slackers.size()>=1){
 	        	for(String s : slackers){
@@ -266,6 +273,11 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	            }
 	        }
 	    }
+
+		public Component getInstance() {
+			// retur
+			return this;
+		}
 
 	    /**
 	     * Create the GUI and show it.  For thread safety,

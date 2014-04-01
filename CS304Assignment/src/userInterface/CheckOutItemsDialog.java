@@ -156,7 +156,9 @@ public class CheckOutItemsDialog extends JDialog {
 						if(txtCallnumber.getText() == "" || txtCallnumber.getText() == null){
 							return;
 						}
-						title = mySession.confirmOkToCheckOut(txtCallnumber.getText(), copyNo);
+						
+						int bid = Integer.parseInt(txtBidshouldWe.getText());
+						title = mySession.confirmOkToCheckOut(txtCallnumber.getText(), copyNo, bid);
 							System.out.println("yep: "+ txtCallnumber.getText());
 							
 						
@@ -172,6 +174,8 @@ public class CheckOutItemsDialog extends JDialog {
 						JOptionPane.showMessageDialog(getInstance(), "bad Query"); //TODO: handle if it's on hold.
 						sql.printStackTrace();
 						return;
+					}catch(IllegalArgumentException ilae){
+						JOptionPane.showMessageDialog(getInstance(), "Please put in BID");
 					}
 					
 					
