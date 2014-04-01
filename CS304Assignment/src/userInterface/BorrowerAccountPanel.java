@@ -145,32 +145,37 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        	String subjectFilter = (String) comboBox.getSelectedItem();
 	        	String[][] toAdd = null;
 	        	if(subjectFilter.equals("Hold Requests")){
-	        		toAdd = mySession.getHoldRequests(parent.getLoggedInUser());
+	        		try {
+						toAdd = mySession.getHoldRequests(parent.getLoggedInUser());
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(getInstance(), "Could not load hold requests");
+						e1.printStackTrace();
+					}
 	        	
 	        		removeAllColoumnsFromTable();
 	        		
 	    	        table.setModel(new DefaultTableModel(
 	    	        	new Object[][] {
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
-	    	        		{null, null, null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
+	    	        		{null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        			"Call Number", "Title", "Hold Requested", "Status", "Book Due"
+	    	        			"Call Number", "Title", "Author"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
-	    	        		String.class, String.class, Object.class, Object.class, String.class
+	    	        		String.class, String.class, String.class
 	    	        	};
 	    	        	public Class getColumnClass(int columnIndex) {
 	    	        		return columnTypes[columnIndex];
