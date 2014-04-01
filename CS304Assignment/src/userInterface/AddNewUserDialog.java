@@ -265,7 +265,7 @@ public class AddNewUserDialog extends JDialog {
 		phone = phone.replace(")", "");
 		phone = phone.replace(" ", "");
 		
-		User temp = new User(txtAddress.getText(), txtPassword.getText(), txtName.getText(), phone,
+		User temp = new User("-1", txtAddress.getText(), txtPassword.getText(), txtName.getText(), phone,
 				txtTxtboxemailaddress.getText(), txtSinorstno.getText(), txtDate.getText(), tempType);
 		
 
