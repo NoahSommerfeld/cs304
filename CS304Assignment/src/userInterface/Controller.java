@@ -138,8 +138,6 @@ public class Controller {
 //		}
 //		System.out.println(newUser.getName() + " was added to the database");
 //		this.updateStatusBar("New user added to DB");
-//		// TODO Auto-generated method stub
-//		
 
 		}
 	
@@ -258,9 +256,7 @@ public class Controller {
 	 * @throws SQLException - if for some reason, the query fails. Static command though...
 	 */
 	public int getNumberOfUsers() throws SQLException{
-		// TODO query and get total number of users
-		//this.updateStatusBar("Number of users counted");
-		
+
 
 		stmt = con.createStatement();
 		
@@ -613,6 +609,13 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		long timeOut;
 		boolean Late;
 		
+		
+		//Return 
+		
+		
+		//process fine if needed
+		
+		
 		//Determine the borrower using the callNumber
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
@@ -624,7 +627,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		outDate = rs.getDate("outDate");
 		
-/*public long calcDueDate (int bid, Usertype type){
+/*public long overDue (int bid, Usertype type){
  
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
@@ -635,9 +638,12 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		User user = getUser(bid);
 		
 		outDate = rs.getDate("outDate");
+		timeOut =  dueDate.getTime() - inTime();
 		
 		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
-			 timeOut =  outDate.getTime() - currentTimeMillis;
+			
+			if(
+			 
 		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
 			System.out.println("Clerk/Staff");
 		}else{
