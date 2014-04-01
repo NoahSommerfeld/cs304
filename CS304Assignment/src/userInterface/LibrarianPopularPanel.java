@@ -170,7 +170,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        	}
 	        	
 	        	for(int i : index){
-	        		try{
+	        		/*try{
 	        		mySession.sendLateMessage((String) listModel.get(i));
 	        		}
 	        		catch(SQLException e2){
@@ -178,7 +178,7 @@ public class LibrarianPopularPanel extends JPanel implements ListSelectionListen
 	        		}
 	        		catch(Exception e3){
 	        			JOptionPane.showMessageDialog(parent, e3.getMessage());
-	        		}
+	        		}*/
 	        	}
 	        	list.clearSelection();
 	        	/*

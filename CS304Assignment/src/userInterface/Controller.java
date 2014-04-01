@@ -806,9 +806,13 @@ public String[] getFineInfo(int fid) throws SQLException{
 	}
 
 	//TODO: implement this. Called by ClerkListPanel when the 'send late message button to these poeple' button is pressed
-	public void sendLateMessage(String userKey) throws SQLException{
-		// TODO Auto-generated method stub
-		System.out.println("Sent message to: " + userKey);
+	public void sendLateMessage(int bid) throws SQLException{
+	//	String statement
+		
+		this.sendEmail(bid, "Hello, this email is to let you know that you have"
+				+ "a book overdue. Please return it as soon as possible");
+
+
 		this.updateStatusBar("Late Message Sent");
 		
 	}
@@ -1199,5 +1203,14 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 		
 	}
 
+	private void sendEmail(int BID, String message) throws SQLException{
+		String statement = "Select * from borrower where BID = " + BID;
+		ResultSet rs = sql(statement,  SQLType.query);
+		
+		if(rs.next()){
+			System.out.println("Email sent to: " + rs.getString("EMAILADDRESS"));
+		}
+		
+	}
 }
 
