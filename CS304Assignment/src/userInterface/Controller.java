@@ -418,9 +418,9 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String searchArgument) throws SQLException{
 	//I would reccomend doing several helper methods, one for each SearchAbleKeyword. 
 	ArrayList<String> results = new ArrayList<String>();
-	results.add("(1 in, 2 out, 1 hold) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
-	results.add("(3 in, 0 out, 0 hold) - Daniel's guide to the galaxy. All in");
-	results.add("(0 in, 2 out, 1 hold) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
+	results.add("(1In-2Out-1Hld) - Hitchhiker's guide to the galaxy. Next due back on January 14, 2015");
+	results.add("(1In-0Out-0Hldd) - Daniel's guide to the galaxy. All in");
+	results.add("(0In-1Out-2Hld) - Shit Shit, fucking kittens. Next due back on April 20, 2015");
 	String query = makeSearchQuery(selectedItem, searchArgument);
 	
 	stmt = con.createStatement();
@@ -428,6 +428,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	rs = stmt.executeQuery(query);
 	
 	while(rs.next()){
+		System.out.println("should have worked");
 		results.add(rs.getString(3));
 	}
 	
@@ -448,7 +449,10 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		System.out.println(query);
 	}
 	else if(selectedItem == SearchAbleKeywords.Subject){
-		query = "SELECT * From book where title = '" + searchArgument + "'";
+		query = "select * from book, hassubject where"
+				+ " book.callnumber = hasSubject.callnumber"
+				+ " AND hassubject.subject = '" + searchArgument + "'";
+
 	}
 	else if(selectedItem == SearchAbleKeywords.Author){
 		query = "SELECT * From book where title = '" + searchArgument + "'";
