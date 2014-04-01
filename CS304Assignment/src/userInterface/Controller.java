@@ -612,15 +612,19 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		//Determine the borrower using the callNumber
 		statement = "SELECT bid FROM BORROWING WHERE callNumber='" 
-					+ callNumber + "' and copyNo ='"+ copyNo +"'";
+					+ callNumber + "' and copyNo ="+ copyNo;
 		System.out.println(statement);
 		rs = sql(statement, SQLType.query);
-		System.out.print(rs.next());
+		
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
 		
+		boolean Late;
+		Date date = rs.getDate("outDate");
+		long timeOut;
+		
 		if(user.getType() == UserType.librarian || user.getType() == UserType.faculty){
-			System.out.println("Librarian/Faculty");
+			 timeOut =  date.getTime() - currentTimeMillis;
 		}else if(user.getType() == UserType.clerk || user.getType() == UserType.staff){
 			System.out.println("Clerk/Staff");
 		}else{
@@ -814,12 +818,46 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	}
 	
 	/**
-	 * String ["Fine ID", "Title", "Book Due", "Returned", "Fine Amount"]
+	 * String ["Fine ID", "Title", "Checked Out", "Returned", "Fine Amount"]
 	 * @param loggedInUser
 	 * @return
+	 * @throws SQLException 
 	 */
 
-	public String[][] getOutstandingFines(User loggedInUser) {
+	public String[][] getOutstandingFines(User loggedInUser) throws SQLException {
+		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
+		
+		String statement = "Select fine.fid, book.title, "
+				+ "borrowing.outdate, borrowing.indate,"
+				+ " fine.amount from fine, book, borrowing "
+				+ "where fine.borid = borrowing.borid AND "
+				+ "borrowing.callnumber = book.callnumber "
+				+ "AND fine.paiddate is null AND"
+				+ " borrowing.bid = " + loggedInUser.getBID();
+		System.out.println(loggedInUser.getBID());
+			ResultSet rs = sql(statement, SQLType.query);
+			
+			while(rs.next()){
+				System.out.println("yep");
+				ArrayList<String> row = new ArrayList<String>();
+				row.add(rs.getString("FID"));
+				row.add(rs.getString("Title"));
+				row.add(rs.getString("outdate"));
+				row.add(rs.getString("indate"));
+				row.add(rs.getString("Amount"));
+				temp.add(row);
+			}
+			if(temp.size() == 0){
+				return new String[0][5];
+			}
+			String[][] newData = new String[temp.size()][temp.get(0).size()];
+			for(int outerCount = 0; outerCount<temp.size(); outerCount++){
+				for(int innerCount = 0; innerCount<temp.get(0).size(); innerCount++){
+					newData[outerCount][innerCount] = temp.get(outerCount).get(innerCount);
+				}
+			}
+			
+			return newData;/*
 			String[][] date = { 
 				{"22", "Long Island Ice Tea",
 		     "January 15, 2014", "April 30, 2014", "$25.03"},
@@ -830,7 +868,7 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 		    {"43", "Smokin the While Elephant",
 		     "March 12, 2014", "March 16, 2014", "$5.01"}
 	};
-		return date;
+		return date;*/
 	}
 
 
