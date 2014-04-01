@@ -690,7 +690,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		boolean onHold = false;
 
 		Date currDate = new Date(System.currentTimeMillis());
-		
+	
 		
 		//Return 
 		
@@ -715,12 +715,14 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			sql(statement, SQLType.query);
 			
 			statement = "Update HoldRequest set issueDate='"+ formatDate(currDate) +"' where callNumber='" 
-					+ callNumber + "' and copyNo ="+ copyNo;
+					+ callNumber + "'";
 			sql(statement, SQLType.query);
 			
 			
 			onHold = true;
 		}
+			
+	
 		
 		
 		//process fine if needed
@@ -767,6 +769,9 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			if (!onHold){
 				this.updateStatusBar("Checked In: Yes | Fine: $"+df.format(timeOut*0.05/10000000)+" | On Hold: No | Email Notification: No");
+				statement = "Update BookCopy set status='in' where callNumber='" 
+						+ callNumber + "' and copyNo ="+ copyNo;
+				sql(statement, SQLType.query);
 			}else
 				this.updateStatusBar("Checked In: Yes | Fine: $"+df.format(timeOut*0.05/10000000)+" | On Hold: Yes | Email Notification: Yes");
 			
@@ -774,6 +779,9 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		}
 		if (!onHold){
 			this.updateStatusBar("Checked In: Yes | Fine: No | On Hold: No | Email Notification: No");
+			statement = "Update BookCopy set status='in' where callNumber='" 
+					+ callNumber + "' and copyNo ="+ copyNo;
+			sql(statement, SQLType.query);
 		}else
 			this.updateStatusBar("Checked In: Yes | Fine: No | On Hold: Yes | Email Notification: Yes");
 		
