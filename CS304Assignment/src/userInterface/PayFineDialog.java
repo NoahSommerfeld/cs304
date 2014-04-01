@@ -49,6 +49,7 @@ public class PayFineDialog extends JDialog {
 	private ButtonGroup typeButtonGroup;
 	private int fineID;
 	private JComboBox cmboCardType;
+	private final String defaultCardMessage = "<Card Type>";
 	private JTextField textCardNumber;
 	private JTextField textFineAmount;
 	private String borrowerName;
@@ -99,7 +100,9 @@ public class PayFineDialog extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		{
 			txtFID = new JTextField();
+			txtFID.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtFID.setEditable(false);
+			txtFID.setText("" + fineID);			
 			//txtName.setText("Name");
 			contentPanel.add(txtFID, "2, 2, 5, 1, fill, default");
 			txtFID.setColumns(10);
@@ -160,7 +163,7 @@ public class PayFineDialog extends JDialog {
 		}
 		{
 			cmboCardType = new JComboBox();			
-			cmboCardType.setModel(new DefaultComboBoxModel(new String[] {"<Card Type>", "Visa", "MasterCard", "Maestro", "Amex"}));
+			cmboCardType.setModel(new DefaultComboBoxModel(new String[] {defaultCardMessage, "Visa", "MasterCard", "Maestro", "Amex"}));
 			contentPanel.add(cmboCardType, "4, 14, fill, default");
 		}
 		{
@@ -200,6 +203,17 @@ public class PayFineDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						if(textCardNumber.getText() == null || textCardNumber.getText().equals("")){
+							JOptionPane.showMessageDialog(getInstance(), "Please Insert a Credit Card Number");
+							return;
+						}
+						String cardType = (String) cmboCardType.getSelectedItem();
+						if(cmboCardType.getSelectedIndex() == -1 || cardType.equals(defaultCardMessage)){
+							JOptionPane.showMessageDialog(getInstance(), "Please select a Card Type");
+							return;
+						}
+						
 						try{
 							double payment = Double.parseDouble(textFineAmount.getText());
 							int BID = getInstance().parent.getLoggedInUserBID();
