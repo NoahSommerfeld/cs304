@@ -63,9 +63,8 @@ FOREIGN KEY(type) REFERENCES BorrowerType(type) ON DELETE CASCADE
 );
 
 insert into Borrower values
-(bid_counter.nextVal, '1234Cats', 'OMGSUPERCAT', '123 Cat st.',
- 4794322, 'theGREATKITTY@gmail.com',1,'31/may/98', 'librarian');
-
+(bid_counter.nextVal, '1234Cats', 'SUPERCAT', '123 Cat st.',
+ 4794922, 'theGREATKITTY@gmail.com',5,'31/may/98', 'librarian');
 
 
 CREATE TABLE HasAuthor(
@@ -83,16 +82,16 @@ PRIMARY KEY(callNumber, subject)
 CREATE TABLE BookCopy(
     callNumber  VARCHAR(20),
     copyNo    	INTEGER,
-    status      VARCHAR(20),
+    status      VARCHAR(10),
 PRIMARY KEY(callNumber, copyNo)
 );
 
 CREATE TABLE Book(
-    callNumber    VARCHAR(20) NOT NULL,
+    callNumber  VARCHAR(20) NOT NULL,
     isbn        INTEGER UNIQUE,
-    title        VARCHAR(255),
-    mainAuthor    VARCHAR(32),
-    publisher    VARCHAR(32),
+    title       VARCHAR(255),
+    mainAuthor  VARCHAR(32),
+    publisher   VARCHAR(32),
     year        INTEGER,
 PRIMARY KEY(callNumber)
 );
@@ -176,3 +175,35 @@ REFERENCES Borrowing(borid)
 ;
 
 //INSERT
+
+
+INSERT INTO BOOK VALUES('A323.347',2114567,'Garfield','OMGSUPERCAT','Cats inc.',1976);
+INSERT INTO BOOK VALUES('G754.347',2156467,'Aint No Cat Like A Coo Cat','PuffDaddy','Cats inc.',2002);
+INSERT INTO BOOK VALUES('R34Y.44F',7982353,'Catnip: Your Kittens and You','Mothers Against Catnip','DARE',2006);
+INSERT INTO BOOK VALUES('AD98.6DH',2456743,'How 2Pac Got Shot','Lil Homie #3','Hustle House',2000);
+INSERT INTO BOOK VALUES('E3K8.E8D',3563226,'Space','Chris Hatfeild','Hubble House',2013);
+INSERT INTO BOOK VALUES('2KSH.37D',6785645,'Interstellar Overdrive','Roger Waters','Floyd Plublishing',1992);
+INSERT INTO BOOK VALUES('GFG7.CC7',9729429,'Koding for Kids: Its Hip and Kool','Dr. Algo Rithm','Modern Mechanics Magazine',2014);
+INSERT INTO BOOK VALUES('FNAE.OO7',5483626,'Dealing With Your Daughters Boyfriends','Tuco','Hells Angels Publishing',1962);
+
+
+INSERT INTO BOOKCOPY VALUES('GFG7.CC7', 2, 'in');
+INSERT INTO BOOKCOPY VALUES('R34Y.44F', 1, 'in');
+INSERT INTO BOOKCOPY VALUES('E3K8.E8D', 1, 'in');
+INSERT INTO BOOKCOPY VALUES('2KSH.37D', 1, 'in');
+INSERT INTO BOOKCOPY VALUES('FNAE.OO7', 2, 'in');
+INSERT INTO BOOKCOPY VALUES('FNAE.OO7', 1, 'on-hold');
+INSERT INTO BOOKCOPY VALUES('A323.347', 1, 'out');
+INSERT INTO BOOKCOPY VALUES('G754.347', 2, 'in');
+INSERT INTO BOOKCOPY VALUES('AD98.6DH', 1, 'in');
+
+
+insert into Borrower values
+(bid_counter.nextVal, '1234Cats', 'OMGSUPERCAT', '123 Cat st.',
+ 4794322, 'theGREATKITTY@gmail.com',1,'31/may/98', 'librarian');
+
+INSERT INTO BORROWING VALUES(123, 2 , 'GFG7.CC7', 2, '12/apr/13', NULL);
+INSERT INTO BORROWING VALUES(124, 2 , 'A323.347', 1, '12/apr/13', NULL);
+INSERT INTO BORROWING VALUES(125, 2 , 'FNAE.OO7', 1, '12/apr/13', NULL);
+
+
