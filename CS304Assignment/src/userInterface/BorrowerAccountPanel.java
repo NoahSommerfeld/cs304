@@ -185,7 +185,12 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        table.setRowSelectionAllowed(true);
 	        	}
 	        	else if(subjectFilter.equals("Loaned books")){
-	        		toAdd = mySession.getLoanedBooks(parent.getLoggedInUser());
+	        		try {
+						toAdd = mySession.getLoanedBooks(parent.getLoggedInUser());
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(getInstance(), "Could not load loaned books");
+						e1.printStackTrace();
+					}
 	        	
 	        		removeAllColoumnsFromTable();
 	        		
