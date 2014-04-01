@@ -508,10 +508,17 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		for(BookCopy copy: copies){
 
 			String title = confirmOkToCheckOut(copy.getCallNo(), copy.getCopyNo());
+			Date date = new Date(System.currentTimeMillis());
+			statement = "insert into borrowing values (borid_counter.nextVal, '"
+					+ user.getBID()+"', '" 
+					+ copy.getCallNo()+"',"
+					+ copy.getCopyNo() +","
+					+ date +", Null)";
 			
-	//		statement = "insert into borrowing values (borid_counter.nextVal, '"+user.getBID()+"', '" + callNumber+"'CURRENT_TIMESTAMP', Null)";
-	//		rs = sql(statement, SQLType.insert);
-	//		rs.next();
+			System.out.println(statement);
+			rs = sql(statement, SQLType.insert);
+			rs.next();
+			
 			
 		}
 		
