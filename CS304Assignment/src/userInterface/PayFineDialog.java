@@ -53,17 +53,25 @@ public class PayFineDialog extends JDialog {
 	private JTextField textCardNumber;
 	private JTextField textFineAmount;
 	private String borrowerName;
+	private String title;
+	private String amount;
+	private String date;
 	
 	/**
 	 * Create the dialog.
+	 * @param amount 
+	 * @param string 
 	 */
-	public PayFineDialog(BorrowerAccountPanel parent, Controller session, int FID, String borrowerName) {
+	public PayFineDialog(BorrowerAccountPanel parent, Controller session, int FID, String borrowerName, String Title, String date, String amount) {
 		setResizable(false);
 		setTitle("Pay Fine");
 		this.parent = parent;
 		this.mySession = session;
 		this.fineID = FID;
 		this.borrowerName  = borrowerName;
+		this.title = Title;
+		this.amount = amount;
+		this.date = date;
 		ImageIcon img = new ImageIcon("res/library-icon.png");
 		this.setIconImage(img.getImage());
 		setBounds(100, 100, 350, 300);
@@ -115,6 +123,7 @@ public class PayFineDialog extends JDialog {
 			txtBookTitle = new JTextField();
 			txtBookTitle.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtBookTitle.setEditable(false);
+			txtBookTitle.setText(title);
 			//txtPassword.setText("Password");
 			contentPanel.add(txtBookTitle, "2, 4, 5, 1, fill, default");
 			txtBookTitle.setColumns(10);
@@ -127,6 +136,7 @@ public class PayFineDialog extends JDialog {
 			txtIssueDate = new JTextField();
 			txtIssueDate.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtIssueDate.setEditable(false);
+			txtIssueDate.setText(date);
 			//txtAddress.setText("Address");
 			contentPanel.add(txtIssueDate, "2, 6, 5, 1, fill, default");
 			txtIssueDate.setColumns(10);
@@ -152,7 +162,7 @@ public class PayFineDialog extends JDialog {
 			txtAmountDue = new JTextField();
 			txtAmountDue.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtAmountDue.setEditable(false);
-			txtAmountDue.setText("21.02"); //TODO: GET THIS FROM DANIEL!!
+			txtAmountDue.setText(amount); //TODO: GET THIS FROM DANIEL!!
 			//txtTxtboxemailaddress.setText("txtBoxEmailAddress");
 			contentPanel.add(txtAmountDue, "2, 10, 5, 1, fill, default");
 			txtAmountDue.setColumns(10);

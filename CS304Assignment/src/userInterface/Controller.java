@@ -626,18 +626,42 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		//Return 
 		
+		//Update inDate in Borrowing Table
 		statement = "update borrowing set inDate='"+formatDate(currDate)+"' WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
+	
 		rs = sql(statement, SQLType.insert);
+		
+		
+		// If book is on hold, notify
+		//recipient and mark as on hold 
+		//in BookCopy. Otherwise mark as in.
+		
+		statement = "select * from HoldRequest where callNumber='"+callNumber+"'";
+		rs = sql(statement, SQLType.query);
+		
+		if(rs.next()){
+			
+			statement = "Update BookCopy set status='on-hold' where callNumber='" 
+					+ callNumber + "' and copyNo ="+ copyNo;
+			sql(statement, SQLType.query);
+			
+			
+			
+			
+			
+		}
+		
 		
 		//process fine if needed
 		
- 
 		statement = "SELECT * FROM BORROWING WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
-		System.out.println(statement);
+		
+		
 		rs = sql(statement, SQLType.query);
 		rs.next();
+		
 		
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
@@ -688,6 +712,27 @@ public void processPayment(int fid, int bid, double paymentAmount, int creditCar
 	
 	
 }
+
+/**
+ * returns String[issuedate, amount]
+ * @return
+ * @throws SQLException 
+ */
+public String[] getFineInfo(int fid) throws SQLException{
+	String statement = "select issuedate, amount where fid = " + fid;
+	ResultSet rs = sql(statement, SQLType.query);
+	String[] data = new String[2];
+	
+	if(rs.next()){
+		data[0] = rs.getString("issuedate");
+		data[1] = rs.getString("amount");
+	}
+	
+	return data;
+	
+	
+}
+
 
 	//use BID of -1 for all checked out books
 	private ResultSet getCheckedOuts(int BID) throws SQLException{
