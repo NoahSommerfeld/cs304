@@ -449,6 +449,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		String query = "";
 	if(selectedItem == SearchAbleKeywords.Title){
 		query = "SELECT * From book where title = '" + searchArgument + "'";
+		System.out.println(query);
 	}
 	else if(selectedItem == SearchAbleKeywords.Subject){
 		query = "SELECT * From book where title = '" + searchArgument + "'";
@@ -491,7 +492,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		String statement;
 		ResultSet rs;
 		
-		statement = "SELECT subject from HasSubject";
+		statement = "SELECT subject from HasSubject group By(subject)";
 		rs = sql(statement, SQLType.query);
 				
 		while(rs.next()){
