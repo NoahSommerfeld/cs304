@@ -608,7 +608,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 */
 	
 	//TODO CHECK IF BOOK IS ON HOLD AND IF IT IS IS IT THE CORRECT PERSON?
-	public String confirmOkToCheckOut(String callNumber, int copyNo) throws SQLException, BadCallNumberException, NotCheckedInException {
+	public String confirmOkToCheckOut(String callNumber, int copyNo, int bid) throws SQLException, BadCallNumberException, NotCheckedInException {
 		stmt = con.createStatement();
 		String statement = "Select Status from bookcopy where callNumber = '" + callNumber + "'";
 		ResultSet rs = stmt.executeQuery(statement); 
