@@ -1038,5 +1038,51 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 		System.exit(reasonCode);
 	}
 
+	public String placeHoldRequest(String callNumber, int BID) throws SQLException, ParseException{
+		int copyNo = getFirstInCallNo(callNumber);
+		if(copyNo == -1){
+			String statement = "INSERT INTO HOLDREQUEST VALUES(hid_counter.nextVal, " + BID + ", '" + callNumber + "', " + "NULL)";
+			sql(statement, SQLType.query);
+			System.out.println(statement);
+			return "Hold request created";
+		}
+		else{
+			
+			Date currDate = new Date(System.currentTimeMillis());
+			
+			String statement = "INSERT INTO HOLDREQUEST VALUES(hid_counter.nextVal, " + BID + ", '" + callNumber + "', '" + formatDate(currDate) + "')";
+			System.out.println(statement);
+			changeToHold(callNumber, copyNo);
+			sql(statement, SQLType.query);
+			System.out.println("test??");
+			return "Copy " + copyNo + " Placed on hold";
+		}
+
+	}
+
+	private void changeToHold(String callNumber, int copyNo) throws SQLException {
+		Statement stmt = con.createStatement();
+		ResultSet rs;
+		
+		String statement = "Update bookcopy set status='on-hold' where callnumber = '"+callNumber+"' AND copyno=" + copyNo;
+		System.out.println(statement);
+		stmt.executeUpdate(statement);  
+		System.out.println("Not my problem");
+	}
+
+	private int getFirstInCallNo(String callNumber) throws SQLException {
+		String statement = "Select copyno from bookcopy where status = 'in' AND "
+				+ "callnumber = '" + callNumber + "'";
+		System.out.println(statement);
+		ResultSet rs = sql(statement, SQLType.query);
+		if(rs.next()){
+			return rs.getInt(1);
+		}
+		else{
+			return -1;
+		}
+		
+	}
+
 }
 
