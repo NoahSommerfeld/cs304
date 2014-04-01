@@ -228,6 +228,8 @@ INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'FNAE.007', 1, '12/mar/1
 INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '12/mar/13', '13/mar/13', '14/mar/13');
 INSERT INTO BORROWING VALUES(borid_counter.nextVal, 2 , 'A323.347', 1, '14/mar/13', '15/mar/13', '25/mar/13');
 
-INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/mar/13', NULL, 127);
-INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/mar/13', '15/mar/13', 126);
+INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/mar/13', NULL, 6);
+INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/mar/13', '15/mar/13', 7);
+
+insert into holdrequest values(hid_counter.nextVal, 2, 'E3K8.E8D', '14/MAR/13');
 
