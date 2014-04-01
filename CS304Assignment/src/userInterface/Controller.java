@@ -477,19 +477,19 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	public List<String> getPopularBooks(int year, int numResults) throws SQLException, ParseException{
 		ArrayList<String> theResults = new ArrayList<String>();
 		//AAAAA
-		theResults.add("(5) - Hitchhiker's guide to your mom");
-		theResults.add("(2) - war of your mom");
-		theResults.add("(2) - around Daniel's mom in 80 days");
+		theResults.add("(5) - Hitchhiker's guide to the Galaxy");
+		theResults.add("(2) - war of the worlds");
+		theResults.add("(2) - around the world in 80 days");
 	
 		Date minDate = new Date("01/01/" + year);
 		Date maxDate = new Date("31/12/" + year);
 		
 		String statement = "SELECT borrowing.callnumber, book.title"
-				+ " FROM borrowing, book, WHERE borrowing.CALLNUMBER = book.CALLNUMBER "
+				+ " FROM borrowing, book WHERE borrowing.CALLNUMBER = book.CALLNUMBER "
 				+ "AND borrowing.indate"
 				+ " BETWEEN " + formatDate(minDate)+ " AND " + formatDate(maxDate);
 		System.out.println(statement);
-		sql(statement, SQLType.query);
+		//sql(statement, SQLType.query);
 
 		/*
 		SELECT borrowing.callnumber, book.title, count(column_name)
@@ -636,6 +636,26 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		}
 		if(!status.equals("in")){
 			throw new NotCheckedInException(status);
+		}else if(!status.equals("on-hold")){
+			boolean correctPerson = false;
+			
+			String hStatement = "select * from holdRequest where bid="+bid +" and callnumber='"
+																	+ callNumber +"'";
+					
+			rs = sql(hStatement, SQLType.query);
+			
+			if(rs.next()){
+				statement = "Select title from book where callnumber = '" + callNumber + "'";
+				rs = stmt.executeQuery(statement);
+				if(rs.next()){
+					return rs.getString("title");
+				}
+				else{
+					throw new BadCallNumberException("Book not found");
+				}
+			}
+			
+			
 		}
 		else{
 			statement = "Select title from book where callnumber = '" + callNumber + "'";
@@ -648,7 +668,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			}
 		}
 
-		
+		return null;
 	}
 
 	
