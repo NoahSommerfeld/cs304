@@ -548,7 +548,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			System.out.println(statement);
 			sql(statement, SQLType.insert);
-			
+			System.out.println("insertCopy");
 			
 			
 			//update bookcopy
@@ -558,10 +558,10 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			statement = "select * from BookCopy where callnumber='" + copy.getCallNo()
 												+ "' and copyNo ="+copy.getCopyNo();
-			System.out.println(statement);
-			rs = sql(statement, SQLType.query);
 			
-			while(!rs.next()){
+			rs = sql(statement, SQLType.query);
+			System.out.println(statement);
+			rs.next();
 				if(rs.getString("status").equalsIgnoreCase("on-hold")){
 					System.out.println("Was on hold");
 					//Update status to out
@@ -589,10 +589,6 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 					sql(statement, SQLType.query);
 				}
 			}
-					
-					
-					
-		}
 		
 		//SQLException from the db
 		//notcheckedinexception if it's not 'borrowable'
