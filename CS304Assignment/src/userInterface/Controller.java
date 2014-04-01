@@ -550,6 +550,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			sql(statement, SQLType.insert);
 			
 			
+			
 			//update bookcopy
 			
 			//Check BookCopies. If one has status "on-hold" delete the 
