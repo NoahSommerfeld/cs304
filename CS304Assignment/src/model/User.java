@@ -15,10 +15,11 @@ public class User {
 	private Date expiryDate;
 	private UserType type;
 	private String address;
+	private int BID;
 	
-	public User(String address, String password, String name, Long phone, 
+	public User(int BID, String address, String password, String name, Long phone, 
 			String emailAddress, Long sinOrStNo, Date expiryDate, UserType type) throws UserCreationException{
-	validate(address, password, name, phone, 
+	validate(BID, address, password, name, phone, 
 		emailAddress, sinOrStNo, expiryDate, type);
 	this.address = address;
 	this.password = password;
@@ -28,11 +29,12 @@ public class User {
 	this.sinOrStNo = sinOrStNo;
 	this.expiryDate = expiryDate;
 	this.type = type;
+	this.setBID(BID);
 	
 	
 }
 	
-	public User(String address, String password, String name, String phone, 
+	public User(String BID, String address, String password, String name, String phone, 
 			String emailAddress, String sinOrStNo, String expiryDate, UserType type) throws UserCreationException{
 	
 		
@@ -57,10 +59,18 @@ public class User {
 			sin = Long.parseLong(sinOrStNo);
 		}
 		catch(NumberFormatException nfe){
+			
 			throw new UserCreationException("Sin or Student number formatted wrong");
 		}
 		
-	validate(address, password, name, phoneNumber, 
+		int bid;
+		try{
+			bid = Integer.parseInt(BID);
+		}catch(IllegalArgumentException e){
+			throw new UserCreationException("BID not formatted correctly");
+		}
+		
+	validate(bid, address, password, name, phoneNumber, 
 		emailAddress, sin, tempDate, type);
 	this.address = address;
 	this.password = password;
@@ -70,15 +80,16 @@ public class User {
 	this.sinOrStNo = sin;
 	this.expiryDate = tempDate;
 	this.type = type;
+	this.BID = bid;
 	
 	
 }
 
-private void validate(String BID, String password, String name, Long phone, 
+private void validate(int BID, String address, String password, String name, Long phone, 
 		String emailAddress, Long sinOrStNo, Date expiryDate, UserType type) throws UserCreationException{
 	
 	
-	if(BID == null){ //TODO do the checks here. 
+	if(sinOrStNo == null){ //TODO do the checks here. 
 		throw new UserCreationException("Null BID");
 	}
 	
@@ -122,6 +133,14 @@ public Date getExpiryDate() {
 
 public UserType getType() {
 	return type;
+}
+
+public int getBID() {
+	return BID;
+}
+
+public void setBID(int bID) {
+	BID = bID;
 }
 
 }
