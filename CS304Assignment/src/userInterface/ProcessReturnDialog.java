@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
@@ -134,6 +135,9 @@ public class ProcessReturnDialog extends JDialog {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (BadUserIDException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ParseException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
