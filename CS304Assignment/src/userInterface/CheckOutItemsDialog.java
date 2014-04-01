@@ -260,6 +260,9 @@ public class CheckOutItemsDialog extends JDialog {
 							catch(IllegalArgumentException e5){
 								 JOptionPane.showMessageDialog(getInstance(), "BID not an int");
 								 return;
+							} catch (UserCreationException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
 						}
 						//TODO this is a terrible idea. If there's an error, should abandon everything.

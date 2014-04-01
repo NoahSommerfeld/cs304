@@ -9,6 +9,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
+import exceptions.BadUserIDException;
 import exceptions.UserCreationException;
 
 import javax.swing.JButton;
@@ -44,7 +45,7 @@ public class BorrowerView extends ContentPane {
 		try {
 			try {
 				loggedInUser = mySession.getUser(this.userBID);
-			} catch (UserCreationException e) {
+			} catch (UserCreationException | BadUserIDException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} //assuming already logged in, don't need pw

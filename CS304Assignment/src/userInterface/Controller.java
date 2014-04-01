@@ -205,14 +205,30 @@ public class Controller {
 	
 	//TODO: Maybe implement user checks
 	
-	public User getUser(int bid) throws SQLException, UserCreationException {
-	
+	public User getUser(int bid) throws SQLException, UserCreationException, BadUserIDException {
+
 		User user;
+		String statement;
+		ResultSet rs;
 		
-		String statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
+		try{
 		
-		ResultSet rs = sql(statement, SQLType.query);
+			statement = "select count(*) from Borrower where bid = '"+bid+"'";
+			rs = sql(statement, SQLType.query);
+			rs.next();
+			
+			if(rs.getInt(1)<1){
+				throw new BadUserIDException("This user does not exist.");
+			}
+		}catch (BadUserIDException e){
+			throw e;
+		}
+		
+		try{
+		statement = "Select * from Borrower where bid = '"+ bid +"' and ROWNUM = 1";
+		rs = sql(statement, SQLType.query);
 		rs.next();
+		
 		
 		String address = rs.getString("address");
 		String password = rs.getString("password");
@@ -223,9 +239,12 @@ public class Controller {
 		Date date = rs.getDate("expirydate");
 		UserType type = UserType.valueOf(rs.getString("type"));
 		
-		user = new User(address,password,name,phone,
+		user = new User(bid,address,password,name,phone,
 				emailAddress,sinorstno,date,type);
-					
+		}catch(UserCreationException e){
+			throw e;
+		}
+		
 		return user;
 			
 	}
@@ -274,7 +293,7 @@ public class Controller {
 //---------------------------------------BOOKS--------------------------------------//	
 	
 	/**
-	 * DANIEL: THIS IS IMPORTANT
+	 * DANIEL: THIS IS IMPORTANnew BadUserIDExceptionT
 	 * the books will be passed with the default copy no (0)
 	 * If it already exists, please throw a new BadCopyNumberException 
 	 * with the first free copyno included. 
@@ -479,8 +498,19 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	
 	//Checks out a book, when given a call number
-	public void checkOut(String callNumber, int copyNo, int userID) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException {
-		// TODO Auto-generated method stub
+	public void checkOut(String callNumber, int copyNo, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException {
+		String statement;
+		ResultSet rs;
+		User user = getUser(bid);
+		
+		
+		
+		String title = confirmOkToCheckOut(callNumber, copyNo);
+		
+//		statement = "insert into borrowing values (borid_counter.nextVal, '"+user.getBid()+"', '" + callNumber+"'CURRENT_TIMESTAMP', Null)";
+	//	rs = sql(statement, SQLType.insert);
+//		rs.next();
+		
 		
 		ResultSet rs1;
 		ResultSet rs2;
