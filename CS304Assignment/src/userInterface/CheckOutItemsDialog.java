@@ -199,7 +199,7 @@ public class CheckOutItemsDialog extends JDialog {
 			}
 			{
 				txtCallnumber = new JTextField();
-				txtCallnumber.setText("CallNumber");
+				//txtCallnumber.setText("CallNumber");
 				contentPanel.add(txtCallnumber, "2, 10, fill, default");
 				txtCallnumber.setColumns(10);
 			}

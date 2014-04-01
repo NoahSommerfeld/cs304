@@ -130,7 +130,7 @@ public class MainWindow extends JFrame implements ComponentListener{
 	 * Create the application.
 	 */
 	public MainWindow(Controller theSession) {
-		super("NOAH's AWESOME LIBRARY PROGRAM");
+		super("Digital Dewey Index");
 		session = theSession;
 		session.registerAsMainWindow(this);
 		this.setVisible(false);

@@ -142,7 +142,7 @@ public class AddNewUserDialog extends JDialog {
 		}
 		{
 			txtSinorstno = new JTextField();
-			txtSinorstno.setText("20292124");
+			
 			contentPanel.add(txtSinorstno, "2, 12, 5, 1, fill, default");
 			txtSinorstno.setColumns(10);
 		}
@@ -152,7 +152,7 @@ public class AddNewUserDialog extends JDialog {
 		}
 		{
 			txtDate = new JTextField();
-			txtDate.setText("January 12, 2015");
+			//txtDate.setText("January 12, 2015");
 			contentPanel.add(txtDate, "2, 14, 5, 1, fill, default");
 			txtDate.setColumns(10);
 		}
