@@ -337,7 +337,10 @@ public class AddNewBookDialog extends JDialog {
 							JOptionPane.showMessageDialog(getInstance(), e1.getMessage());
 						}
 						catch(BadCopyNumberException bcn){
-							try {
+							JOptionPane.showMessageDialog(getInstance(), "Added as copy: " + bcn.getFirstFreeCopyNo());
+							closeDialogBox();
+						
+						/*	try {
 								Book temp2 = turnIntoBook();
 								temp2.setCopyNo(bcn.getFirstFreeCopyNo());
 								int copyNo = mySession.createNewBook(temp2);
@@ -350,7 +353,7 @@ public class AddNewBookDialog extends JDialog {
 							}
 							catch(BadCopyNumberException e1){
 								JOptionPane.showMessageDialog(getInstance(), "Unable to add, copy number issue");
-							}
+							}*/
 						}
 					}
 				});

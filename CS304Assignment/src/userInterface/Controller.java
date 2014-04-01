@@ -376,22 +376,26 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 				}else 
 					
 					if( copyCount >= 1){
-					statement = "select max(copyNo) from bookCopy where callNumber='" + newBook.getCallNumber() + "')";
+						System.out.println("Test: " + newBook.getCopyNo());
+					statement = "select max(copyNo) from bookCopy where callNumber='" + newBook.getCallNumber() + "'";
 					rs = sql(statement, SQLType.query);
 					rs.next();
 					copyCount = rs.getInt(1);
 					
 					
 					String message = "The copy number" + newBook.getCopyNo() + "does not exist. The next available copy number is: ";
-					throw new BadCopyNumberException(message,copyCount++);
-				}
+					copyCount++;
+
 				
-				else{
 					statement = "INSERT INTO BookCopy VALUES ('" 
 								+ newBook.getCallNumber() + "', " 
-								+ newBook.getCopyNo() + ")";
-					
+								+ copyCount + ", "
+								+ "'in' " +  ")";
+					System.out.println(statement);
 					sql(statement, SQLType.insert);
+					throw new BadCopyNumberException(message,copyCount);
+				}else{
+					throw new SQLException("wasn't suposed to get here");
 				}
 				
 				
