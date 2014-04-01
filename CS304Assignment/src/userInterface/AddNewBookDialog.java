@@ -463,6 +463,7 @@ public class AddNewBookDialog extends JDialog {
 		return temp;
 	}
 	private void closeDialogBox(){
+		parent.refreshStatsLbls();
 		this.dispose();
 	}
 }

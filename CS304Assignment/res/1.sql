@@ -184,7 +184,7 @@ INSERT INTO BOOK VALUES('AD98.6DH',2456743,'How 2Pac Got Shot','Lil Homie #3','H
 INSERT INTO BOOK VALUES('E3K8.E8D',3563226,'Space','Chris Hatfeild','Hubble House',2013);
 INSERT INTO BOOK VALUES('2KSH.37D',6785645,'Interstellar Overdrive','Roger Waters','Floyd Plublishing',1992);
 INSERT INTO BOOK VALUES('GFG7.CC7',9729429,'Koding for Kids: Its Hip and Kool','Dr. Algo Rithm','Modern Mechanics Magazine',2014);
-INSERT INTO BOOK VALUES('FNAE.OO7',5483626,'Dealing With Your Daughters Boyfriends','Tuco','Hells Angels Publishing',1962);
+INSERT INTO BOOK VALUES('FNAE.007',5483626,'Dealing With Your Daughters Boyfriends','Tuco','Hells Angels Publishing',1962);
 
 
 INSERT INTO BOOKCOPY VALUES('GFG7.CC7', 2, 'in');
@@ -204,6 +204,9 @@ insert into Borrower values
 
 INSERT INTO BORROWING VALUES(123, 2 , 'GFG7.CC7', 2, '12/apr/13', NULL);
 INSERT INTO BORROWING VALUES(124, 2 , 'A323.347', 1, '12/apr/13', NULL);
-INSERT INTO BORROWING VALUES(125, 2 , 'FNAE.OO7', 1, '12/apr/13', NULL);
+INSERT INTO BORROWING VALUES(125, 2 , 'FNAE.007', 1, '12/apr/13', NULL);
+INSERT INTO BORROWING VALUES(126, 2 , 'A323.347', 1, '12/apr/13', '14/apr/13');
+INSERT INTO BORROWING VALUES(127, 2 , 'A323.347', 1, '12/apr/13', '25/apr/13');
 
-
+INSERT INTO fine values(fid_counter.nextVal, 25.02, '25/apr/13', NULL, 127);
+INSERT INTO fine values(fid_counter.nextVal, 25.02, '14/apr/13', '15/apr/13', 126);

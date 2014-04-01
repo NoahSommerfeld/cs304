@@ -272,6 +272,7 @@ public class AddNewUserDialog extends JDialog {
 		return temp;
 	}
 	private void closeDialogBox(){
+		parent.refreshStatsLbls();
 		this.dispose();
 	}
 }
