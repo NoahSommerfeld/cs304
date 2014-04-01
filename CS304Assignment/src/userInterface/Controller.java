@@ -663,6 +663,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		rs.next();
 		
 		
+		
 		int bid = rs.getInt("bid");
 		User user = getUser(bid);
 
