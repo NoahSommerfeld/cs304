@@ -140,7 +140,7 @@ public class AddNewBookDialog extends JDialog {
 			contentPanel.add(rdbtnNewBook, "2, 2");
 		}
 		{
-			rdbtnNewCopy = new JRadioButton("New Copy");
+			/*rdbtnNewCopy = new JRadioButton("New Copy");
 			rdbtnNewCopy.addActionListener(new ActionListener(){
 
 				@Override
@@ -150,7 +150,7 @@ public class AddNewBookDialog extends JDialog {
 				}
 				
 			});
-			contentPanel.add(rdbtnNewCopy, "4, 2");
+			contentPanel.add(rdbtnNewCopy, "4, 2");*/
 		}
 		{
 			ButtonGroup theButtonGroup = new ButtonGroup();
