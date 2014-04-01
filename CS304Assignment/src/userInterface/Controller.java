@@ -528,29 +528,72 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		User user = getUser(bid);
 		
 		
+		Date date = new Date(System.currentTimeMillis());
+		Date dueDate = new Date(System.currentTimeMillis()+ 604800000);
+		
+		
+		//Checkout all items
 		for(BookCopy copy: copies){
-
-			String title = confirmOkToCheckOut(copy.getCallNo(), copy.getCopyNo());
-			Date date = new Date(System.currentTimeMillis());
+			
+			
+			
+			System.out.println(dueDate.toString());
+			
 			statement = "insert into borrowing values (borid_counter.nextVal, "
 					+ user.getBID()+", '" 
 					+ copy.getCallNo()+"', "
 					+ copy.getCopyNo() +", '"
-					+ formatDate(date) +"', Null)";
+					+ formatDate(date) +"', '"
+					+ formatDate(dueDate) +"', Null)";
 			
 			System.out.println(statement);
-			rs = sql(statement, SQLType.insert);
-		//	rs.next();
+			sql(statement, SQLType.insert);
 			
 			
+			//update bookcopy
+			
+			//Check BookCopies. If one has status "on-hold" delete the 
+			// Hold Request. (Book was cleared for sign out in "confirmOkToCheckout" Method. 
+			
+			statement = "select * from BookCopy where callnumber='" + copy.getCallNo()
+												+ "' and copyNo ="+copy.getCopyNo();
+			
+			rs = sql(statement, SQLType.query);
+			
+			while(!rs.next()){
+				if(rs.getString("status").equalsIgnoreCase("on-hold")){
+					
+					//Update status to out
+					statement = "update BookCopy set status='out' where "
+							+ "callnumber='"+ copy.getCallNo()
+							+ "' and copyNo ="+copy.getCopyNo();
+
+					sql(statement, SQLType.insert);
+					
+					//Delete Hold Request
+					
+					statement = "delete * from BookCopy set where "
+							+ "callnumber='"+ copy.getCallNo()
+							+ "' and copyNo ="+copy.getCopyNo();
+
+					sql(statement, SQLType.delete);
+					
+				}else{
+					//Update status to out
+					statement = "update BookCopy set status='out' where "
+							+ "callnumber='"+ copy.getCallNo()
+							+ "' and copyNo ="+copy.getCopyNo();
+
+					sql(statement, SQLType.insert);
+				}
+			}
+					
+					
+					
 		}
 		
-		ResultSet rs1;
-		ResultSet rs2;
-		
-		
 		//SQLException from the db
-		//notcheckedinexception if it's not 'borrowable' //TODO differentiate between 'out' and 'on hold'
+		//notcheckedinexception if it's not 'borrowable'
 		//badCallNumberException if it isn't in the db. (vs. db connection errors)
 		//BadUserIDException if the user is not in the DB
 		this.updateStatusBar("Item(s) checked out");
@@ -565,6 +608,8 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 * @throws BadCallNumberException
 	 * @throws NotCheckedInException
 	 */
+	
+	//TODO CHECK IF BOOK IS ON HOLD AND IF IT IS IS IT THE CORRECT PERSON?
 	public String confirmOkToCheckOut(String callNumber, int copyNo) throws SQLException, BadCallNumberException, NotCheckedInException {
 		stmt = con.createStatement();
 		String statement = "Select Status from bookcopy where callNumber = '" + callNumber + "'";
@@ -617,9 +662,9 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	public void returnBook(String callNumber, long currentTimeMillis, int copyNo) throws SQLException, FineAssessedException, UserCreationException, BadUserIDException, ParseException{
 		String statement;
 		ResultSet rs;
-		Date outDate;
 		long timeOut;
 		boolean late = false;
+		boolean onHold = false;
 
 		Date currDate = new Date(System.currentTimeMillis());
 		
@@ -644,12 +689,14 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			statement = "Update BookCopy set status='on-hold' where callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
-			sql(statement, SQLType.query);
+			sql(statement, SQLType.insert);
+			
+			statement = "Update HoldRequest set issueDate='"+ formatDate(currDate) +"' where callNumber='" 
+					+ callNumber + "' and copyNo ="+ copyNo;
+			sql(statement, SQLType.insert);
 			
 			
-			
-			
-			
+			onHold = true;
 		}
 		
 		
@@ -665,9 +712,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		
 		
 		int bid = rs.getInt("bid");
-		User user = getUser(bid);
 
-		
 		System.out.println(bid);
 		Date dueDate = rs.getDate("dueDate");
 		Date inDate = rs.getDate("inDate");
@@ -697,19 +742,25 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			sql(statement, SQLType.insert);
 			
+			if (!onHold){
+				this.updateStatusBar("Checked In: Yes | Fine: $"+df.format(timeOut*0.05/10000000)+" | On Hold: No | Email Notification: No");
+			}else
+				this.updateStatusBar("Checked In: Yes | Fine: $"+df.format(timeOut*0.05/10000000)+" | On Hold: Yes | Email Notification: Yes");
 			
-			this.updateStatusBar("Book was returned. Fine issued: $" + df.format(timeOut*0.05/10000000));
-			throw new FineAssessedException("Book was late, fine assessed", timeOut*0.05/10000000);
+			throw new FineAssessedException("Book was late | fine assessed", timeOut*0.05/10000000);
 		}
-		
-		this.updateStatusBar("Book has been checked in and is on time!");
+		if (!onHold){
+			this.updateStatusBar("Checked In: Yes | Fine: No | On Hold: No | Email Notification: No");
+		}else
+			this.updateStatusBar("Checked In: Yes | Fine: No | On Hold: Yes | Email Notification: Yes");
 		
 	}
 
 
-public void processPayment(int fid, int bid, double paymentAmount, int creditCardNo) throws SQLException{
-	
-	
+public void processPayment(int fid, int bid, double paymentAmount, int creditCardNo) throws SQLException, ParseException{
+	Date curDate = new Date(System.currentTimeMillis());
+	String statement = "Update fine set paiddate='" + formatDate(curDate) + "' where fid = "+fid;
+	sql(statement, SQLType.query);
 	
 	
 }
@@ -805,9 +856,13 @@ public String[] getFineInfo(int fid) throws SQLException{
 	}
 
 	//TODO: implement this. Called by ClerkListPanel when the 'send late message button to these poeple' button is pressed
-	public void sendLateMessage(String userKey) throws SQLException{
-		// TODO Auto-generated method stub
-		System.out.println("Sent message to: " + userKey);
+	public void sendLateMessage(int bid) throws SQLException{
+	//	String statement
+		
+		this.sendEmail(bid, "Hello, this email is to let you know that you have"
+				+ "a book overdue. Please return it as soon as possible");
+
+
 		this.updateStatusBar("Late Message Sent");
 		
 	}
@@ -834,13 +889,49 @@ public String[] getFineInfo(int fid) throws SQLException{
 	 * @return
 	 */
 	public String[][] getCheckOuts(String filterSubject) throws SQLException{
+		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
+		String statement;
 		if(filterSubject == null||filterSubject.equals("No Subject Filter")){
 			filterSubject = "";
+			statement = "Select borrowing.callnumber, book.title, borrowing.outdate, borrowing.duedate "
+					+ "FROM borrowing, book "
+					+ "WHERE borrowing.callNumber = book.callNumber AND"
+					+ " borrowing.indate is null";
+		}
+		else{
+			statement = "select borrowing.callnumber, book.title, borrowing.outdate, borrowing.duedate "
+					+ "from borrowing, book, hassubject where"
+				+ " book.callnumber = hasSubject.callnumber"
+				+ " AND hassubject.subject = '" + filterSubject + "' "
+						+ "AND borrowing.callNumber = book.callnumber AND"
+						+ " borrowing.indate is null";
 		}
 		
-		ResultSet rs;
 		
+		System.out.println(statement);
+		ResultSet rs = sql(statement, SQLType.query);
+		while(rs.next()){
+
+			ArrayList<String> row = new ArrayList<String>();
+			row.add(rs.getString("callnumber"));
+			row.add(rs.getString("Title"));
+			row.add(rs.getString("outdate"));
+			row.add(rs.getString("duedate"));
+			row.add("");
+			temp.add(row);
+		}
+		if(temp.size() == 0){
+			return new String[0][5];
+		}
+		String[][] newData = new String[temp.size()][temp.get(0).size()];
+		for(int outerCount = 0; outerCount<temp.size(); outerCount++){
+			for(int innerCount = 0; innerCount<temp.get(0).size(); innerCount++){
+				newData[outerCount][innerCount] = temp.get(outerCount).get(innerCount);
+			}
+		}
 		
+		return newData;
+		/*
 		String[][] data = {
 			    {"A2NRBS2", "Long Island Ice Tea",
 			     "January 15, 2014", "April 30, 2014", ""},
@@ -854,7 +945,7 @@ public String[] getFineInfo(int fid) throws SQLException{
 
 		
 		
-		return data;
+		return data;*/
 	}
 
 	/**
@@ -969,7 +1060,7 @@ public String[] getFineInfo(int fid) throws SQLException{
 
 	public String[][] getOutstandingFines(User loggedInUser) throws SQLException {
 		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
-		
+		//AAA
 		String statement = "Select fine.fid, book.title, "
 				+ "borrowing.outdate, borrowing.indate,"
 				+ " fine.amount from fine, book, borrowing "
@@ -1040,7 +1131,7 @@ public ResultSet sql(String statement, SQLType type) throws SQLException{
 			}else if(type == SQLType.insert){
 				stmt.executeUpdate(statement);
 			}else if(type == SQLType.delete){
-				
+				stmt.execute(statement);
 			}
 			return null;
 		}
@@ -1162,5 +1253,14 @@ public void updateMessage(String comment, boolean was) throws SQLException{
 		
 	}
 
+	private void sendEmail(int BID, String message) throws SQLException{
+		String statement = "Select * from borrower where BID = " + BID;
+		ResultSet rs = sql(statement,  SQLType.query);
+		
+		if(rs.next()){
+			System.out.println("Email sent to: " + rs.getString("EMAILADDRESS"));
+		}
+		
+	}
 }
 
