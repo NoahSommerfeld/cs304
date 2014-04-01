@@ -206,12 +206,12 @@ insert into hasAuthor values('GFG7.CC7', 'Mr. Everett');
 insert into hasAuthor values('2KSH.37D', 'ER hemingway');
 insert into hasAuthor values('2KSH.37D', '"Mozart');
 
-Insert INTO HASSUBJECT VALUES('FNAE.007', 'Sports');
-Insert INTO HASSUBJECT VALUES('FNAE.007', 'Science');
-Insert INTO HASSUBJECT VALUES('FNAE.007', 'Life');
-Insert INTO HASSUBJECT VALUES('AD98.6DH', 'Life');
-Insert INTO HASSUBJECT VALUES('AD98.6DH', 'Science');
-Insert INTO HASSUBJECT VALUES('R34Y.44F', 'Computers');
+Insert INTO HASSUBJECT VALUES('FNAE.007', 'sports');
+Insert INTO HASSUBJECT VALUES('FNAE.007', 'science');
+Insert INTO HASSUBJECT VALUES('FNAE.007', 'life');
+Insert INTO HASSUBJECT VALUES('AD98.6DH', 'life');
+Insert INTO HASSUBJECT VALUES('AD98.6DH', 'science');
+Insert INTO HASSUBJECT VALUES('R34Y.44F', 'computers');
 
 
 insert into Borrower values

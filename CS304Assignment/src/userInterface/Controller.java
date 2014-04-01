@@ -363,6 +363,7 @@ public int createNewBook(Book newBook) throws SQLException, BadCopyNumberExcepti
 					//Subject
 					
 					for(String s : newBook.getSubjects()){
+						s = s.toLowerCase();
 						statement = "INSERT INTO HasSubject VALUES ('" + newBook.getCallNumber() + "', '" + s +"')";
 						System.out.println(statement);
 						sql(statement, SQLType.insert);
@@ -449,6 +450,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		System.out.println(query);
 	}
 	else if(selectedItem == SearchAbleKeywords.Subject){
+		searchArgument = searchArgument.toLowerCase();
 		query = "select * from book, hassubject where"
 				+ " book.callnumber = hasSubject.callnumber"
 				+ " AND hassubject.subject = '" + searchArgument + "'";
