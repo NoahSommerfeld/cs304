@@ -18,6 +18,7 @@ import java.util.List;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 import model.Book;
+import model.BookCopy;
 import model.SQLType;
 import model.SearchAbleKeywords;
 import model.User;
@@ -498,19 +499,21 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 
 	
 	//Checks out a book, when given a call number
-	public void checkOut(String callNumber, int copyNo, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException {
+	public void checkOut(ArrayList<BookCopy> copies, int bid) throws SQLException, NotCheckedInException, BadCallNumberException, BadUserIDException, UserCreationException {
 		String statement;
 		ResultSet rs;
 		User user = getUser(bid);
 		
 		
-		
-		String title = confirmOkToCheckOut(callNumber, copyNo);
-		
-//		statement = "insert into borrowing values (borid_counter.nextVal, '"+user.getBid()+"', '" + callNumber+"'CURRENT_TIMESTAMP', Null)";
-	//	rs = sql(statement, SQLType.insert);
-//		rs.next();
-		
+		for(BookCopy copy: copies){
+
+			String title = confirmOkToCheckOut(copy.getCallNo(), copy.getCopyNo());
+			
+	//		statement = "insert into borrowing values (borid_counter.nextVal, '"+user.getBID()+"', '" + callNumber+"'CURRENT_TIMESTAMP', Null)";
+	//		rs = sql(statement, SQLType.insert);
+	//		rs.next();
+			
+		}
 		
 		ResultSet rs1;
 		ResultSet rs2;
