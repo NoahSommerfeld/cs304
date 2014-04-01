@@ -477,19 +477,19 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	public List<String> getPopularBooks(int year, int numResults) throws SQLException, ParseException{
 		ArrayList<String> theResults = new ArrayList<String>();
 		//AAAAA
-		theResults.add("(5) - Hitchhiker's guide to your mom");
-		theResults.add("(2) - war of your mom");
-		theResults.add("(2) - around Daniel's mom in 80 days");
+		theResults.add("(5) - Hitchhiker's guide to the Galaxy");
+		theResults.add("(2) - war of the worlds");
+		theResults.add("(2) - around the world in 80 days");
 	
 		Date minDate = new Date("01/01/" + year);
 		Date maxDate = new Date("31/12/" + year);
 		
 		String statement = "SELECT borrowing.callnumber, book.title"
-				+ " FROM borrowing, book, WHERE borrowing.CALLNUMBER = book.CALLNUMBER "
+				+ " FROM borrowing, book WHERE borrowing.CALLNUMBER = book.CALLNUMBER "
 				+ "AND borrowing.indate"
 				+ " BETWEEN " + formatDate(minDate)+ " AND " + formatDate(maxDate);
 		System.out.println(statement);
-		sql(statement, SQLType.query);
+		//sql(statement, SQLType.query);
 
 		/*
 		SELECT borrowing.callnumber, book.title, count(column_name)
@@ -698,7 +698,7 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		statement = "update borrowing set inDate='"+formatDate(currDate)+"' WHERE callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
 	
-		rs = sql(statement, SQLType.insert);
+		rs = sql(statement, SQLType.query);
 		
 		
 		// If book is on hold, notify
@@ -712,11 +712,11 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 			
 			statement = "Update BookCopy set status='on-hold' where callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
-			sql(statement, SQLType.insert);
+			sql(statement, SQLType.query);
 			
 			statement = "Update HoldRequest set issueDate='"+ formatDate(currDate) +"' where callNumber='" 
 					+ callNumber + "' and copyNo ="+ copyNo;
-			sql(statement, SQLType.insert);
+			sql(statement, SQLType.query);
 			
 			
 			onHold = true;
