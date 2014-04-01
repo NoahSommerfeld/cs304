@@ -707,9 +707,10 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	}
 
 
-public void processPayment(int fid, int bid, double paymentAmount, int creditCardNo) throws SQLException{
-	
-	
+public void processPayment(int fid, int bid, double paymentAmount, int creditCardNo) throws SQLException, ParseException{
+	Date curDate = new Date(System.currentTimeMillis());
+	String statement = "Update fine set paiddate='" + formatDate(curDate) + "' where fid = "+fid;
+	sql(statement, SQLType.query);
 	
 	
 }
