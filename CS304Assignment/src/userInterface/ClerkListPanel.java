@@ -149,14 +149,28 @@ public class ClerkListPanel extends JPanel implements ListSelectionListener  {
 	        	
 	        	for(int i : index){
 	        		try{
-	        		mySession.sendLateMessage((String) listModel.get(i));
+	        			String phrase = (String) listModel.get(i);
+	        			System.out.println(phrase);
+	        			int count = 0;
+	        			for(count = 0; phrase.charAt(count) != ' '; count++){
+	        			
+	          			}
+	        			String bidMaybe = phrase.substring(0, count);
+	        			int bid = Integer.parseInt(bidMaybe);
+	        			
+	        			
+	        		mySession.sendLateMessage(bid);
 	        		
 	        		}
 	        		catch(SQLException e2){
 	        			JOptionPane.showMessageDialog(parent, e2.getMessage());
+	        			e2.printStackTrace();
+	        			return;
 	        		}
-	        		catch(Exception e3){
+	        		catch(IllegalArgumentException e3){
 	        			JOptionPane.showMessageDialog(parent, e3.getMessage());
+	        			e3.printStackTrace();
+	        			return;
 	        		}
 	        	}
 	        	JOptionPane.showMessageDialog(parent, "Messages succesfully sent");
