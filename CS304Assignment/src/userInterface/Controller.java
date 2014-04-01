@@ -445,9 +445,11 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 		String searchArgument) {
 		
 		//TODO implement subject and author search
+		//TODO try doing keyword search instead
 		String query = "";
 	if(selectedItem == SearchAbleKeywords.Title){
 		query = "SELECT * From book where title = '" + searchArgument + "'";
+		System.out.println(query);
 	}
 	else if(selectedItem == SearchAbleKeywords.Subject){
 		query = "SELECT * From book where title = '" + searchArgument + "'";
@@ -466,11 +468,21 @@ public ArrayList<String> searchBooks(SearchAbleKeywords selectedItem, String sea
 	 */
 	public List<String> getPopularBooks(int year, int numResults) throws SQLException{
 		ArrayList<String> theResults = new ArrayList<String>();
-		
+		//AAAAA
 		theResults.add("(5) - Hitchhiker's guide to your mom");
 		theResults.add("(2) - war of your mom");
 		theResults.add("(2) - around Daniel's mom in 80 days");
 		return theResults;
+		/*SELECT borrowing.callnumber, book.title
+		FROM borrowing, book,
+		WHERE borrowing.CALLNUMBER = book.CALLNUMBER
+		AND
+		salesDate BETWEEN '11/11/2010 00:00:00.00' AND '11/11/2010 23:59:59.999'*/
+		
+		/*
+		SELECT borrowing.callnumber, book.title, count(column_name)
+		FROM borrowing
+		GROUP BY column_name; */
 		
 	}
 	
