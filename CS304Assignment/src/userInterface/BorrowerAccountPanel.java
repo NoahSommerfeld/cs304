@@ -225,7 +225,14 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        table.setRowSelectionAllowed(true);
 	        	}
 	        	else if(subjectFilter.equals("Outstanding Fines")){
-	        		toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+	        		
+	        		try {
+						toAdd = mySession.getOutstandingFines(parent.getLoggedInUser());
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(getInstance(), "Could not get fines");
+						e1.printStackTrace();
+						return;
+					}
 	        		removeAllColoumnsFromTable();
 	        		
 	    	        table.setModel(new DefaultTableModel(
@@ -245,7 +252,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	    	        		{null, null, null, null, null},
 	    	        	},
 	    	        	new String[] {
-	    	        			"Fine ID", "Title", "Book Due", "Returned", "Fine Amount"
+	    	        			"Fine ID", "Title", "Checked Out", "Returned", "Fine Amount"
 	    	        	}
 	    	        ) {
 	    	        	Class[] columnTypes = new Class[] {
