@@ -38,8 +38,8 @@ public class RealUserNamePrompt extends JFrame implements ActionListener {
 		
 		initializeUI();
 		//super(mySession, parent);
-		this.passwordField.setText("1234Cats");
-		this.usernameField.setText("2");
+		this.passwordField.setText("");
+		this.usernameField.setText("");
 		this.neededType = neededType;
 		this.parent = parent;
 		this.session = mySession;

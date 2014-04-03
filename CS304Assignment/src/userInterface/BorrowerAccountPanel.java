@@ -60,7 +60,7 @@ public class BorrowerAccountPanel extends JPanel implements ListSelectionListene
 	        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
 	        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 	        
-	        JLabel lblSearchForBooks = new JLabel("Search For Books");
+	        JLabel lblSearchForBooks = new JLabel("Account Information");
 	        add(lblSearchForBooks, BorderLayout.NORTH);
 
 	        add(listScrollPane, BorderLayout.CENTER);

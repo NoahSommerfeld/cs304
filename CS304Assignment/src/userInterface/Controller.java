@@ -188,7 +188,8 @@ public class Controller {
 						legit = true;
 					}else if(UserType.valueOf(currUserType) == UserType.clerk && sectionType != UserType.librarian){
 						legit = true;
-					}else if(UserType.valueOf(currUserType) == UserType.borrower && sectionType == UserType.borrower){
+					}else if((UserType.valueOf(currUserType) == UserType.borrower || UserType.valueOf(currUserType) == UserType.student
+							||UserType.valueOf(currUserType) == UserType.staff || UserType.valueOf(currUserType) == UserType.faculty )&& sectionType == UserType.borrower){
 						legit = true;
 					}else{
 						throw new UserLoginException("You are trying to access a section you do not have permissions for. Please select another section.");
@@ -1040,7 +1041,7 @@ public String[] getFineInfo(int fid) throws SQLException{
 	 */
 	public String[][] getLoanedBooks(User loggedInUser) throws SQLException {
 		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
-		String statement = "select borrowing.callnumber,"
+		String statement = "select borrowing.callnumber, borrowing.duedate,"
 				+ " book.title, borrowing.outdate from borrowing,"
 				+ " book where borrowing.callnumber = book.callnumber"
 				+ " AND borrowing.indate is null AND borrowing.bid = " + loggedInUser.getBID();
@@ -1053,7 +1054,7 @@ public String[] getFineInfo(int fid) throws SQLException{
 			row.add(rs.getString("Callnumber"));
 			row.add(rs.getString("Title"));
 			row.add(rs.getString("outdate"));
-			row.add(rs.getString("outdate")); //TODO calculate due date
+			row.add(rs.getString("duedate")); //TODO calculate due date
 			row.add("");
 			temp.add(row);
 		}
